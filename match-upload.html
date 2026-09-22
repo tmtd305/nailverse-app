@@ -5,36 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
 <title>Nailverse AI — Match My Nails</title>
 <link rel="manifest" href="manifest.json"/>
-<meta name="theme-color" content="#150E13"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
 <script src="notifications.js"></script>
-<style>body{margin:0;background:#150E13;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}</style>
+<style>body{margin:0;background:#0A0A0B;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}</style>
 </head>
 <body>
-<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#150E13;font-family:'Manrope',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Inter',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
 
   <div style="flex-shrink:0;padding:16px 18px 4px 18px;display:flex;align-items:center;position:relative;">
     <a href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></a>
-    <span style="flex:1;text-align:center;font-size:12px;font-weight:800;letter-spacing:0.14em;color:#B9A8B8;margin-right:18px;">NAILVERSE AI</span>
-    <span style="background:#2A1F2B;color:#C6A15B;font-size:9.5px;font-weight:800;letter-spacing:0.04em;padding:4px 8px;border-radius:100px;position:absolute;right:18px;">SOON</span>
+    <span style="flex:1;text-align:center;font-size:12px;font-weight:800;letter-spacing:0.14em;color:#A9A9B0;">NAILVERSE AI</span>
+    <span style="font-size:10.5px;font-weight:700;color:#5A5A60;position:absolute;right:18px;">Soon</span>
   </div>
 
   <div style="flex-shrink:0;padding:22px 30px 4px 30px;text-align:center;">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="#FF2E9E" style="margin:0 auto 12px auto;display:block;"><path d="M12 2l1.8 4.2L18 8l-4.2 1.8L12 14l-1.8-4.2L6 8l4.2-1.8z"/></svg>
     <h1 style="font-size:25px;font-weight:800;margin:0 0 8px 0;">Match My Nails</h1>
-    <p style="font-size:13px;color:#B9A8B8;line-height:1.5;margin:0;">Upload a photo of nails you love and we'll find nail techs near you who can recreate it.</p>
+    <p style="font-size:13px;color:#A9A9B0;line-height:1.5;margin:0;">Upload a photo of nails you love and we'll find nail techs near you who can recreate it.</p>
   </div>
 
   <div style="flex:1;padding:20px 26px;display:flex;flex-direction:column;">
-    <label id="dropzone" style="flex:1;border:2px dashed #3A2C3B;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:220px;cursor:pointer;position:relative;overflow:hidden;">
+    <label id="dropzone" style="flex:1;border:2px dashed #343438;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:220px;cursor:pointer;position:relative;overflow:hidden;">
       <input id="file-input" type="file" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;">
-      <svg id="upload-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#7C6E7A" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-      <span id="upload-text" style="font-size:13.5px;font-weight:700;color:#D8CBD7;">Tap to upload a photo</span>
-      <span id="upload-subtext" style="font-size:11.5px;color:#7C6E7A;">(or take a picture)</span>
+      <svg id="upload-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      <span id="upload-text" style="font-size:13.5px;font-weight:700;color:#C9C9CF;">Tap to upload a photo</span>
+      <span id="upload-subtext" style="font-size:11.5px;color:#8B8B92;">(or take a picture)</span>
       <img id="preview-img" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
     </label>
 
-    <span style="font-size:12px;font-weight:700;color:#7C6E7A;margin:20px 0 10px 0;">Or try an example</span>
+    <span style="font-size:12px;font-weight:700;color:#8B8B92;margin:20px 0 10px 0;">Or try an example</span>
     <div style="display:flex;gap:9px;">
       <img onclick="pickExample('images/n5.jpg')" src="images/n5.jpg" style="width:64px;height:64px;border-radius:14px;object-fit:cover;cursor:pointer;">
       <img onclick="pickExample('images/n6.jpg')" src="images/n6.jpg" style="width:64px;height:64px;border-radius:14px;object-fit:cover;cursor:pointer;">

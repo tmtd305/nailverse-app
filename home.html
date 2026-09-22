@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
 <title>Nailverse</title>
 <link rel="manifest" href="manifest.json"/>
-<meta name="theme-color" content="#150E13"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
 <script src="notifications.js"></script>
 <style>
-  html,body{margin:0;background:#150E13;overflow-x:hidden;}
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
   *{box-sizing:border-box;}
   a{text-decoration:none;color:inherit;}
   ::-webkit-scrollbar{display:none;}
 </style>
 </head>
 <body>
-<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#150E13;font-family:'Manrope',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Inter',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
 
   <div style="flex-shrink:0;padding:16px 18px 10px 18px;display:flex;align-items:center;justify-content:space-between;">
     <div style="display:flex;align-items:center;gap:8px;">
@@ -26,147 +26,277 @@
       <span style="font-size:17px;font-weight:800;letter-spacing:0.08em;">NAILVERSE</span>
     </div>
     <div style="display:flex;align-items:center;gap:14px;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <a href="nail-sos.html" aria-label="Nail SOS" style="position:relative;width:26px;height:26px;border-radius:50%;background:#E11D48;display:flex;align-items:center;justify-content:center;">
+      <button onclick="showToast('Search coming soon')" aria-label="Search" style="background:none;border:none;padding:0;cursor:pointer;display:flex;">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <a href="nail-sos.html" aria-label="Nail SOS" style="width:26px;height:26px;border-radius:50%;background:#E11D48;display:flex;align-items:center;justify-content:center;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 2a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M9 21l1.5-6M15 21l-1.5-6"/></svg>
-        <span style="position:absolute;top:-8px;right:-14px;background:#C6A15B;color:#150E13;font-size:7.5px;font-weight:800;padding:2px 5px;border-radius:100px;letter-spacing:0.02em;">SOON</span>
       </a>
     </div>
   </div>
 
   <div style="flex-shrink:0;display:flex;gap:22px;padding:6px 18px 14px 18px;">
     <span style="font-size:13px;font-weight:700;color:#fff;">For You</span>
-    <span style="font-size:13px;font-weight:600;color:#7C6E7A;">Following</span>
-    <span style="font-size:13px;font-weight:600;color:#7C6E7A;">Trending</span>
-    <span style="font-size:13px;font-weight:600;color:#7C6E7A;">Nearby</span>
+    <span style="font-size:13px;font-weight:600;color:#8B8B92;">Following</span>
+    <span style="font-size:13px;font-weight:600;color:#8B8B92;">Trending</span>
+    <span style="font-size:13px;font-weight:600;color:#8B8B92;">Nearby</span>
   </div>
 
   <div style="flex-shrink:0;display:flex;gap:14px;padding:0 18px 16px 18px;overflow-x:auto;">
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
-      <div style="width:56px;height:56px;border-radius:50%;background:#2A1F2B;border:2px dashed #FF2E9E;display:flex;align-items:center;justify-content:center;">
+      <div style="width:56px;height:56px;border-radius:50%;background:#2A2A2E;border:2px dashed #FF2E9E;display:flex;align-items:center;justify-content:center;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF2E9E" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
       </div>
-      <span style="font-size:10.5px;color:#B9A8B8;">Your Story</span>
+      <span style="font-size:10.5px;color:#A9A9B0;">Your Story</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
       <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);padding:2px;">
-        <img src="images/ig-profile.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #150E13;">
+        <img src="images/ig-profile.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #0A0A0B;">
       </div>
-      <span style="font-size:10.5px;color:#B9A8B8;">2cutenails</span>
+      <span style="font-size:10.5px;color:#A9A9B0;">2cutenails</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
       <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);padding:2px;">
-        <img src="images/n1.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #150E13;">
+        <img src="images/n1.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #0A0A0B;">
       </div>
-      <span style="font-size:10.5px;color:#B9A8B8;">Acrylic</span>
+      <span style="font-size:10.5px;color:#A9A9B0;">Acrylic</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
       <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);padding:2px;">
-        <img src="images/n2.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #150E13;">
+        <img src="images/n2.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #0A0A0B;">
       </div>
-      <span style="font-size:10.5px;color:#B9A8B8;">Gel</span>
+      <span style="font-size:10.5px;color:#A9A9B0;">Gel</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
       <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);padding:2px;">
-        <img src="images/n3.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #150E13;">
+        <img src="images/n3.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #0A0A0B;">
       </div>
-      <span style="font-size:10.5px;color:#B9A8B8;">Nail Art</span>
+      <span style="font-size:10.5px;color:#A9A9B0;">Nail Art</span>
     </div>
   </div>
 
-  <div style="flex:1;overflow:hidden;position:relative;background:#1F1620;">
-    <img id="feed-img" src="images/ig-post2.jpg" loading="eager" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-    <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,5,9,0.92) 0%,rgba(10,5,9,0.05) 40%,rgba(10,5,9,0.35) 100%);"></div>
+  <div id="feed-scroll" style="flex:1;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;position:relative;">
 
-    <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;justify-content:space-between;">
-      <div style="display:flex;align-items:center;gap:8px;">
+    <div class="feed-post" data-video="false" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
+      <img class="feed-img" src="images/ig-post2.jpg" loading="eager" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
+      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
+      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
         <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
         <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;">
-            <span style="font-size:13px;font-weight:700;">@2cutenails</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>
-          </div>
-          <div style="font-size:11px;color:#D8CBD7;">★ 4.9 (612) · Miami, FL</div>
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
         </div>
       </div>
-    </div>
-
-    <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
-        <span style="font-size:10.5px;font-weight:700;">3.1K</span>
+      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;">3.1K</span></div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
       </div>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
+        <p style="margin:0 0 4px 0;font-size:13px;font-weight:700;">Chrome French set ✨</p>
+        <p style="margin:0;font-size:11.5px;color:#C9C9CF;">#nailart #miami #chromenails</p>
+      </div>
+      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF2E9E;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,46,158,0.5);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
+      </a>
     </div>
 
-    <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-      <p style="margin:0 0 4px 0;font-size:13px;font-weight:700;">Chrome French set ✨</p>
-      <p style="margin:0;font-size:11.5px;color:#D8CBD7;">#nailart #miami #chromenails</p>
+    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
+      <img class="feed-img" src="images/ig-post1.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
+      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
+      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
+        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
+        <div style="line-height:1.2;">
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
+        </div>
+        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:14</span>
+      </div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;">4.2K</span></div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+      </div>
+      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
+        <p style="margin:0 0 4px 0;font-size:13px;font-weight:700;">New set, new energy 💅</p>
+        <p style="margin:0;font-size:11.5px;color:#C9C9CF;">#nailart #newset #miami</p>
+      </div>
+      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF2E9E;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,46,158,0.5);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
+      </a>
     </div>
 
-    <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF2E9E;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,46,158,0.5);">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>
-      Get This Look
-    </a>
+    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
+      <img class="feed-img" src="images/ig-post5.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
+      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
+      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
+        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
+        <div style="line-height:1.2;">
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
+        </div>
+        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:20</span>
+      </div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;">2.8K</span></div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+      </div>
+      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
+        <p style="margin:0 0 4px 0;font-size:13px;font-weight:700;">Everyday Nude 🤍</p>
+        <p style="margin:0;font-size:11.5px;color:#C9C9CF;">#nudenails #everyday #miami</p>
+      </div>
+      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF2E9E;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,46,158,0.5);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
+      </a>
+    </div>
+
+    <div class="feed-post" data-video="false" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
+      <img class="feed-img" src="images/ig-post3.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
+      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
+      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
+        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
+        <div style="line-height:1.2;">
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
+        </div>
+      </div>
+      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;">3.6K</span></div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+      </div>
+      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
+        <p style="margin:0 0 4px 0;font-size:13px;font-weight:700;">Glitter chrome tips ✨</p>
+        <p style="margin:0;font-size:11.5px;color:#C9C9CF;">#chrome #glitter #miami</p>
+      </div>
+      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF2E9E;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,46,158,0.5);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
+      </a>
+    </div>
+
+    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
+      <img class="feed-img" src="images/ig-post6.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
+      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
+      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
+        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
+        <div style="line-height:1.2;">
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
+        </div>
+        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:18</span>
+      </div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;">5.1K</span></div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+      </div>
+      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
+        <p style="margin:0 0 4px 0;font-size:13px;font-weight:700;">Yellow Hibiscus French 🌼</p>
+        <p style="margin:0;font-size:11.5px;color:#C9C9CF;">#frenchtip #summer #miami</p>
+      </div>
+      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF2E9E;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,46,158,0.5);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
+      </a>
+    </div>
+
+    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
+      <img class="feed-img" src="images/ig-post4.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
+      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
+      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
+        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
+        <div style="line-height:1.2;">
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
+        </div>
+        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:31</span>
+      </div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;">6.4K</span></div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+      </div>
+      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
+        <p style="margin:0 0 4px 0;font-size:13px;font-weight:700;">Behind the scenes at 2Cute 🎥</p>
+        <p style="margin:0;font-size:11.5px;color:#C9C9CF;">#bts #nailtech #miami</p>
+      </div>
+      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF2E9E;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,46,158,0.5);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
+      </a>
+    </div>
+
   </div>
 
-  <div style="flex-shrink:0;height:64px;display:flex;align-items:center;justify-content:space-around;background:#150E13;border-top:1px solid #241A24;">
+  <div style="flex-shrink:0;height:64px;display:flex;align-items:center;justify-content:space-around;background:#0A0A0B;border-top:1px solid #232326;">
     <a href="home.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a>
-    <a href="map.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#7C6E7A" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
-    <a href="match-upload.html" style="position:relative;width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);display:flex;align-items:center;justify-content:center;">
+    <a href="map.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
+    <a href="match-upload.html" style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);display:flex;align-items:center;justify-content:center;">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
-      <span style="position:absolute;top:-8px;right:-10px;background:#C6A15B;color:#150E13;font-size:7.5px;font-weight:800;padding:2px 5px;border-radius:100px;">SOON</span>
     </a>
-    <a href="#" onclick="event.preventDefault();showToast('Favorites coming soon')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#7C6E7A" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></a>
-    <a href="profile.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#7C6E7A" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg></a>
+    <a href="#" onclick="event.preventDefault();showToast('Favorites coming soon')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></a>
+    <a href="profile.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg></a>
   </div>
 
 </div>
 
-<div id="menu-backdrop" onclick="closeMenu()" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;"></div>
-<div id="menu-drawer" style="position:fixed;top:0;left:0;bottom:0;width:78%;max-width:320px;background:#1F1620;transform:translateX(-100%);transition:transform .25s ease;z-index:21;display:flex;flex-direction:column;padding:22px 0;">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 18px 20px;border-bottom:1px solid #2A1F2B;">
-    <span style="font-size:17px;font-weight:800;letter-spacing:0.08em;color:#fff;">NAILVERSE</span>
+<div id="menu-backdrop" onclick="closeMenu()" style="position:fixed;inset:0;background:rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;"></div>
+<div id="menu-drawer" style="position:fixed;top:0;left:0;bottom:0;width:72%;max-width:280px;background:#111113;transform:translateX(-100%);transition:transform .25s ease;z-index:21;display:flex;flex-direction:column;padding:0;border-right:1px solid #232326;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 14px 16px;">
+    <div style="display:flex;align-items:center;gap:9px;">
+      <img src="images/ig-profile.jpg" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
+      <div style="line-height:1.2;">
+        <div style="font-size:12.5px;font-weight:700;color:#fff;">You</div>
+        <div style="font-size:10.5px;color:#8B8B92;">Miami, FL</div>
+      </div>
+    </div>
     <button onclick="closeMenu()" aria-label="Close menu" style="background:none;border:none;padding:4px;cursor:pointer;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid #2A1F2B;">
-    <img src="images/p1.jpg" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">
-    <div>
-      <div style="font-size:13.5px;font-weight:700;color:#fff;">You</div>
-      <div style="font-size:11px;color:#7C6E7A;">Miami, FL</div>
-    </div>
-  </div>
-  <nav style="display:flex;flex-direction:column;padding:8px 0;">
-    <a href="home.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg> Home Feed
+  <div style="height:1px;background:#1E1E21;margin:0 16px;"></div>
+  <nav style="display:flex;flex-direction:column;padding:10px 8px;">
+    <a href="home.html" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:#fff;font-size:13.5px;font-weight:600;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg> Home Feed
     </a>
-    <a href="map.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Explore Map
+    <a href="map.html" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:#fff;font-size:13.5px;font-weight:600;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Explore Map
     </a>
-    <a href="match-upload.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M12 2l1.8 4.2L18 8l-4.2 1.8L12 14l-1.8-4.2L6 8l4.2-1.8z"/></svg> Match My Nails
-      <span style="margin-left:auto;background:#2A1F2B;color:#C6A15B;font-size:9px;font-weight:800;padding:3px 7px;border-radius:100px;">SOON</span>
+    <a href="name-your-price.html" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:#fff;font-size:13.5px;font-weight:600;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Name Your Price
     </a>
-    <a href="name-your-price.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Name Your Price
-    </a>
-    <a href="#" onclick="event.preventDefault();showToast('Bookings coming soon')" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg> My Bookings
-    </a>
-    <a href="nail-sos.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FB7185" stroke-width="2"><path d="M12 2a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M9 21l1.5-6M15 21l-1.5-6"/></svg> Nail SOS
-      <span style="margin-left:auto;background:#2A1F2B;color:#C6A15B;font-size:9px;font-weight:800;padding:3px 7px;border-radius:100px;">SOON</span>
-    </a>
-    <a href="profile.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg> My Profile
+    <a href="profile.html" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:#fff;font-size:13.5px;font-weight:600;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg> My Profile
     </a>
   </nav>
-  <div style="margin-top:auto;padding:14px 20px 0 20px;border-top:1px solid #2A1F2B;">
-    <a href="#" onclick="event.preventDefault();requestNotifications()" style="display:flex;align-items:center;gap:14px;padding:13px 0;color:#fff;font-size:14px;font-weight:600;">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Notifications
+  <div style="padding:14px 20px 8px 20px;">
+    <span style="font-size:10px;font-weight:700;letter-spacing:0.06em;color:#5A5A60;">COMING SOON</span>
+  </div>
+  <nav style="display:flex;flex-direction:column;padding:0 8px;">
+    <a href="match-upload.html" style="display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;color:#8B8B92;font-size:13px;font-weight:600;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E6E74" stroke-width="2"><path d="M12 2l1.8 4.2L18 8l-4.2 1.8L12 14l-1.8-4.2L6 8l4.2-1.8z"/></svg> Match My Nails
+    </a>
+    <a href="nail-sos.html" style="display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;color:#8B8B92;font-size:13px;font-weight:600;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E6E74" stroke-width="2"><path d="M12 2a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M9 21l1.5-6M15 21l-1.5-6"/></svg> Nail SOS
+    </a>
+    <a href="#" onclick="event.preventDefault();showToast('Bookings history coming soon')" style="display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;color:#8B8B92;font-size:13px;font-weight:600;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E6E74" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg> My Bookings
+    </a>
+  </nav>
+  <div style="margin-top:auto;padding:12px 8px 16px 8px;border-top:1px solid #1E1E21;">
+    <a href="#" onclick="event.preventDefault();requestNotifications()" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:#fff;font-size:13.5px;font-weight:600;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Notifications
     </a>
   </div>
 </div>
