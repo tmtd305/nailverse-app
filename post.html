@@ -219,7 +219,7 @@
     const media = document.getElementById('media-frame');
     if(isVideoUrl(post.image_url)){
       media.style.aspectRatio = '9/16';
-      media.innerHTML = '<video src="' + post.image_url + '" controls playsinline style="width:100%;height:100%;object-fit:cover;"></video>';
+      media.innerHTML = '<video src="' + post.image_url + '" autoplay muted loop controls playsinline style="width:100%;height:100%;object-fit:cover;"></video>';
     } else {
       media.style.aspectRatio = '1/1';
       media.innerHTML = '<img src="' + post.image_url + '" style="width:100%;height:100%;object-fit:cover;">';

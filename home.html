@@ -87,295 +87,9 @@
   </div>
 
   <div id="feed-scroll" style="flex:1;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;position:relative;">
-
-    <div class="feed-post" data-video="false" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post2.jpg" loading="eager" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">3.1K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Chrome French set ✨</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=nailart" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#nailart</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a> <a href="hashtag.html?tag=chromenails" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#chromenails</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
+    <div id="feed-loading" style="height:100%;display:flex;align-items:center;justify-content:center;">
+      <span style="font-size:12.5px;color:#8B8B92;">Loading feed…</span>
     </div>
-
-    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post1.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:14</span>
-      </div>
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">4.2K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">New set, new energy 💅</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=nailart" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#nailart</a> <a href="hashtag.html?tag=newset" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#newset</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post5.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:20</span>
-      </div>
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">2.8K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Everyday Nude 🤍</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=nudenails" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#nudenails</a> <a href="hashtag.html?tag=everyday" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#everyday</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="false" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post3.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">3.6K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Glitter chrome tips ✨</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=chrome" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#chrome</a> <a href="hashtag.html?tag=glitter" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#glitter</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post6.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:18</span>
-      </div>
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">5.1K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Yellow Hibiscus French 🌼</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=frenchtip" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#frenchtip</a> <a href="hashtag.html?tag=summer" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#summer</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post4.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:31</span>
-      </div>
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">6.4K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Behind the scenes at 2Cute 🎥</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=bts" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#bts</a> <a href="hashtag.html?tag=nailtech" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#nailtech</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="false" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post9.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">2.1K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Soft pink acrylic 🩷</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=acrylic" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#acrylic</a> <a href="hashtag.html?tag=pink" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#pink</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post11.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:12</span>
-      </div>
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">4.7K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Coral chrome dip 🧡</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=chrome" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#chrome</a> <a href="hashtag.html?tag=coral" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#coral</a> <a href="hashtag.html?tag=dippowder" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#dippowder</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="true" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post7.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-        <span style="margin-left:auto;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:100px;">0:25</span>
-      </div>
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;pointer-events:none;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">7.8K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Win a free set! 🎁</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=giveaway" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#giveaway</a> <a href="hashtag.html?tag=acrylic" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#acrylic</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="false" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post10.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">3.4K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Milky white gel-x 🤍</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=gelx" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#gelx</a> <a href="hashtag.html?tag=milkywhite" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#milkywhite</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
-    <div class="feed-post" data-video="false" style="height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;">
-      <img class="feed-img" src="images/ig-post8.jpg" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;" onload="this.style.opacity=1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>
-      <div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">
-        <img src="images/ig-profile.jpg" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">
-        <div style="line-height:1.2;">
-          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@2cutenails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-          <div style="font-size:11px;color:#C9C9CF;">★ 4.9 (612) · Miami, FL</div>
-        </div>
-      </div>
-      <div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FF3D94" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg><span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">2.9K</span></div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-      </div>
-      <div style="position:absolute;left:14px;right:70px;bottom:78px;">
-        <p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">Almond set, red tips ❤️</p>
-        <p style="margin:0;font-size:11.5px;color:#C9C9CF;"><a href="hashtag.html?tag=almondnails" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#almondnails</a> <a href="hashtag.html?tag=red" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#red</a> <a href="hashtag.html?tag=miami" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#miami</a></p>
-      </div>
-      <a href="profile.html" aria-label="Get this look" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Get This Look
-      </a>
-    </div>
-
   </div>
 
   <div style="flex-shrink:0;height:62px;display:flex;align-items:center;justify-content:space-around;background:#0A0A0B;border-top:1px solid #1C1C1F;">
@@ -570,6 +284,172 @@
       .eq('is_read', false);
     if (count && count > 0) document.getElementById('notif-badge').style.display = 'block';
   })();
+
+  function isVideoUrl(url) {
+    return /\.(mp4|mov|webm|m4v)(\?|$)/i.test(url);
+  }
+
+  function formatK(n) {
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+    return String(n);
+  }
+
+  function renderFeedCard(post, tags, likeCount, liked, commentCount) {
+    const author = post.author || {};
+    const card = document.createElement('div');
+    card.dataset.postId = post.id;
+    card.style.cssText = 'height:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;background:#18181B;';
+
+    const isVideo = isVideoUrl(post.image_url);
+    const mediaHtml = isVideo
+      ? '<video class="feed-video" src="' + post.image_url + '" muted loop playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>'
+      : '<img class="feed-img" src="' + post.image_url + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
+
+    const verifiedBadge = author.verified ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>' : '';
+    const metaLine = author.account_type === 'tech'
+      ? '★ ' + (author.rating != null ? author.rating.toFixed(1) : '5.0') + ' (' + (author.reviews_count || 0) + ') · Miami, FL'
+      : '';
+
+    const hashtagsHtml = tags.map(t => '<a href="hashtag.html?tag=' + encodeURIComponent(t) + '" style="color:#FF9EBC;font-weight:700;" onclick="event.stopPropagation()">#' + t + '</a>').join(' ');
+
+    let cta = '';
+    if (post.tagged_tech && post.tagged_tech.username) {
+      cta = '<a href="profile.html?u=' + encodeURIComponent(post.tagged_tech.username) + '" aria-label="Book this tech" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Book ' + (post.tagged_tech.display_name || '') + '</a>';
+    } else if (author.account_type === 'tech' && author.username) {
+      cta = '<a href="profile.html?u=' + encodeURIComponent(author.username) + '" aria-label="Book this tech" style="position:absolute;left:14px;right:14px;bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:800;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.38);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Book This Look</a>';
+    }
+
+    card.innerHTML =
+      mediaHtml +
+      '<div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,4,5,0.92) 0%,rgba(4,4,5,0.05) 40%,rgba(4,4,5,0.35) 100%);"></div>' +
+      '<div style="position:absolute;top:14px;left:14px;right:14px;display:flex;align-items:center;gap:8px;">' +
+        '<img src="' + (author.avatar_url || 'images/ig-profile.jpg') + '" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;">' +
+        '<div style="line-height:1.2;">' +
+          '<div style="display:flex;align-items:center;gap:4px;"><span style="font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">@' + (author.username || 'user') + '</span>' + verifiedBadge + '</div>' +
+          (metaLine ? '<div style="font-size:11px;color:#C9C9CF;">' + metaLine + '</div>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div style="position:absolute;right:12px;bottom:132px;display:flex;flex-direction:column;align-items:center;gap:16px;">' +
+        '<button onclick="event.stopPropagation();toggleFeedLike(this,\'' + post.id + '\')" data-liked="' + (liked ? '1' : '0') + '" style="all:unset;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">' +
+          '<svg class="like-icon" width="24" height="24" viewBox="0 0 24 24" fill="' + (liked ? '#FF3D94' : 'none') + '" stroke="' + (liked ? '#FF3D94' : '#fff') + '" stroke-width="2" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>' +
+          '<span class="like-count" data-raw="' + likeCount + '" style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">' + formatK(likeCount) + '</span>' +
+        '</button>' +
+        '<a href="post.html?id=' + post.id + '" style="display:flex;flex-direction:column;align-items:center;gap:3px;" onclick="event.stopPropagation()">' +
+          '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' +
+          '<span style="font-size:10.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.5);">' + formatK(commentCount) + '</span>' +
+        '</a>' +
+        '<button onclick="event.stopPropagation();shareFeedPost(\'' + post.id + '\')" style="all:unset;cursor:pointer;">' +
+          '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6l-6.8 3.9"/></svg>' +
+        '</button>' +
+      '</div>' +
+      '<div style="position:absolute;left:14px;right:70px;bottom:78px;">' +
+        (post.caption ? '<p style="margin:0 0 4px 0;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.5);">' + post.caption.replace(/</g, '&lt;') + '</p>' : '') +
+        (hashtagsHtml ? '<p style="margin:0;font-size:11.5px;color:#C9C9CF;">' + hashtagsHtml + '</p>' : '') +
+      '</div>' +
+      cta;
+
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a,button')) return;
+      location.href = 'post.html?id=' + post.id;
+    });
+
+    return card;
+  }
+
+  async function toggleFeedLike(btn, postId) {
+    const session = await requireAuth('login.html');
+    if (!session) return;
+    const liked = btn.dataset.liked === '1';
+    const icon = btn.querySelector('.like-icon');
+    const countEl = btn.querySelector('.like-count');
+    let raw = parseInt(countEl.dataset.raw || '0');
+
+    if (liked) {
+      await sb.from('post_likes').delete().eq('post_id', postId).eq('user_id', session.user.id);
+      raw = Math.max(0, raw - 1);
+      btn.dataset.liked = '0';
+      icon.setAttribute('fill', 'none');
+      icon.setAttribute('stroke', '#fff');
+    } else {
+      await sb.from('post_likes').insert({ post_id: postId, user_id: session.user.id });
+      raw = raw + 1;
+      btn.dataset.liked = '1';
+      icon.setAttribute('fill', '#FF3D94');
+      icon.setAttribute('stroke', '#FF3D94');
+    }
+    countEl.dataset.raw = raw;
+    countEl.textContent = formatK(raw);
+  }
+
+  async function shareFeedPost(postId) {
+    const url = location.origin + '/post.html?id=' + postId;
+    if (navigator.share) {
+      try { await navigator.share({ url }); } catch (e) {}
+    } else {
+      await navigator.clipboard.writeText(url);
+      showToast('Link copied');
+    }
+  }
+
+  function setupVideoObserver() {
+    const videos = document.querySelectorAll('#feed-scroll video.feed-video');
+    if (!videos.length) return;
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        const video = entry.target;
+        if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+          video.play().catch(function(){});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: [0, 0.6, 1] });
+    videos.forEach(function (v) { observer.observe(v); });
+  }
+
+  async function loadFeed() {
+    const session = await getSession();
+    const myId = session ? session.user.id : null;
+
+    const { data: posts } = await sb.from('posts')
+      .select('*, author:profiles!posts_user_id_fkey(username,display_name,avatar_url,account_type,rating,reviews_count,verified), tagged_tech:profiles!posts_tagged_tech_id_fkey(username,display_name)')
+      .order('created_at', { ascending: false })
+      .limit(30);
+
+    const container = document.getElementById('feed-scroll');
+    container.innerHTML = '';
+
+    if (!posts || posts.length === 0) {
+      container.innerHTML = '<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:30px;text-align:center;"><span style="font-size:13px;color:#8B8B92;">No posts yet — be the first to post!</span></div>';
+      return;
+    }
+
+    const ids = posts.map(function (p) { return p.id; });
+    const [{ data: hashtagRows }, { data: likeRows }, { data: commentRows }] = await Promise.all([
+      sb.from('post_hashtags').select('post_id,tag').in('post_id', ids),
+      sb.from('post_likes').select('post_id,user_id').in('post_id', ids),
+      sb.from('post_comments').select('post_id').in('post_id', ids)
+    ]);
+
+    const hashtagsByPost = {};
+    (hashtagRows || []).forEach(function (h) { (hashtagsByPost[h.post_id] = hashtagsByPost[h.post_id] || []).push(h.tag); });
+    const likeCounts = {};
+    const likedByMe = new Set();
+    (likeRows || []).forEach(function (l) {
+      likeCounts[l.post_id] = (likeCounts[l.post_id] || 0) + 1;
+      if (myId && l.user_id === myId) likedByMe.add(l.post_id);
+    });
+    const commentCounts = {};
+    (commentRows || []).forEach(function (c) { commentCounts[c.post_id] = (commentCounts[c.post_id] || 0) + 1; });
+
+    posts.forEach(function (post) {
+      container.appendChild(renderFeedCard(post, hashtagsByPost[post.id] || [], likeCounts[post.id] || 0, likedByMe.has(post.id), commentCounts[post.id] || 0));
+    });
+
+    setupVideoObserver();
+  }
+
+  loadFeed();
 </script>
 </body>
 </html>
