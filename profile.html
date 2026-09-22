@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-<title>Nailverse — 2Cute Nails</title>
+<title id="page-title">Nailverse — Profile</title>
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
 <script src="notifications.js"></script>
 <style>html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}::-webkit-scrollbar{display:none;}*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
@@ -25,58 +27,52 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
     <div style="display:flex;gap:2px;height:230px;width:100%;overflow:hidden;">
       <div style="flex:1;height:230px;overflow:hidden;">
-        <img src="images/ig-post1.jpg" loading="eager" style="display:block;width:100%;height:230px;object-fit:cover;">
+        <img id="cover-1" src="images/ig-post1.jpg" loading="eager" style="display:block;width:100%;height:230px;object-fit:cover;">
       </div>
       <div style="flex:1;height:230px;display:flex;flex-direction:column;gap:2px;overflow:hidden;">
         <div style="height:114px;overflow:hidden;">
-          <img src="images/ig-post2.jpg" loading="lazy" style="display:block;width:100%;height:114px;object-fit:cover;">
+          <img id="cover-2" src="images/ig-post2.jpg" loading="lazy" style="display:block;width:100%;height:114px;object-fit:cover;">
         </div>
         <div style="height:114px;position:relative;overflow:hidden;">
-          <img src="images/ig-post5.jpg" loading="lazy" style="display:block;width:100%;height:114px;object-fit:cover;">
-          <a href="#dish" onclick="event.preventDefault();document.getElementById('grid-section').scrollIntoView({behavior:'smooth'})" style="position:absolute;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;">+42</a>
+          <img id="cover-3" src="images/ig-post5.jpg" loading="lazy" style="display:block;width:100%;height:114px;object-fit:cover;">
+          <a id="cover-overlay" href="#dish" onclick="event.preventDefault();document.getElementById('grid-section').scrollIntoView({behavior:'smooth'})" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;">+0</a>
         </div>
       </div>
     </div>
 
     <div style="padding:0 20px;">
       <div style="display:flex;align-items:center;gap:10px;margin-top:-28px;position:relative;z-index:2;">
-        <img src="images/ig-profile.jpg" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid #0A0A0B;background:#0A0A0B;">
+        <img id="p-avatar" src="images/ig-profile.jpg" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid #0A0A0B;background:#0A0A0B;">
         <div style="padding-top:14px;">
           <div style="display:flex;align-items:center;gap:5px;">
-            <span style="font-size:17px;font-weight:800;">2Cute Nails</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>
+            <span id="p-name" style="font-size:17px;font-weight:800;">—</span>
+            <svg id="p-verified" width="14" height="14" viewBox="0 0 24 24" fill="#3B82F6" style="display:none;"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>
           </div>
-          <div style="font-size:11.5px;color:#A9A9B0;">📍 Miami, FL</div>
+          <div id="p-location" style="font-size:11.5px;color:#A9A9B0;">📍 Miami, FL</div>
         </div>
       </div>
 
       <div style="display:flex;justify-content:space-between;margin:16px 0;text-align:center;">
-        <div><div style="font-size:15px;font-weight:800;">328</div><div style="font-size:10.5px;color:#8B8B92;">Posts</div></div>
-        <div><div style="font-size:15px;font-weight:800;">12.4K</div><div style="font-size:10.5px;color:#8B8B92;">Followers</div></div>
-        <div><div style="font-size:15px;font-weight:800;display:flex;align-items:center;gap:3px;justify-content:center;"><span style="color:#FF3D94;">★</span>5.0</div><div style="font-size:10.5px;color:#8B8B92;">328 reviews</div></div>
-        <div><div style="font-size:15px;font-weight:800;">3 yrs</div><div style="font-size:10.5px;color:#8B8B92;">Experience</div></div>
+        <div><div id="p-posts" style="font-size:15px;font-weight:800;">0</div><div style="font-size:10.5px;color:#8B8B92;">Posts</div></div>
+        <div><div id="p-followers" style="font-size:15px;font-weight:800;">0</div><div style="font-size:10.5px;color:#8B8B92;">Followers</div></div>
+        <div><div style="font-size:15px;font-weight:800;display:flex;align-items:center;gap:3px;justify-content:center;"><span style="color:#FF3D94;">★</span><span id="p-rating">5.0</span></div><div id="p-reviews" style="font-size:10.5px;color:#8B8B92;">0 reviews</div></div>
+        <div><div id="p-deposit" style="font-size:15px;font-weight:800;">$25</div><div style="font-size:10.5px;color:#8B8B92;">Deposit</div></div>
       </div>
 
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
-        <a href="hashtag.html?tag=acrylic" style="background:#18181B;color:#C9C9CF;font-size:11px;font-weight:600;padding:6px 11px;border-radius:100px;">Acrylic</a>
-        <a href="hashtag.html?tag=gel" style="background:#18181B;color:#C9C9CF;font-size:11px;font-weight:600;padding:6px 11px;border-radius:100px;">Gel</a>
-        <a href="hashtag.html?tag=nailart" style="background:#18181B;color:#C9C9CF;font-size:11px;font-weight:600;padding:6px 11px;border-radius:100px;">Nail Art</a>
-        <a href="hashtag.html?tag=frenchtip" style="background:#18181B;color:#C9C9CF;font-size:11px;font-weight:600;padding:6px 11px;border-radius:100px;">French</a>
-        <a href="hashtag.html?tag=customdesigns" style="background:#18181B;color:#C9C9CF;font-size:11px;font-weight:600;padding:6px 11px;border-radius:100px;">Custom Designs</a>
-      </div>
+      <div id="p-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;"></div>
 
       <div style="display:flex;gap:8px;margin-bottom:14px;">
-        <a href="service.html" style="flex:1;background:#FF3D94;color:#fff;font-size:14px;font-weight:700;text-align:center;padding:13px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.4);">Book Now</a>
+        <a href="#" id="book-now-btn" onclick="event.preventDefault();goBook()" style="flex:1;background:#FF3D94;color:#fff;font-size:14px;font-weight:700;text-align:center;padding:13px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.4);">Book Now</a>
         <a href="#" onclick="event.preventDefault();showToast('Messaging coming soon')" style="flex:1;background:#18181B;color:#fff;font-size:14px;font-weight:700;text-align:center;padding:13px 0;border-radius:12px;">Message</a>
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:18px;">
-        <span style="display:flex;align-items:center;gap:4px;color:#8B8B92;font-size:10.5px;font-weight:600;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>ID Verified</span>
+        <span id="badge-verified" style="display:none;align-items:center;gap:4px;color:#8B8B92;font-size:10.5px;font-weight:600;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>ID Verified</span>
         <span style="display:flex;align-items:center;gap:4px;color:#8B8B92;font-size:10.5px;font-weight:600;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Responds in ~10 min</span>
         <span style="display:flex;align-items:center;gap:4px;color:#8B8B92;font-size:10.5px;font-weight:600;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Free cancel 24h+</span>
       </div>
 
-      <p style="font-size:12.5px;line-height:1.5;color:#A9A9B0;margin:0 0 18px 0;">Specializing in luxury sets ✨ By appointment only.</p>
+      <p id="p-bio" style="font-size:12.5px;line-height:1.5;color:#A9A9B0;margin:0 0 18px 0;">—</p>
     </div>
 
     <div id="grid-section" style="display:flex;gap:22px;border-top:1px solid #1E1E21;padding:12px 20px 0 20px;">
@@ -85,17 +81,97 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/></svg>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:2px;padding-top:10px;">
-      <img src="images/ig-post3.jpg" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;">
-      <img src="images/ig-post6.jpg" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;">
-      <img src="images/ig-post4.jpg" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;">
-      <img src="images/ig-post1.jpg" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;">
-      <img src="images/ig-post2.jpg" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;">
-      <img src="images/ig-post5.jpg" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;">
-    </div>
+    <div id="post-grid" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:2px;padding-top:10px;"></div>
 
   </div>
 
 </div>
+<script>
+  const params = new URLSearchParams(location.search);
+  const username = params.get('u') || '2cutenails';
+
+  function formatCount(n){
+    if(n >= 1000) return (n/1000).toFixed(1) + 'K';
+    return String(n);
+  }
+
+  function goBook(){
+    location.href = 'service.html';
+  }
+
+  async function loadProfile(){
+    const { data: profile } = await sb.from('profiles')
+      .select('id,username,display_name,bio,avatar_url,rating,reviews_count,verified,tags,business_type,deposit_amount')
+      .eq('username', username).single();
+
+    if(!profile){
+      document.getElementById('p-name').textContent = 'Tech not found';
+      document.getElementById('book-now-btn').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('page-title').textContent = 'Nailverse — ' + profile.display_name;
+    document.getElementById('p-name').textContent = profile.display_name;
+    document.getElementById('p-verified').style.display = profile.verified ? 'block' : 'none';
+    document.getElementById('badge-verified').style.display = profile.verified ? 'flex' : 'none';
+    document.getElementById('p-bio').textContent = profile.bio || ('Book with ' + profile.display_name + ' on Nailverse.');
+    document.getElementById('p-location').textContent = (profile.business_type === 'salon' ? '🏢 ' : '📍 ') + 'Miami, FL';
+    if(profile.avatar_url) document.getElementById('p-avatar').src = profile.avatar_url;
+
+    document.getElementById('p-rating').textContent = (profile.rating != null ? profile.rating : 5).toFixed(1);
+    document.getElementById('p-reviews').textContent = (profile.reviews_count || 0) + ' reviews';
+    document.getElementById('p-deposit').textContent = '$' + (profile.deposit_amount != null ? profile.deposit_amount : 25);
+
+    const tagsEl = document.getElementById('p-tags');
+    (profile.tags && profile.tags.length ? profile.tags : ['Nails']).slice(0,5).forEach(tag => {
+      const a = document.createElement('a');
+      a.href = 'hashtag.html?tag=' + encodeURIComponent(tag.toLowerCase().replace(/\s+/g,''));
+      a.style.cssText = 'background:#18181B;color:#C9C9CF;font-size:11px;font-weight:600;padding:6px 11px;border-radius:100px;';
+      a.textContent = tag;
+      tagsEl.appendChild(a);
+    });
+
+    sessionStorage.setItem('nv_tech', JSON.stringify({ username: profile.username, name: profile.display_name }));
+
+    const { data: posts } = await sb.from('posts')
+      .select('image_url')
+      .eq('user_id', profile.id)
+      .order('created_at', { ascending: false });
+
+    const imgs = (posts || []).map(p => p.image_url);
+    document.getElementById('p-posts').textContent = imgs.length;
+
+    const coverFallback = profile.avatar_url || 'images/ig-profile.jpg';
+    document.getElementById('cover-1').src = imgs[0] || coverFallback;
+    document.getElementById('cover-2').src = imgs[1] || coverFallback;
+    document.getElementById('cover-3').src = imgs[2] || coverFallback;
+
+    const extra = imgs.length - 3;
+    const overlay = document.getElementById('cover-overlay');
+    if(extra > 0){ overlay.textContent = '+' + extra; overlay.style.display = 'flex'; }
+    else { overlay.style.display = 'none'; }
+
+    const grid = document.getElementById('post-grid');
+    if(imgs.length === 0){
+      grid.style.display = 'block';
+      grid.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#8B8B92;font-size:12.5px;">No posts yet.</div>';
+    } else {
+      imgs.slice(0,6).forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.loading = 'lazy';
+        img.style.cssText = 'width:100%;aspect-ratio:1/1;object-fit:cover;';
+        grid.appendChild(img);
+      });
+    }
+
+    const { count: followerCount } = await sb.from('follows')
+      .select('*', { count: 'exact', head: true })
+      .eq('following_id', profile.id);
+    document.getElementById('p-followers').textContent = formatCount(followerCount || 0);
+  }
+
+  loadProfile();
+</script>
 </body>
 </html>

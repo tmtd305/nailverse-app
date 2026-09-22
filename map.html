@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/supercluster@8.0.1/dist/supercluster.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
 <script src="notifications.js"></script>
 <style>
   body{margin:0;background:#0A0A0B;}
@@ -138,7 +140,7 @@
         <div id="card-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;"></div>
         <div id="card-photos" style="display:flex;gap:8px;margin-top:12px;"></div>
         <div style="display:flex;gap:8px;margin-top:14px;">
-          <a href="profile.html" style="flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;">View Profile</a>
+          <a id="card-view-profile" href="profile.html" style="flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;">View Profile</a>
           <button onclick="bookTech()" style="all:unset;flex:1;text-align:center;background:#FF3D94;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.45);cursor:pointer;box-sizing:border-box;">Book Now</button>
         </div>
       </div>
@@ -217,14 +219,39 @@
 
 <script>
   // ---- data ----
-  const techs = [
-    {id:'t1', username:'2cutenails', name:'2Cute Nails', type:'tech', verified:true, avatar:'images/ig-profile.jpg', rating:5.0, reviews:328, openNow:true, availableToday:true, tags:['Acrylic','Chrome'], lng:-80.1300, lat:25.7907, photos:['images/ig-post1.jpg','images/ig-post2.jpg']},
-    {id:'t2', username:'miaminailbar', name:'Miami Nail Bar', type:'salon', verified:true, avatar:'images/n2.jpg', rating:4.8, reviews:214, openNow:true, availableToday:true, tags:['Gel','Dip Powder'], lng:-80.1918, lat:25.8010, photos:['images/ig-post4.jpg','images/ig-post5.jpg']},
-    {id:'t3', username:'glossbybri', name:'Gloss by Bri', type:'tech', verified:false, avatar:'images/n1.jpg', rating:4.9, reviews:97, openNow:false, availableToday:false, tags:['Nail Art','Custom'], lng:-80.1367, lat:25.7742, photos:['images/ig-post7.jpg','images/ig-post8.jpg']},
-    {id:'t4', username:null, name:'Art by Zo', type:'tech', verified:true, avatar:'images/n3.jpg', rating:4.7, reviews:152, openNow:true, availableToday:true, tags:['Almond','French'], lng:-80.1550, lat:25.7650, photos:['images/ig-post10.jpg','images/ig-post11.jpg']},
-    {id:'t5', username:null, name:'Wynwood Nail Studio', type:'salon', verified:true, avatar:'images/ig-post1.jpg', rating:4.6, reviews:189, openNow:false, availableToday:false, tags:['Pedicure','Gel'], lng:-80.1994, lat:25.8050, photos:['images/ig-post9.jpg','images/ig-post6.jpg']},
-    {id:'t6', username:null, name:'Brickell Polish Co.', type:'salon', verified:true, avatar:'images/ig-post4.jpg', rating:4.9, reviews:301, openNow:true, availableToday:true, tags:['Acrylic','Nail Art'], lng:-80.1917, lat:25.7650, photos:['images/ig-post3.jpg','images/ig-post1.jpg']}
-  ];
+  let techs = [];
+
+  async function loadTechs(){
+    const { data: profiles } = await sb.from('profiles')
+      .select('id,username,display_name,avatar_url,rating,reviews_count,verified,tags,open_now,available_today,business_type,location_lat,location_lng')
+      .eq('account_type', 'tech')
+      .eq('is_tech_active', true)
+      .not('location_lat', 'is', null)
+      .not('location_lng', 'is', null);
+
+    if(!profiles || profiles.length === 0){ techs = []; return; }
+
+    const withPhotos = await Promise.all(profiles.map(async p => {
+      const { data: posts } = await sb.from('posts').select('image_url').eq('user_id', p.id).order('created_at', { ascending:false }).limit(2);
+      return {
+        id: p.id,
+        username: p.username,
+        name: p.display_name || p.username,
+        type: p.business_type === 'salon' ? 'salon' : 'tech',
+        verified: !!p.verified,
+        avatar: p.avatar_url || 'images/ig-profile.jpg',
+        rating: p.rating != null ? Number(p.rating) : 5.0,
+        reviews: p.reviews_count || 0,
+        openNow: !!p.open_now,
+        availableToday: !!p.available_today,
+        tags: p.tags || [],
+        lng: p.location_lng,
+        lat: p.location_lat,
+        photos: (posts || []).map(x => x.image_url)
+      };
+    }));
+    techs = withPhotos;
+  }
 
   const MIAMI_CENTER = {lng:-80.1500, lat:25.7900};
   let userLoc = {...MIAMI_CENTER};
@@ -329,8 +356,10 @@
     map.touchZoomRotate.disableRotation();
 
     map.on('load', ()=>{
-      const bounds = techs.reduce((b,t)=>b.extend([t.lng,t.lat]), new maplibregl.LngLatBounds([techs[0].lng,techs[0].lat],[techs[0].lng,techs[0].lat]));
-      map.fitBounds(bounds, {padding:{top:120,bottom:340,left:50,right:50}, duration:0});
+      if(techs.length > 0){
+        const bounds = techs.reduce((b,t)=>b.extend([t.lng,t.lat]), new maplibregl.LngLatBounds([techs[0].lng,techs[0].lat],[techs[0].lng,techs[0].lat]));
+        map.fitBounds(bounds, {padding:{top:120,bottom:340,left:50,right:50}, duration:0});
+      }
       rebuildIndex();
       renderMarkers();
       refreshList();
@@ -339,7 +368,10 @@
     map.on('moveend', ()=>{ renderMarkers(); checkSearchArea(); });
   }
 
-  initMap();
+  (async function start(){
+    await loadTechs();
+    await initMap();
+  })();
 
   // ---- clustering ----
   let index = null;
@@ -502,6 +534,7 @@
 
     document.getElementById('card-avatar').src = t.avatar;
     document.getElementById('card-name').textContent = t.name;
+    document.getElementById('card-view-profile').href = 'profile.html?u=' + encodeURIComponent(t.username);
     document.getElementById('card-verified').style.display = t.verified ? 'block' : 'none';
     const d = distMiles(userLoc.lat, userLoc.lng, t.lat, t.lng).toFixed(1);
     document.getElementById('card-meta').innerHTML = '<span style="color:#FF3D94;">★</span> ' + t.rating.toFixed(1) + ' (' + t.reviews + ') · ' + d + ' mi';
