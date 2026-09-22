@@ -7,6 +7,8 @@
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
 <script src="notifications.js"></script>
 <style>
   html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
@@ -27,31 +29,35 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     <a href="home.html" style="width:32px;height:32px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
     </a>
-    <span style="font-size:14px;font-weight:800;">@you</span>
+    <span id="username-label" style="font-size:14px;font-weight:800;">@you</span>
     <a href="create-post.html" style="width:32px;height:32px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
     </a>
   </div>
 
-  <div style="flex:1;overflow-y:auto;overflow-x:hidden;">
+  <div id="loading-state" style="flex:1;display:flex;align-items:center;justify-content:center;">
+    <span style="font-size:12.5px;color:#8B8B92;">Loading profile…</span>
+  </div>
+
+  <div id="profile-content" style="flex:1;overflow-y:auto;overflow-x:hidden;display:none;">
 
     <div style="padding:4px 20px 0 20px;display:flex;align-items:center;gap:16px;">
       <div style="position:relative;flex-shrink:0;">
-        <img src="images/ig-profile.jpg" style="width:78px;height:78px;border-radius:50%;object-fit:cover;border:2px solid #232326;">
+        <img id="avatar-img" src="images/ig-profile.jpg" style="width:78px;height:78px;border-radius:50%;object-fit:cover;border:2px solid #232326;">
         <div style="position:absolute;bottom:0;right:0;width:24px;height:24px;border-radius:50%;background:#FF3D94;border:2.5px solid #0A0A0B;display:flex;align-items:center;justify-content:center;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6"><path d="M12 5v14M5 12h14"/></svg>
         </div>
       </div>
       <div style="flex:1;display:flex;justify-content:space-around;text-align:center;">
-        <div><div id="stat-posts" style="font-size:16px;font-weight:800;">6</div><div style="font-size:10.5px;color:#8B8B92;">Posts</div></div>
-        <div><div style="font-size:16px;font-weight:800;">184</div><div style="font-size:10.5px;color:#8B8B92;">Followers</div></div>
-        <div><div style="font-size:16px;font-weight:800;">96</div><div style="font-size:10.5px;color:#8B8B92;">Following</div></div>
+        <div><div id="stat-posts" style="font-size:16px;font-weight:800;">0</div><div style="font-size:10.5px;color:#8B8B92;">Posts</div></div>
+        <div><div id="stat-followers" style="font-size:16px;font-weight:800;">0</div><div style="font-size:10.5px;color:#8B8B92;">Followers</div></div>
+        <div><div id="stat-following" style="font-size:16px;font-weight:800;">0</div><div style="font-size:10.5px;color:#8B8B92;">Following</div></div>
       </div>
     </div>
 
     <div style="padding:14px 20px 0 20px;">
-      <div style="font-size:14.5px;font-weight:800;">You</div>
-      <p style="margin:4px 0 0 0;font-size:12.5px;line-height:1.5;color:#A9A9B0;">Building my nail history 💅 Miami, FL</p>
+      <div id="display-name" style="font-size:14.5px;font-weight:800;">You</div>
+      <p id="bio-text" style="margin:4px 0 0 0;font-size:12.5px;line-height:1.5;color:#A9A9B0;">Building my nail history 💅</p>
     </div>
 
     <div style="padding:14px 20px 18px 20px;display:flex;gap:8px;">
@@ -75,12 +81,16 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
       <div style="width:52px;height:52px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
       </div>
-      <div style="font-size:13.5px;font-weight:700;">Start your nail history</div>
-      <p style="margin:0;font-size:12px;color:#8B8B92;line-height:1.5;">Post your first look — tag the tech who did it and add hashtags so others can find it.</p>
-      <a href="create-post.html" style="margin-top:4px;background:#FF3D94;color:#fff;font-size:12.5px;font-weight:700;padding:10px 20px;border-radius:100px;">New Post</a>
+      <div id="posts-empty-title" style="font-size:13.5px;font-weight:700;">Start your nail history</div>
+      <p id="posts-empty-sub" style="margin:0;font-size:12px;color:#8B8B92;line-height:1.5;">Post your first look — tag the tech who did it and add hashtags so others can find it.</p>
+      <a id="posts-empty-cta" href="create-post.html" style="margin-top:4px;background:#FF3D94;color:#fff;font-size:12.5px;font-weight:700;padding:10px 20px;border-radius:100px;">New Post</a>
     </div>
 
     <div id="posts-grid" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:2px;padding-top:2px;"></div>
+
+    <div style="padding:20px;">
+      <a href="#" onclick="event.preventDefault();signOut()" style="display:block;text-align:center;font-size:12.5px;font-weight:700;color:#8B8B92;">Log Out</a>
+    </div>
 
   </div>
 
@@ -96,60 +106,41 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
 </div>
 <script>
-  const seedPosts = [
-    {img:'images/ig-post3.jpg', kind:'photo'},
-    {img:'images/ig-post6.jpg', kind:'video'},
-    {img:'images/ig-post4.jpg', kind:'photo'},
-    {img:'images/ig-post1.jpg', kind:'photo'},
-    {img:'images/ig-post2.jpg', kind:'video'},
-    {img:'images/ig-post5.jpg', kind:'photo'}
-  ];
-  const savedSeed = [
-    {img:'images/ig-post9.jpg'},{img:'images/ig-post10.jpg'},{img:'images/ig-post7.jpg'},{img:'images/ig-post8.jpg'}
-  ];
+  let myProfile = null;
+  let myPosts = [];
 
-  function getMyPosts() {
-    try { return JSON.parse(localStorage.getItem('nv_myposts') || '[]'); } catch(e) { return []; }
-  }
-
-  function renderCell(img, kind) {
+  function renderCell(imgUrl, caption) {
     const cell = document.createElement('div');
     cell.style.cssText = 'position:relative;aspect-ratio:1/1;overflow:hidden;background:#18181B;';
-    cell.innerHTML = '<img src="' + img + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">' +
-      (kind === 'video' ? '<span style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.55);border-radius:5px;padding:2px 5px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>' : '');
+    cell.innerHTML = '<img src="' + imgUrl + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" title="' + (caption||'').replace(/"/g,'') + '">';
     return cell;
   }
 
   function renderPosts() {
-    const mine = getMyPosts();
     const grid = document.getElementById('posts-grid');
     grid.innerHTML = '';
-    const all = mine.map(p => ({img: p.image, kind: p.kind || 'photo'})).concat(seedPosts);
-    document.getElementById('stat-posts').textContent = all.length;
-    if (all.length === 0) {
+    document.getElementById('stat-posts').textContent = myPosts.length;
+    if (myPosts.length === 0) {
+      document.getElementById('posts-empty-title').textContent = 'Start your nail history';
+      document.getElementById('posts-empty-sub').textContent = 'Post your first look — tag the tech who did it and add hashtags so others can find it.';
+      document.getElementById('posts-empty-cta').style.display = 'inline-block';
       document.getElementById('posts-empty').style.display = 'flex';
       grid.style.display = 'none';
       return;
     }
     document.getElementById('posts-empty').style.display = 'none';
     grid.style.display = 'grid';
-    all.forEach(p => grid.appendChild(renderCell(p.img, p.kind)));
+    myPosts.forEach(p => grid.appendChild(renderCell(p.image_url, p.caption)));
   }
 
-  function renderSaved() {
+  function renderComingSoon(title) {
     const grid = document.getElementById('posts-grid');
     grid.innerHTML = '';
-    document.getElementById('posts-empty').style.display = 'none';
-    grid.style.display = 'grid';
-    savedSeed.forEach(p => grid.appendChild(renderCell(p.img, 'photo')));
-  }
-
-  function renderTagged() {
-    const grid = document.getElementById('posts-grid');
-    grid.innerHTML = '';
-    grid.style.display = 'grid';
-    document.getElementById('posts-empty').style.display = 'none';
-    [{img:'images/ig-post1.jpg'}].forEach(p => grid.appendChild(renderCell(p.img, 'photo')));
+    grid.style.display = 'none';
+    document.getElementById('posts-empty-title').textContent = title;
+    document.getElementById('posts-empty-sub').textContent = "This isn't built yet — check back soon.";
+    document.getElementById('posts-empty-cta').style.display = 'none';
+    document.getElementById('posts-empty').style.display = 'flex';
   }
 
   function setPTab(el) {
@@ -157,11 +148,38 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     el.classList.add('on');
     const tab = el.dataset.tab;
     if (tab === 'posts') renderPosts();
-    else if (tab === 'saved') renderSaved();
-    else renderTagged();
+    else if (tab === 'saved') renderComingSoon('Saved looks');
+    else renderComingSoon('Tagged posts');
   }
 
-  renderPosts();
+  async function init() {
+    const session = await requireAuth('login.html');
+    if (!session) return;
+
+    const { data: profile } = await sb.from('profiles').select('*').eq('id', session.user.id).single();
+    myProfile = profile;
+
+    document.getElementById('username-label').textContent = '@' + profile.username;
+    document.getElementById('display-name').textContent = profile.display_name || profile.username;
+    document.getElementById('bio-text').textContent = profile.bio || 'Building my nail history 💅';
+    if (profile.avatar_url) document.getElementById('avatar-img').src = profile.avatar_url;
+
+    const [{ data: posts }, { count: followers }, { count: following }] = await Promise.all([
+      sb.from('posts').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false }),
+      sb.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', session.user.id),
+      sb.from('follows').select('*', { count: 'exact', head: true }).eq('follower_id', session.user.id)
+    ]);
+
+    myPosts = posts || [];
+    document.getElementById('stat-followers').textContent = followers || 0;
+    document.getElementById('stat-following').textContent = following || 0;
+
+    renderPosts();
+    document.getElementById('loading-state').style.display = 'none';
+    document.getElementById('profile-content').style.display = 'block';
+  }
+
+  init();
 </script>
 </body>
 </html>

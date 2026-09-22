@@ -7,6 +7,8 @@
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
 <script src="notifications.js"></script>
 <style>
   html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
@@ -35,23 +37,15 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     <label for="photo-input" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;height:220px;border-radius:16px;background:#18181B;border:1.5px dashed #2A2A2E;cursor:pointer;overflow:hidden;position:relative;">
       <img id="preview-img" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
       <svg id="upload-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-      <span id="upload-label" style="font-size:12.5px;color:#8B8B92;font-weight:600;">Tap to add a photo or video</span>
+      <span id="upload-label" style="font-size:12.5px;color:#8B8B92;font-weight:600;">Tap to add a photo</span>
     </label>
-    <input id="photo-input" type="file" accept="image/*,video/*" style="display:none;" onchange="onPick(event)">
+    <input id="photo-input" type="file" accept="image/*" style="display:none;" onchange="onPick(event)">
 
     <textarea id="caption" placeholder="Write a caption..." maxlength="220" style="width:100%;margin-top:16px;background:none;border:none;color:#fff;font-size:13.5px;resize:none;height:60px;padding:0;outline:none;"></textarea>
 
     <div style="height:1px;background:#1E1E21;margin:6px 0 16px 0;"></div>
 
-    <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">TAG A TECH</span>
-    <div id="tech-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
-      <span class="chip on" data-tech="none" onclick="pickTech(this)">None</span>
-      <span class="chip" data-tech="2cutenails" onclick="pickTech(this)">@2cutenails</span>
-      <span class="chip" data-tech="miaminailbar" onclick="pickTech(this)">@miaminailbar</span>
-      <span class="chip" data-tech="glossbybri" onclick="pickTech(this)">@glossbybri</span>
-    </div>
-
-    <span style="display:block;margin-top:18px;font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">HASHTAGS</span>
+    <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">HASHTAGS</span>
     <div id="tag-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
       <span class="chip" data-tag="chromenails" onclick="toggleTag(this)">#chromenails</span>
       <span class="chip" data-tag="frenchtip" onclick="toggleTag(this)">#frenchtip</span>
@@ -66,30 +60,19 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
 </div>
 <script>
-  let pickedTag = null;
-  let pickedTech = 'none';
+  let pickedFile = null;
   let activeTags = new Set();
 
   function onPick(e) {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-      pickedTag = ev.target.result;
-      const img = document.getElementById('preview-img');
-      img.src = pickedTag;
-      img.style.display = 'block';
-      document.getElementById('upload-icon').style.display = 'none';
-      document.getElementById('upload-label').style.display = 'none';
-      updateShareState();
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function pickTech(el) {
-    document.querySelectorAll('#tech-chips .chip').forEach(c => c.classList.remove('on'));
-    el.classList.add('on');
-    pickedTech = el.dataset.tech;
+    pickedFile = file;
+    const img = document.getElementById('preview-img');
+    img.src = URL.createObjectURL(file);
+    img.style.display = 'block';
+    document.getElementById('upload-icon').style.display = 'none';
+    document.getElementById('upload-label').style.display = 'none';
+    updateShareState();
   }
 
   function toggleTag(el) {
@@ -116,7 +99,7 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
   function updateShareState() {
     const btn = document.getElementById('share-btn');
-    if (pickedTag) {
+    if (pickedFile) {
       btn.disabled = false;
       btn.style.color = '#FF3D94';
     } else {
@@ -125,21 +108,51 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     }
   }
 
-  function sharePost() {
-    if (!pickedTag) return;
-    const posts = JSON.parse(localStorage.getItem('nv_myposts') || '[]');
-    posts.unshift({
-      image: pickedTag,
-      kind: 'photo',
-      caption: document.getElementById('caption').value.trim(),
-      tech: pickedTech,
-      tags: Array.from(activeTags),
-      ts: Date.now()
-    });
-    localStorage.setItem('nv_myposts', JSON.stringify(posts));
+  async function sharePost() {
+    if (!pickedFile) return;
+    const session = await requireAuth('login.html');
+    if (!session) return;
+
+    const btn = document.getElementById('share-btn');
+    btn.textContent = 'Posting…';
+    btn.disabled = true;
+
+    const ext = pickedFile.name.split('.').pop() || 'jpg';
+    const path = session.user.id + '/' + Date.now() + '.' + ext;
+
+    const { error: uploadError } = await sb.storage.from('posts').upload(path, pickedFile);
+    if (uploadError) {
+      showToast('Upload failed: ' + uploadError.message);
+      btn.textContent = 'Share';
+      btn.disabled = false;
+      return;
+    }
+
+    const { data: urlData } = sb.storage.from('posts').getPublicUrl(path);
+
+    const { data: post, error: postError } = await sb.from('posts').insert({
+      user_id: session.user.id,
+      image_url: urlData.publicUrl,
+      caption: document.getElementById('caption').value.trim()
+    }).select().single();
+
+    if (postError) {
+      showToast('Could not save post: ' + postError.message);
+      btn.textContent = 'Share';
+      btn.disabled = false;
+      return;
+    }
+
+    if (activeTags.size > 0) {
+      const rows = Array.from(activeTags).map(tag => ({ post_id: post.id, tag }));
+      await sb.from('post_hashtags').insert(rows);
+    }
+
     showToast('Posted to your nail history');
     setTimeout(function() { location.href = 'my-profile.html'; }, 500);
   }
+
+  requireAuth('login.html');
 </script>
 </body>
 </html>

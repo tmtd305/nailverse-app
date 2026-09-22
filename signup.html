@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Sign Up</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+  a:active,button:active{transform:scale(0.98);opacity:0.85;}
+  input{font-family:'Plus Jakarta Sans',sans-serif;}
+  .field{width:100%;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:14px 16px;color:#fff;font-size:14px;outline:none;margin-bottom:12px;}
+  .field:focus{border-color:#FF3D94;}
+  .type-btn{flex:1;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:13px 0;text-align:center;font-size:13.5px;font-weight:700;color:#A9A9B0;cursor:pointer;}
+  .type-btn.on{background:#1E1418;border-color:#FF3D94;color:#fff;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex:1;overflow-y:auto;padding:40px 24px 24px 24px;">
+    <span style="font-size:19px;font-weight:800;letter-spacing:0.05em;">NAILVERSE</span>
+    <h1 style="font-size:23px;font-weight:800;margin:26px 0 6px 0;">Create your account</h1>
+    <p style="margin:0 0 24px 0;font-size:13px;color:#8B8B92;">Join the community — browse, post, and book.</p>
+
+    <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">I AM A</span>
+    <div style="display:flex;gap:8px;margin:8px 0 18px 0;">
+      <div class="type-btn on" id="type-customer" onclick="pickType('customer')">Customer</div>
+      <div class="type-btn" id="type-tech" onclick="pickType('tech')">Nail Tech</div>
+    </div>
+
+    <input id="username" class="field" placeholder="Username" autocapitalize="none" autocorrect="off">
+    <input id="display_name" class="field" placeholder="Display name">
+    <input id="email" class="field" type="email" placeholder="Email" autocapitalize="none">
+    <input id="password" class="field" type="password" placeholder="Password (min 6 characters)">
+
+    <button id="submit-btn" onclick="doSignup()" style="all:unset;display:block;width:100%;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:15px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.4);cursor:pointer;box-sizing:border-box;margin-top:6px;">Sign Up</button>
+
+    <p style="text-align:center;margin:20px 0 0 0;font-size:12.5px;color:#8B8B92;">Already have an account? <a href="login.html" style="color:#FF3D94;font-weight:700;">Log In</a></p>
+  </div>
+
+</div>
+<script>
+  let accountType = 'customer';
+  function pickType(t){
+    accountType = t;
+    document.getElementById('type-customer').classList.toggle('on', t==='customer');
+    document.getElementById('type-tech').classList.toggle('on', t==='tech');
+  }
+
+  async function doSignup(){
+    const username = document.getElementById('username').value.trim();
+    const display_name = document.getElementById('display_name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if(!username || !email || password.length < 6){
+      showToast('Fill in username, email, and a 6+ character password');
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Creating account…';
+
+    const { data, error } = await sb.auth.signUp({
+      email, password,
+      options: { data: { username, display_name: display_name || username } }
+    });
+
+    if(error){
+      showToast(error.message);
+      btn.textContent = 'Sign Up';
+      return;
+    }
+
+    if(accountType === 'tech' && data.user){
+      await sb.from('profiles').update({ account_type: 'tech' }).eq('id', data.user.id);
+    }
+
+    showToast('Welcome to Nailverse!');
+    setTimeout(()=>{ location.href = 'home.html'; }, 500);
+  }
+</script>
+</body>
+</html>

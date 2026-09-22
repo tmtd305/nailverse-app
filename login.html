@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Log In</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+  a:active,button:active{transform:scale(0.98);opacity:0.85;}
+  input{font-family:'Plus Jakarta Sans',sans-serif;}
+  .field{width:100%;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:14px 16px;color:#fff;font-size:14px;outline:none;margin-bottom:12px;}
+  .field:focus{border-color:#FF3D94;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex:1;overflow-y:auto;padding:40px 24px 24px 24px;">
+    <span style="font-size:19px;font-weight:800;letter-spacing:0.05em;">NAILVERSE</span>
+    <h1 style="font-size:23px;font-weight:800;margin:26px 0 6px 0;">Welcome back</h1>
+    <p style="margin:0 0 24px 0;font-size:13px;color:#8B8B92;">Log in to book, post, and pick up where you left off.</p>
+
+    <input id="email" class="field" type="email" placeholder="Email" autocapitalize="none">
+    <input id="password" class="field" type="password" placeholder="Password">
+
+    <button id="submit-btn" onclick="doLogin()" style="all:unset;display:block;width:100%;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:15px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.4);cursor:pointer;box-sizing:border-box;margin-top:6px;">Log In</button>
+
+    <p style="text-align:center;margin:20px 0 0 0;font-size:12.5px;color:#8B8B92;">New to Nailverse? <a href="signup.html" style="color:#FF3D94;font-weight:700;">Sign Up</a></p>
+  </div>
+
+</div>
+<script>
+  async function doLogin(){
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    if(!email || !password){
+      showToast('Enter your email and password');
+      return;
+    }
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Logging in…';
+
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+
+    if(error){
+      showToast(error.message);
+      btn.textContent = 'Log In';
+      return;
+    }
+    showToast('Logged in');
+    setTimeout(()=>{ location.href = 'home.html'; }, 400);
+  }
+
+  (async function redirectIfLoggedIn(){
+    const session = await getSession();
+    if(session) location.href = 'home.html';
+  })();
+</script>
+</body>
+</html>
