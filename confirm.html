@@ -27,10 +27,10 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
   <div style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
 
     <div style="background:#18181B;border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;">
-      <img src="images/ig-profile.jpg" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+      <img id="c-avatar" src="images/ig-profile.jpg" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
       <div>
-        <div style="display:flex;align-items:center;gap:5px;"><span style="font-size:14px;font-weight:700;">2Cute Nails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
-        <div style="font-size:11.5px;color:#8B8B92;">★ 5.0 (328) · Miami, FL</div>
+        <div style="display:flex;align-items:center;gap:5px;"><span id="c-tech-name" style="font-size:14px;font-weight:700;">2Cute Nails</span><svg id="c-verified" width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+        <div id="c-tech-meta" style="font-size:11.5px;color:#8B8B92;">★ 5.0 (328) · Miami, FL</div>
       </div>
     </div>
 
@@ -84,14 +84,25 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
   document.getElementById('c-datetime').textContent = time.date + ' · ' + time.time;
   document.getElementById('c-price1').textContent = '$' + svc.price;
 
+  const selectedTech = JSON.parse(sessionStorage.getItem('nv_tech') || '{"username":"2cutenails","name":"2Cute Nails"}');
+
   let techId = null;
   let depositAmount = 25;
 
   async function loadTech(){
-    const { data: tech } = await sb.from('profiles').select('id,deposit_amount').eq('username', '2cutenails').single();
+    const { data: tech } = await sb.from('profiles')
+      .select('id,display_name,avatar_url,rating,reviews_count,verified,deposit_amount')
+      .eq('username', selectedTech.username).single();
+
     if(tech){
       techId = tech.id;
       depositAmount = tech.deposit_amount != null ? tech.deposit_amount : 25;
+      document.getElementById('c-tech-name').textContent = tech.display_name;
+      document.getElementById('c-tech-meta').innerHTML = '★ ' + tech.rating.toFixed(1) + ' (' + tech.reviews_count + ') · Miami, FL';
+      document.getElementById('c-verified').style.display = tech.verified ? 'block' : 'none';
+      if(tech.avatar_url) document.getElementById('c-avatar').src = tech.avatar_url;
+    } else {
+      document.getElementById('c-tech-name').textContent = selectedTech.name;
     }
     document.getElementById('c-deposit').textContent = '$' + depositAmount;
     document.getElementById('c-total').textContent = '$' + depositAmount;

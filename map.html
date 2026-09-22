@@ -139,7 +139,7 @@
         <div id="card-photos" style="display:flex;gap:8px;margin-top:12px;"></div>
         <div style="display:flex;gap:8px;margin-top:14px;">
           <a href="profile.html" style="flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;">View Profile</a>
-          <a href="service.html" style="flex:1;text-align:center;background:#FF3D94;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.45);">Book Now</a>
+          <button onclick="bookTech()" style="all:unset;flex:1;text-align:center;background:#FF3D94;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.45);cursor:pointer;box-sizing:border-box;">Book Now</button>
         </div>
       </div>
     </div>
@@ -218,12 +218,12 @@
 <script>
   // ---- data ----
   const techs = [
-    {id:'t1', name:'2Cute Nails', type:'tech', verified:true, avatar:'images/ig-profile.jpg', rating:5.0, reviews:328, openNow:true, availableToday:true, tags:['Acrylic','Chrome'], lng:-80.1300, lat:25.7907, photos:['images/ig-post1.jpg','images/ig-post2.jpg']},
-    {id:'t2', name:'Miami Nail Bar', type:'salon', verified:true, avatar:'images/n2.jpg', rating:4.8, reviews:214, openNow:true, availableToday:true, tags:['Gel','Dip Powder'], lng:-80.1918, lat:25.8010, photos:['images/ig-post4.jpg','images/ig-post5.jpg']},
-    {id:'t3', name:'Gloss by Bri', type:'tech', verified:false, avatar:'images/n1.jpg', rating:4.9, reviews:97, openNow:false, availableToday:false, tags:['Nail Art','Custom'], lng:-80.1367, lat:25.7742, photos:['images/ig-post7.jpg','images/ig-post8.jpg']},
-    {id:'t4', name:'Art by Zo', type:'tech', verified:true, avatar:'images/n3.jpg', rating:4.7, reviews:152, openNow:true, availableToday:true, tags:['Almond','French'], lng:-80.1550, lat:25.7650, photos:['images/ig-post10.jpg','images/ig-post11.jpg']},
-    {id:'t5', name:'Wynwood Nail Studio', type:'salon', verified:true, avatar:'images/ig-post1.jpg', rating:4.6, reviews:189, openNow:false, availableToday:false, tags:['Pedicure','Gel'], lng:-80.1994, lat:25.8050, photos:['images/ig-post9.jpg','images/ig-post6.jpg']},
-    {id:'t6', name:'Brickell Polish Co.', type:'salon', verified:true, avatar:'images/ig-post4.jpg', rating:4.9, reviews:301, openNow:true, availableToday:true, tags:['Acrylic','Nail Art'], lng:-80.1917, lat:25.7650, photos:['images/ig-post3.jpg','images/ig-post1.jpg']}
+    {id:'t1', username:'2cutenails', name:'2Cute Nails', type:'tech', verified:true, avatar:'images/ig-profile.jpg', rating:5.0, reviews:328, openNow:true, availableToday:true, tags:['Acrylic','Chrome'], lng:-80.1300, lat:25.7907, photos:['images/ig-post1.jpg','images/ig-post2.jpg']},
+    {id:'t2', username:'miaminailbar', name:'Miami Nail Bar', type:'salon', verified:true, avatar:'images/n2.jpg', rating:4.8, reviews:214, openNow:true, availableToday:true, tags:['Gel','Dip Powder'], lng:-80.1918, lat:25.8010, photos:['images/ig-post4.jpg','images/ig-post5.jpg']},
+    {id:'t3', username:'glossbybri', name:'Gloss by Bri', type:'tech', verified:false, avatar:'images/n1.jpg', rating:4.9, reviews:97, openNow:false, availableToday:false, tags:['Nail Art','Custom'], lng:-80.1367, lat:25.7742, photos:['images/ig-post7.jpg','images/ig-post8.jpg']},
+    {id:'t4', username:null, name:'Art by Zo', type:'tech', verified:true, avatar:'images/n3.jpg', rating:4.7, reviews:152, openNow:true, availableToday:true, tags:['Almond','French'], lng:-80.1550, lat:25.7650, photos:['images/ig-post10.jpg','images/ig-post11.jpg']},
+    {id:'t5', username:null, name:'Wynwood Nail Studio', type:'salon', verified:true, avatar:'images/ig-post1.jpg', rating:4.6, reviews:189, openNow:false, availableToday:false, tags:['Pedicure','Gel'], lng:-80.1994, lat:25.8050, photos:['images/ig-post9.jpg','images/ig-post6.jpg']},
+    {id:'t6', username:null, name:'Brickell Polish Co.', type:'salon', verified:true, avatar:'images/ig-post4.jpg', rating:4.9, reviews:301, openNow:true, availableToday:true, tags:['Acrylic','Nail Art'], lng:-80.1917, lat:25.7650, photos:['images/ig-post3.jpg','images/ig-post1.jpg']}
   ];
 
   const MIAMI_CENTER = {lng:-80.1500, lat:25.7900};
@@ -658,6 +658,17 @@
       if(t < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
+  }
+
+  function bookTech(){
+    const t = techs.find(x => x.id === activeId);
+    if(!t) return;
+    if(!t.username){
+      showToast(t.name + ' isn\'t bookable online yet');
+      return;
+    }
+    sessionStorage.setItem('nv_tech', JSON.stringify({username: t.username, name: t.name}));
+    location.href = 'service.html';
   }
 
   function toggle3D(){
