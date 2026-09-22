@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Map</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#150E13"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<script src="notifications.js"></script>
+<style>body{margin:0;background:#150E13;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;background:#150E13;font-family:'Manrope',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="position:absolute;top:0;left:0;right:0;z-index:5;padding:16px 16px 10px 16px;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:#1F1620;border-radius:12px;padding:12px 14px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B9A8B8" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span style="font-size:13px;font-weight:600;flex:1;">Miami, FL</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C6E7A" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </div>
+      <div style="background:#1F1620;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+        <span style="font-size:12px;font-weight:700;">Filters</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
+      <span style="background:#FF3D94;color:#fff;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;">All</span>
+      <span style="background:#1F1620;color:#B9A8B8;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;">Acrylic</span>
+      <span style="background:#1F1620;color:#B9A8B8;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;">Gel</span>
+      <span style="background:#1F1620;color:#B9A8B8;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;">Nail Art</span>
+      <span style="background:#1F1620;color:#B9A8B8;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;">Pedicure</span>
+    </div>
+  </div>
+
+  <div style="flex:1;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:linear-gradient(150deg,#3B1220 0%,#20101B 45%,#170A10 100%);"></div>
+    <div style="position:absolute;right:-30px;bottom:-60px;width:260px;height:320px;background:radial-gradient(closest-side,#2E5A66,#1C3A44);opacity:0.85;transform:rotate(-12deg);"></div>
+    <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(112deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 42px);"></div>
+
+    <div style="position:absolute;left:36px;top:78px;width:58px;height:36px;background:linear-gradient(160deg,#5A3A44,#3A2530);border-radius:6px;box-shadow:0 10px 14px rgba(0,0,0,0.35);"></div>
+    <div style="position:absolute;left:104px;top:60px;width:44px;height:66px;background:linear-gradient(160deg,#63404A,#402934);border-radius:6px;box-shadow:0 10px 14px rgba(0,0,0,0.35);"></div>
+    <div style="position:absolute;left:58px;top:150px;width:78px;height:44px;background:linear-gradient(160deg,#5A3A44,#3A2530);border-radius:6px;box-shadow:0 10px 14px rgba(0,0,0,0.35);"></div>
+    <div style="position:absolute;left:170px;top:110px;width:48px;height:78px;background:linear-gradient(160deg,#63404A,#402934);border-radius:6px;box-shadow:0 10px 14px rgba(0,0,0,0.35);"></div>
+
+    <span style="position:absolute;left:44px;top:186px;font-size:12px;font-weight:700;color:#D8CBD7;">Wynwood</span>
+    <span style="position:absolute;left:230px;top:150px;font-size:12px;font-weight:700;color:#D8CBD7;">Miami</span>
+    <span style="position:absolute;left:170px;top:330px;font-size:12px;font-weight:700;color:#D8CBD7;">South Beach</span>
+    <span style="position:absolute;left:40px;top:395px;font-size:12px;font-weight:700;color:#D8CBD7;">Miami<br>Brickell</span>
+
+    <div style="position:absolute;right:16px;top:16px;background:#1F1620;border-radius:10px;padding:8px 12px;font-size:11px;font-weight:800;">3D</div>
+    <div style="position:absolute;right:16px;top:60px;width:34px;height:34px;border-radius:50%;background:#1F1620;display:flex;align-items:center;justify-content:center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11l19-9-9 19-2-8z"/></svg>
+    </div>
+
+    <a href="profile.html" style="position:absolute;left:98px;top:126px;width:34px;height:34px;border-radius:50% 50% 50% 0;background:#fff;transform:rotate(-45deg);box-shadow:0 6px 12px rgba(0,0,0,0.4);">
+      <img src="images/n2.jpg" style="position:absolute;inset:3px;width:28px;height:28px;border-radius:50%;object-fit:cover;transform:rotate(45deg);">
+    </a>
+    <a href="profile.html" style="position:absolute;left:200px;top:200px;width:34px;height:34px;border-radius:50% 50% 50% 0;background:#fff;transform:rotate(-45deg);box-shadow:0 6px 12px rgba(0,0,0,0.4);">
+      <img src="images/p3.jpg" style="position:absolute;inset:3px;width:28px;height:28px;border-radius:50%;object-fit:cover;transform:rotate(45deg);">
+    </a>
+    <a href="profile.html" style="position:absolute;left:90px;top:290px;width:40px;height:40px;border-radius:50% 50% 50% 0;background:#FF3D94;transform:rotate(-45deg);box-shadow:0 8px 16px rgba(255,61,148,0.55);border:3px solid #fff;">
+      <img src="images/p1.jpg" style="position:absolute;inset:4px;width:26px;height:26px;border-radius:50%;object-fit:cover;transform:rotate(45deg);">
+    </a>
+  </div>
+
+  <div style="flex-shrink:0;background:#1F1620;border-radius:22px 22px 0 0;padding:16px 18px 22px 18px;box-shadow:0 -12px 30px rgba(0,0,0,0.35);">
+    <div style="display:flex;gap:10px;align-items:center;">
+      <img src="images/p1.jpg" style="width:50px;height:50px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+      <div style="flex:1;min-width:0;">
+        <span style="font-size:14.5px;font-weight:700;">Nails by Luna</span>
+        <div style="font-size:11.5px;color:#B9A8B8;margin-top:1px;"><span style="color:#FF3D94;">★</span> 5.0 (328) · 0.8 mi</div>
+        <div style="font-size:11px;color:#7C6E7A;">Acrylic · Gel · Nail Art</div>
+      </div>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3D94" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <img src="images/n1.jpg" style="width:78px;height:56px;border-radius:12px;object-fit:cover;">
+      <img src="images/n2.jpg" style="width:78px;height:56px;border-radius:12px;object-fit:cover;">
+      <img src="images/n3.jpg" style="width:78px;height:56px;border-radius:12px;object-fit:cover;">
+    </div>
+    <a href="profile.html" style="display:block;text-align:center;margin-top:14px;background:#FF3D94;color:#fff;font-size:14px;font-weight:700;padding:13px 0;border-radius:12px;">View Profile</a>
+  </div>
+
+</div>
+</body>
+</html>

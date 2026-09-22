@@ -1,0 +1,17 @@
+{
+  "name": "Nailverse",
+  "short_name": "Nailverse",
+  "start_url": "./home.html",
+  "display": "standalone",
+  "background_color": "#150E13",
+  "theme_color": "#150E13",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/p1.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}
