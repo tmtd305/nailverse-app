@@ -34,16 +34,29 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
   <div style="flex:1;overflow-y:auto;padding:4px 18px 24px 18px;">
 
-    <label for="photo-input" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;height:220px;border-radius:16px;background:#18181B;border:1.5px dashed #2A2A2E;cursor:pointer;overflow:hidden;position:relative;">
+    <label id="preview-frame" for="photo-input" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;width:100%;aspect-ratio:1/1;border-radius:16px;background:#18181B;border:1.5px dashed #2A2A2E;cursor:pointer;overflow:hidden;position:relative;">
       <img id="preview-img" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <video id="preview-video" muted playsinline loop autoplay style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
       <svg id="upload-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-      <span id="upload-label" style="font-size:12.5px;color:#8B8B92;font-weight:600;">Tap to add a photo</span>
+      <span id="upload-label" style="font-size:12.5px;color:#8B8B92;font-weight:600;text-align:center;padding:0 20px;">Tap to add a photo (square) or video (reel)</span>
     </label>
-    <input id="photo-input" type="file" accept="image/*" style="display:none;" onchange="onPick(event)">
+    <input id="photo-input" type="file" accept="image/*,video/*" style="display:none;" onchange="onPick(event)">
 
     <textarea id="caption" placeholder="Write a caption..." maxlength="220" style="width:100%;margin-top:16px;background:none;border:none;color:#fff;font-size:13.5px;resize:none;height:60px;padding:0;outline:none;"></textarea>
 
     <div style="height:1px;background:#1E1E21;margin:6px 0 16px 0;"></div>
+
+    <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">LOCATION</span>
+    <input id="location-input" placeholder="Add a location" style="width:100%;margin-top:10px;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:11px 14px;color:#fff;font-size:12.5px;outline:none;">
+
+    <div style="height:1px;background:#1E1E21;margin:16px 0;"></div>
+
+    <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">TAG A NAIL TECH</span>
+    <select id="tech-tag-select" style="width:100%;margin-top:10px;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:11px 14px;color:#fff;font-size:12.5px;outline:none;">
+      <option value="">None</option>
+    </select>
+
+    <div style="height:1px;background:#1E1E21;margin:16px 0;"></div>
 
     <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">HASHTAGS</span>
     <div id="tag-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
@@ -63,13 +76,27 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
   let pickedFile = null;
   let activeTags = new Set();
 
+  let pickedIsVideo = false;
+
   function onPick(e) {
     const file = e.target.files[0];
     if (!file) return;
     pickedFile = file;
+    pickedIsVideo = file.type.startsWith('video/');
     const img = document.getElementById('preview-img');
-    img.src = URL.createObjectURL(file);
-    img.style.display = 'block';
+    const video = document.getElementById('preview-video');
+    const frame = document.getElementById('preview-frame');
+    const url = URL.createObjectURL(file);
+    frame.style.aspectRatio = pickedIsVideo ? '9/16' : '1/1';
+    if (pickedIsVideo) {
+      video.src = url;
+      video.style.display = 'block';
+      img.style.display = 'none';
+    } else {
+      img.src = url;
+      img.style.display = 'block';
+      video.style.display = 'none';
+    }
     document.getElementById('upload-icon').style.display = 'none';
     document.getElementById('upload-label').style.display = 'none';
     updateShareState();
@@ -130,10 +157,14 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
     const { data: urlData } = sb.storage.from('posts').getPublicUrl(path);
 
+    const taggedTechId = document.getElementById('tech-tag-select').value || null;
+
     const { data: post, error: postError } = await sb.from('posts').insert({
       user_id: session.user.id,
       image_url: urlData.publicUrl,
-      caption: document.getElementById('caption').value.trim()
+      caption: document.getElementById('caption').value.trim(),
+      location: document.getElementById('location-input').value.trim() || null,
+      tagged_tech_id: taggedTechId
     }).select().single();
 
     if (postError) {
@@ -151,6 +182,22 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     showToast('Posted to your nail history');
     setTimeout(function() { location.href = 'my-profile.html'; }, 500);
   }
+
+  async function loadTechs() {
+    const { data: techs } = await sb.from('profiles')
+      .select('id,display_name,username')
+      .eq('account_type', 'tech')
+      .eq('is_tech_active', true)
+      .order('display_name');
+    const select = document.getElementById('tech-tag-select');
+    (techs || []).forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t.id;
+      opt.textContent = t.display_name || t.username;
+      select.appendChild(opt);
+    });
+  }
+  loadTechs();
 
   requireAuth('login.html');
 </script>

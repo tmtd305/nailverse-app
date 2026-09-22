@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Post</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+  a:active,button:active{transform:scale(0.96);opacity:0.82;}
+  input{font-family:'Plus Jakarta Sans',sans-serif;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:14px 18px;display:flex;align-items:center;gap:14px;">
+    <a href="#" onclick="event.preventDefault();history.back()" style="width:32px;height:32px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <span style="font-size:14px;font-weight:800;">Post</span>
+  </div>
+
+  <div id="loading-state" style="flex:1;display:flex;align-items:center;justify-content:center;">
+    <span style="font-size:12.5px;color:#8B8B92;">Loading…</span>
+  </div>
+
+  <div id="post-content" style="display:none;flex:1;overflow-y:auto;">
+
+    <div id="media-frame" style="width:100%;aspect-ratio:1/1;background:#000;position:relative;"></div>
+
+    <div style="padding:14px 18px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <img id="author-avatar" src="images/ig-profile.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">
+        <a id="author-link" href="#" style="font-size:13.5px;font-weight:700;">—</a>
+      </div>
+
+      <p id="post-caption" style="margin:0 0 10px 0;font-size:13.5px;line-height:1.5;display:none;"></p>
+
+      <div id="post-hashtags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
+
+      <div id="post-location" style="display:none;align-items:center;gap:6px;font-size:12px;color:#8B8B92;margin-bottom:10px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span id="post-location-text">—</span>
+      </div>
+
+      <a id="tagged-tech-chip" href="#" style="display:none;align-items:center;gap:6px;background:#18181B;border:1px solid #232326;color:#fff;font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:100px;margin-bottom:14px;width:fit-content;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF3D94" stroke-width="2.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+        <span id="tagged-tech-name">—</span>
+      </a>
+
+      <div style="display:flex;align-items:center;gap:18px;padding:10px 0;border-top:1px solid #1E1E21;border-bottom:1px solid #1E1E21;margin-bottom:14px;">
+        <button id="like-btn" onclick="toggleLike()" style="all:unset;display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <svg id="like-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+          <span id="like-count" style="font-size:13px;font-weight:700;">0</span>
+        </button>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span id="comment-count" style="font-size:13px;font-weight:700;">0</span>
+        </div>
+        <button onclick="sharePost()" style="all:unset;cursor:pointer;">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 3.9M15.4 6.6l-6.8 3.9"/></svg>
+        </button>
+      </div>
+
+      <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">COMMENTS</span>
+      <div id="comments-list" style="margin-top:10px;display:flex;flex-direction:column;gap:14px;"></div>
+      <p id="comments-empty" style="display:none;margin:10px 0;font-size:12px;color:#5A5A60;">No comments yet — be the first.</p>
+
+    </div>
+
+  </div>
+
+  <div id="comment-bar" style="display:none;flex-shrink:0;padding:10px 18px;padding-bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;border-top:1px solid #1E1E21;">
+    <input id="comment-input" placeholder="Add a comment..." style="flex:1;background:#18181B;border:1.5px solid #232326;border-radius:100px;padding:10px 16px;color:#fff;font-size:12.5px;outline:none;">
+    <button onclick="submitComment()" style="all:unset;color:#FF3D94;font-size:13px;font-weight:800;cursor:pointer;padding:0 4px;">Post</button>
+  </div>
+
+</div>
+<script>
+  const postId = new URLSearchParams(location.search).get('id');
+  let myId = null;
+  let liked = false;
+
+  function isVideoUrl(url){
+    return /\.(mp4|mov|webm|m4v)(\?|$)/i.test(url);
+  }
+
+  function timeAgo(iso){
+    const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+    if(s < 60) return 'just now';
+    const m = Math.floor(s / 60);
+    if(m < 60) return m + 'm';
+    const h = Math.floor(m / 60);
+    if(h < 24) return h + 'h';
+    const d = Math.floor(h / 24);
+    return d + 'd';
+  }
+
+  function renderComment(c){
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:10px;';
+    const author = c.author || {};
+    row.innerHTML =
+      '<img src="' + (author.avatar_url || 'images/ig-profile.jpg') + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;">' +
+      '<div>' +
+        '<div style="font-size:12.5px;"><span style="font-weight:700;">' + (author.display_name || author.username || 'User') + '</span> ' +
+        '<span style="color:#C9C9CF;">' + c.body.replace(/</g,'&lt;') + '</span></div>' +
+        '<div style="font-size:10.5px;color:#5A5A60;margin-top:2px;">' + timeAgo(c.created_at) + '</div>' +
+      '</div>';
+    return row;
+  }
+
+  async function loadComments(){
+    const { data: comments } = await sb.from('post_comments')
+      .select('*, author:profiles!post_comments_user_id_fkey(username,display_name,avatar_url)')
+      .eq('post_id', postId)
+      .order('created_at', { ascending: true });
+
+    document.getElementById('comment-count').textContent = (comments || []).length;
+    const list = document.getElementById('comments-list');
+    list.innerHTML = '';
+    if(!comments || comments.length === 0){
+      document.getElementById('comments-empty').style.display = 'block';
+    } else {
+      document.getElementById('comments-empty').style.display = 'none';
+      comments.forEach(c => list.appendChild(renderComment(c)));
+    }
+  }
+
+  async function submitComment(){
+    const input = document.getElementById('comment-input');
+    const body = input.value.trim();
+    if(!body) return;
+    const session = await requireAuth('login.html');
+    if(!session) return;
+
+    const { error } = await sb.from('post_comments').insert({
+      post_id: postId,
+      user_id: session.user.id,
+      body
+    });
+
+    if(error){
+      showToast('Could not post comment: ' + error.message);
+      return;
+    }
+
+    input.value = '';
+    loadComments();
+  }
+
+  async function loadLikes(){
+    const [{ count }, mineRes] = await Promise.all([
+      sb.from('post_likes').select('*', { count: 'exact', head: true }).eq('post_id', postId),
+      myId ? sb.from('post_likes').select('post_id').eq('post_id', postId).eq('user_id', myId).maybeSingle() : Promise.resolve({ data: null })
+    ]);
+    document.getElementById('like-count').textContent = count || 0;
+    liked = !!(mineRes && mineRes.data);
+    updateLikeIcon();
+  }
+
+  function updateLikeIcon(){
+    const icon = document.getElementById('like-icon');
+    icon.setAttribute('fill', liked ? '#FF3D94' : 'none');
+    icon.setAttribute('stroke', liked ? '#FF3D94' : '#fff');
+  }
+
+  async function toggleLike(){
+    const session = await requireAuth('login.html');
+    if(!session) return;
+    myId = session.user.id;
+
+    if(liked){
+      await sb.from('post_likes').delete().eq('post_id', postId).eq('user_id', myId);
+    } else {
+      await sb.from('post_likes').insert({ post_id: postId, user_id: myId });
+    }
+    loadLikes();
+  }
+
+  async function sharePost(){
+    const url = location.href;
+    if(navigator.share){
+      try { await navigator.share({ url }); } catch(e) {}
+    } else {
+      await navigator.clipboard.writeText(url);
+      showToast('Link copied');
+    }
+  }
+
+  async function init(){
+    if(!postId){
+      document.getElementById('loading-state').textContent = 'No post specified.';
+      return;
+    }
+
+    const session = await getSession();
+    if(session) myId = session.user.id;
+
+    const { data: post } = await sb.from('posts')
+      .select('*, author:profiles!posts_user_id_fkey(username,display_name,avatar_url,account_type), tagged_tech:profiles!posts_tagged_tech_id_fkey(username,display_name)')
+      .eq('id', postId).single();
+
+    if(!post){
+      document.getElementById('loading-state').textContent = 'Post not found.';
+      return;
+    }
+
+    const media = document.getElementById('media-frame');
+    if(isVideoUrl(post.image_url)){
+      media.style.aspectRatio = '9/16';
+      media.innerHTML = '<video src="' + post.image_url + '" controls playsinline style="width:100%;height:100%;object-fit:cover;"></video>';
+    } else {
+      media.style.aspectRatio = '1/1';
+      media.innerHTML = '<img src="' + post.image_url + '" style="width:100%;height:100%;object-fit:cover;">';
+    }
+
+    const author = post.author || {};
+    document.getElementById('author-avatar').src = author.avatar_url || 'images/ig-profile.jpg';
+    const authorLink = document.getElementById('author-link');
+    authorLink.textContent = author.display_name || author.username || 'User';
+    if(author.account_type === 'tech' && author.username){
+      authorLink.href = 'profile.html?u=' + encodeURIComponent(author.username);
+    } else {
+      authorLink.removeAttribute('href');
+      authorLink.style.cursor = 'default';
+    }
+
+    if(post.caption){
+      document.getElementById('post-caption').textContent = post.caption;
+      document.getElementById('post-caption').style.display = 'block';
+    }
+
+    if(post.location){
+      document.getElementById('post-location-text').textContent = post.location;
+      document.getElementById('post-location').style.display = 'flex';
+    }
+
+    if(post.tagged_tech && post.tagged_tech.username){
+      document.getElementById('tagged-tech-name').textContent = 'With ' + (post.tagged_tech.display_name || post.tagged_tech.username);
+      const chip = document.getElementById('tagged-tech-chip');
+      chip.href = 'profile.html?u=' + encodeURIComponent(post.tagged_tech.username);
+      chip.style.display = 'flex';
+    }
+
+    const { data: hashtags } = await sb.from('post_hashtags').select('tag').eq('post_id', postId);
+    const tagsEl = document.getElementById('post-hashtags');
+    (hashtags || []).forEach(h => {
+      const a = document.createElement('a');
+      a.href = 'hashtag.html?tag=' + encodeURIComponent(h.tag);
+      a.style.cssText = 'color:#FF3D94;font-size:12.5px;font-weight:600;';
+      a.textContent = '#' + h.tag;
+      tagsEl.appendChild(a);
+    });
+
+    document.getElementById('loading-state').style.display = 'none';
+    document.getElementById('post-content').style.display = 'block';
+    document.getElementById('comment-bar').style.display = 'flex';
+
+    loadLikes();
+    loadComments();
+  }
+
+  init();
+</script>
+</body>
+</html>
