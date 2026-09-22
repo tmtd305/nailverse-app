@@ -32,29 +32,58 @@
   .cluster-bubble{width:42px;height:42px;border-radius:50%;background:#18181B;border:1.5px solid #2A2A2E;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,0.45);transition:transform .18s ease;}
   .cluster-bubble:active{transform:scale(0.92);}
 
-  #sheet{transition:transform .32s cubic-bezier(.2,.8,.2,1);}
+  #sheet{position:absolute;left:0;right:0;bottom:60px;background:#16161A;border-radius:22px 22px 0 0;box-shadow:0 -14px 34px rgba(0,0,0,0.4);border-top:1px solid #232326;z-index:6;display:flex;flex-direction:column;overflow:hidden;transition:transform .32s cubic-bezier(.2,.8,.2,1);touch-action:none;}
+  #sheet.dragging{transition:none;}
+  .sheet-handle{flex-shrink:0;padding:10px 0 8px 0;cursor:grab;}
+  .sheet-handle-bar{width:36px;height:4px;border-radius:3px;background:#333338;margin:0 auto;}
+  .sheet-top{flex-shrink:0;padding:0 18px 10px 18px;}
+  .sheet-scroll{flex:1;overflow-y:auto;padding:0 18px 18px 18px;}
+
+  .result-row{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #1E1E21;cursor:pointer;}
+  .result-row:last-child{border-bottom:none;}
+  .result-avatar{width:50px;height:50px;border-radius:14px;object-fit:cover;flex-shrink:0;background:#18181B;}
+  .result-tag{background:#232326;color:#A9A9B0;font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;}
+  .status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+  .search-area-btn{display:none;align-items:center;gap:6px;background:#FF3D94;color:#fff;font-size:12px;font-weight:800;padding:8px 14px;border-radius:100px;margin:0 auto 10px auto;box-shadow:0 8px 18px rgba(255,61,148,0.4);cursor:pointer;}
+
+  .spec-pill{background:#232326;color:#C9C9CF;font-size:11px;font-weight:600;padding:5px 11px;border-radius:100px;}
+
+  .rate-chip,.dist-chip{background:#1E1E21;border:1.5px solid #2A2A2E;color:#C9C9CF;font-size:12px;font-weight:700;padding:8px 14px;border-radius:100px;cursor:pointer;flex-shrink:0;}
+  .rate-chip.on,.dist-chip.on{background:#FF3D94;border-color:#FF3D94;color:#fff;}
+
+  .toggle-switch{width:42px;height:24px;border-radius:100px;background:#2A2A2E;position:relative;cursor:pointer;flex-shrink:0;transition:background .2s ease;}
+  .toggle-switch .knob{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:transform .2s ease;}
+  .toggle-switch.on{background:#FF3D94;}
+  .toggle-switch.on .knob{transform:translateX(18px);}
+
+  #filters-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity .2s;z-index:19;}
+  #filters-backdrop.open{opacity:1;pointer-events:auto;}
+  #filters-modal{position:fixed;left:50%;bottom:0;transform:translate(-50%,100%);width:100%;max-width:430px;background:#16161A;border-radius:22px 22px 0 0;z-index:20;transition:transform .3s cubic-bezier(.2,.8,.2,1);max-height:82vh;display:flex;flex-direction:column;}
+  #filters-modal.open{transform:translate(-50%,0);}
 </style>
 </head>
 <body>
-<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+<div class="app" style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
 
   <div style="position:absolute;top:0;left:0;right:0;z-index:5;padding:16px 16px 10px 16px;">
     <div style="display:flex;align-items:center;gap:8px;">
       <button onclick="showToast('Search coming soon')" style="all:unset;flex:1;display:flex;align-items:center;gap:8px;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;cursor:pointer;box-sizing:border-box;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9A9B0" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <span id="search-label" style="font-size:13px;font-weight:600;flex:1;color:#fff;">Miami, FL</span>
+        <span style="font-size:13px;font-weight:600;flex:1;color:#fff;">Miami, FL</span>
       </button>
-      <button onclick="showToast('Advanced filters coming soon')" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;box-sizing:border-box;">
+      <button onclick="openFilters()" style="all:unset;position:relative;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;box-sizing:border-box;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
         <span style="font-size:12px;font-weight:700;color:#fff;">Filters</span>
+        <span id="filter-badge" style="display:none;position:absolute;top:-4px;right:-4px;width:9px;height:9px;border-radius:50%;background:#FF3D94;border:2px solid #0A0A0B;"></span>
       </button>
     </div>
     <div id="map-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
-      <button onclick="setFilter('all',this)" data-active="true" style="all:unset;background:#FF3D94;color:#fff;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">All</button>
-      <button onclick="setFilter('tech',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nail Techs</button>
-      <button onclick="setFilter('salon',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Salons</button>
-      <button onclick="setFilter('available',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Available Now</button>
-      <button onclick="setFilter('nearby',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nearby</button>
+      <button onclick="setCategory('all',this)" style="all:unset;background:#FF3D94;color:#fff;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">All</button>
+      <button onclick="setCategory('tech',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nail Techs</button>
+      <button onclick="setCategory('salon',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Salons</button>
+      <button onclick="setCategory('available',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Available Now</button>
+      <button onclick="setCategory('nearby',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nearby</button>
     </div>
   </div>
 
@@ -67,30 +96,56 @@
     </button>
   </div>
 
-  <div id="sheet" style="flex-shrink:0;background:#16161A;border-radius:24px 24px 0 0;padding:10px 18px 16px 18px;box-shadow:0 -14px 34px rgba(0,0,0,0.4);border-top:1px solid #232326;">
-    <div style="width:36px;height:4px;border-radius:3px;background:#333338;margin:0 auto 14px auto;"></div>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <div style="position:relative;flex-shrink:0;">
-        <img id="card-avatar" src="images/ig-profile.jpg" style="width:52px;height:52px;border-radius:16px;object-fit:cover;">
-        <span id="card-dot" style="position:absolute;bottom:-2px;right:-2px;width:13px;height:13px;border-radius:50%;background:#4ADE80;border:2.5px solid #16161A;"></span>
-      </div>
-      <div style="flex:1;min-width:0;">
-        <div style="display:flex;align-items:center;gap:4px;">
-          <span id="card-name" style="font-size:15px;font-weight:800;">2Cute Nails</span>
-          <svg id="card-verified" width="12" height="12" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>
+  <div id="sheet">
+    <div class="sheet-handle" id="sheet-handle"><div class="sheet-handle-bar"></div></div>
+
+    <div class="sheet-top">
+      <div id="top-list">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span id="results-count" style="font-size:13.5px;font-weight:800;">6 results</span>
         </div>
-        <div id="card-meta" style="font-size:11.5px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF3D94;">★</span> 5.0 (328) · 0.8 mi</div>
-        <div id="card-avail" style="font-size:11px;color:#4ADE80;font-weight:600;">Available now</div>
+        <div id="search-area-btn" class="search-area-btn" onclick="searchThisArea()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Search this area
+        </div>
+      </div>
+      <div id="top-detail" style="display:none;align-items:center;gap:10px;">
+        <button onclick="backToList()" style="all:unset;width:28px;height:28px;border-radius:50%;background:#232326;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span style="font-size:13.5px;font-weight:800;color:#A9A9B0;">Back to results</span>
       </div>
     </div>
-    <div id="card-specialties" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;"></div>
-    <div style="display:flex;gap:8px;margin-top:14px;">
-      <a href="profile.html" style="flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;">View Profile</a>
-      <a href="service.html" style="flex:1;text-align:center;background:#FF3D94;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.45);">Book Now</a>
+
+    <div class="sheet-scroll">
+      <div id="list-body"></div>
+
+      <div id="detail-body" style="display:none;">
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div style="position:relative;flex-shrink:0;">
+            <img id="card-avatar" src="images/ig-profile.jpg" style="width:56px;height:56px;border-radius:16px;object-fit:cover;">
+            <span id="card-dot" style="position:absolute;bottom:-2px;right:-2px;width:13px;height:13px;border-radius:50%;background:#4ADE80;border:2.5px solid #16161A;"></span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:4px;">
+              <span id="card-name" style="font-size:15.5px;font-weight:800;">2Cute Nails</span>
+              <svg id="card-verified" width="12" height="12" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>
+            </div>
+            <div id="card-meta" style="font-size:11.5px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF3D94;">★</span> 5.0 (328) · 0.8 mi</div>
+            <div id="card-avail" style="font-size:11px;color:#4ADE80;font-weight:600;">Open now · Available today</div>
+          </div>
+        </div>
+        <div id="card-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;"></div>
+        <div id="card-photos" style="display:flex;gap:8px;margin-top:12px;"></div>
+        <div style="display:flex;gap:8px;margin-top:14px;">
+          <a href="profile.html" style="flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;">View Profile</a>
+          <a href="service.html" style="flex:1;text-align:center;background:#FF3D94;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.45);">Book Now</a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div style="flex-shrink:0;height:60px;display:flex;align-items:center;justify-content:space-around;background:#0A0A0B;border-top:1px solid #1C1C1F;">
+  <div style="flex-shrink:0;height:60px;display:flex;align-items:center;justify-content:space-around;background:#0A0A0B;border-top:1px solid #1C1C1F;position:relative;z-index:7;">
     <a href="home.html" style="all:unset;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;cursor:pointer;">
       <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#77777E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
     </a>
@@ -109,22 +164,75 @@
   </div>
 
 </div>
+
+<div id="filters-backdrop" onclick="closeFilters()"></div>
+<div id="filters-modal">
+  <div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #1E1E21;">
+    <span style="font-size:15px;font-weight:800;">Filters</span>
+    <button onclick="closeFilters()" style="all:unset;width:28px;height:28px;border-radius:50%;background:#232326;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:18px;">
+    <span style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#5A5A60;">MINIMUM RATING</span>
+    <div id="rate-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
+      <div class="rate-chip on" data-val="0" onclick="pickRating(this)">Any</div>
+      <div class="rate-chip" data-val="4.0" onclick="pickRating(this)">4.0+</div>
+      <div class="rate-chip" data-val="4.5" onclick="pickRating(this)">4.5+</div>
+      <div class="rate-chip" data-val="4.8" onclick="pickRating(this)">4.8+</div>
+    </div>
+
+    <span style="display:block;margin-top:22px;font-size:11px;font-weight:700;letter-spacing:0.05em;color:#5A5A60;">DISTANCE</span>
+    <div id="dist-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
+      <div class="dist-chip on" data-val="Infinity" onclick="pickDistance(this)">Any</div>
+      <div class="dist-chip" data-val="0.5" onclick="pickDistance(this)">0.5 mi</div>
+      <div class="dist-chip" data-val="1" onclick="pickDistance(this)">1 mi</div>
+      <div class="dist-chip" data-val="2" onclick="pickDistance(this)">2 mi</div>
+      <div class="dist-chip" data-val="5" onclick="pickDistance(this)">5 mi</div>
+    </div>
+
+    <div style="height:1px;background:#1E1E21;margin:22px 0;"></div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;">
+      <div>
+        <div style="font-size:13.5px;font-weight:700;">Open Now</div>
+        <div style="font-size:11px;color:#8B8B92;margin-top:2px;">Currently open for walk-ins</div>
+      </div>
+      <div id="toggle-open" class="toggle-switch" onclick="toggleSwitch(this,'openNow')"><div class="knob"></div></div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0 4px 0;">
+      <div>
+        <div style="font-size:13.5px;font-weight:700;">Available Today</div>
+        <div style="font-size:11px;color:#8B8B92;margin-top:2px;">Has an open slot today</div>
+      </div>
+      <div id="toggle-avail" class="toggle-switch" onclick="toggleSwitch(this,'availableToday')"><div class="knob"></div></div>
+    </div>
+  </div>
+  <div style="flex-shrink:0;padding:12px 18px 24px 18px;display:flex;gap:10px;border-top:1px solid #1E1E21;">
+    <button onclick="resetFilters()" style="all:unset;flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:13px 0;border-radius:12px;cursor:pointer;">Reset</button>
+    <button onclick="applyFilters()" style="all:unset;flex:2;text-align:center;background:#FF3D94;color:#fff;font-size:13.5px;font-weight:800;padding:13px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.4);cursor:pointer;">Show Results</button>
+  </div>
+</div>
+
 <script>
   // ---- data ----
   const techs = [
-    {id:'t1', name:'2Cute Nails', type:'tech', verified:true, avatar:'images/ig-profile.jpg', rating:'5.0', reviews:328, available:true, specialties:['Acrylic','Chrome'], lng:-80.1300, lat:25.7907},
-    {id:'t2', name:'Miami Nail Bar', type:'salon', verified:true, avatar:'images/n2.jpg', rating:'4.8', reviews:214, available:true, specialties:['Gel','Dip Powder'], lng:-80.1918, lat:25.8010},
-    {id:'t3', name:'Gloss by Bri', type:'tech', verified:false, avatar:'images/n1.jpg', rating:'4.9', reviews:97, available:false, specialties:['Nail Art','Custom'], lng:-80.1367, lat:25.7742},
-    {id:'t4', name:'Art by Zo', type:'tech', verified:true, avatar:'images/n3.jpg', rating:'4.7', reviews:152, available:true, specialties:['Almond','French'], lng:-80.1550, lat:25.7650},
-    {id:'t5', name:'Wynwood Nail Studio', type:'salon', verified:true, avatar:'images/ig-post1.jpg', rating:'4.6', reviews:189, available:false, specialties:['Pedicure','Gel'], lng:-80.1994, lat:25.8050},
-    {id:'t6', name:'Brickell Polish Co.', type:'salon', verified:true, avatar:'images/ig-post4.jpg', rating:'4.9', reviews:301, available:true, specialties:['Acrylic','Nail Art'], lng:-80.1917, lat:25.7650}
+    {id:'t1', name:'2Cute Nails', type:'tech', verified:true, avatar:'images/ig-profile.jpg', rating:5.0, reviews:328, openNow:true, availableToday:true, tags:['Acrylic','Chrome'], lng:-80.1300, lat:25.7907, photos:['images/ig-post1.jpg','images/ig-post2.jpg']},
+    {id:'t2', name:'Miami Nail Bar', type:'salon', verified:true, avatar:'images/n2.jpg', rating:4.8, reviews:214, openNow:true, availableToday:true, tags:['Gel','Dip Powder'], lng:-80.1918, lat:25.8010, photos:['images/ig-post4.jpg','images/ig-post5.jpg']},
+    {id:'t3', name:'Gloss by Bri', type:'tech', verified:false, avatar:'images/n1.jpg', rating:4.9, reviews:97, openNow:false, availableToday:false, tags:['Nail Art','Custom'], lng:-80.1367, lat:25.7742, photos:['images/ig-post7.jpg','images/ig-post8.jpg']},
+    {id:'t4', name:'Art by Zo', type:'tech', verified:true, avatar:'images/n3.jpg', rating:4.7, reviews:152, openNow:true, availableToday:true, tags:['Almond','French'], lng:-80.1550, lat:25.7650, photos:['images/ig-post10.jpg','images/ig-post11.jpg']},
+    {id:'t5', name:'Wynwood Nail Studio', type:'salon', verified:true, avatar:'images/ig-post1.jpg', rating:4.6, reviews:189, openNow:false, availableToday:false, tags:['Pedicure','Gel'], lng:-80.1994, lat:25.8050, photos:['images/ig-post9.jpg','images/ig-post6.jpg']},
+    {id:'t6', name:'Brickell Polish Co.', type:'salon', verified:true, avatar:'images/ig-post4.jpg', rating:4.9, reviews:301, openNow:true, availableToday:true, tags:['Acrylic','Nail Art'], lng:-80.1917, lat:25.7650, photos:['images/ig-post3.jpg','images/ig-post1.jpg']}
   ];
 
   const MIAMI_CENTER = {lng:-80.1500, lat:25.7900};
   let userLoc = {...MIAMI_CENTER};
-  let activeFilter = 'all';
   let activeId = null;
   let pitched = false;
+  let sheetMode = 'list'; // 'list' | 'detail'
+
+  const filters = { category:'all', minRating:0, maxDistance:Infinity, openNow:false, availableToday:false };
 
   function distMiles(lat1,lng1,lat2,lng2){
     const R=3958.8;
@@ -134,18 +242,24 @@
     return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
   }
 
-  function filteredTechs(){
-    return techs.filter(t=>{
-      if(activeFilter==='tech') return t.type==='tech';
-      if(activeFilter==='salon') return t.type==='salon';
-      if(activeFilter==='available') return t.available;
-      if(activeFilter==='nearby') return distMiles(userLoc.lat,userLoc.lng,t.lat,t.lng) <= 2;
-      return true;
-    });
+  function matchesFilters(t){
+    if(filters.category==='tech' && t.type!=='tech') return false;
+    if(filters.category==='salon' && t.type!=='salon') return false;
+    if(filters.category==='available' && !t.availableToday) return false;
+    if(filters.category==='nearby' && distMiles(userLoc.lat,userLoc.lng,t.lat,t.lng) > 2) return false;
+    if(t.rating < filters.minRating) return false;
+    if(filters.maxDistance !== Infinity && distMiles(userLoc.lat,userLoc.lng,t.lat,t.lng) > filters.maxDistance) return false;
+    if(filters.openNow && !t.openNow) return false;
+    if(filters.availableToday && !t.availableToday) return false;
+    return true;
   }
 
-  function setFilter(key, el){
-    activeFilter = key;
+  function filteredTechs(){
+    return techs.filter(matchesFilters);
+  }
+
+  function setCategory(key, el){
+    filters.category = key;
     document.querySelectorAll('#map-chips button').forEach(b=>{
       b.style.background='rgba(24,24,27,0.92)';
       b.style.color='#A9A9B0';
@@ -154,6 +268,7 @@
     el.style.color='#fff';
     rebuildIndex();
     renderMarkers();
+    refreshList();
   }
 
   // ---- dark restyle of the free OpenFreeMap "liberty" vector style ----
@@ -214,11 +329,14 @@
     map.touchZoomRotate.disableRotation();
 
     map.on('load', ()=>{
+      const bounds = techs.reduce((b,t)=>b.extend([t.lng,t.lat]), new maplibregl.LngLatBounds([techs[0].lng,techs[0].lat],[techs[0].lng,techs[0].lat]));
+      map.fitBounds(bounds, {padding:{top:120,bottom:340,left:50,right:50}, duration:0});
       rebuildIndex();
       renderMarkers();
-      if(techs[0]) selectTech(techs[0].id);
+      refreshList();
+      layoutSheet();
     });
-    map.on('moveend', renderMarkers);
+    map.on('moveend', ()=>{ renderMarkers(); checkSearchArea(); });
   }
 
   initMap();
@@ -243,7 +361,7 @@
   }
 
   function renderMarkers(){
-    if(!index) return;
+    if(!index || !map) return;
     const b = map.getBounds();
     const bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()];
     const zoom = Math.floor(map.getZoom());
@@ -275,13 +393,13 @@
           img.src = f.properties.avatar;
           img.loading = 'lazy';
           wrap.appendChild(img);
-          if(f.properties.available){
+          if(f.properties.availableToday){
             const dot = document.createElement('span');
             dot.className = 'pin-avail';
             wrap.appendChild(dot);
           }
           el.appendChild(wrap);
-          el.onclick = () => selectTech(f.properties.id);
+          el.onclick = () => openDetail(f.properties.id, false);
         }
         marker = new maplibregl.Marker({element:el, anchor:'center'}).setLngLat([lng,lat]).addTo(map);
         markerPool.set(key, marker);
@@ -308,33 +426,225 @@
     });
   }
 
-  // ---- bottom sheet ----
-  function selectTech(id){
+  // ---- results list (syncs with map viewport) ----
+  let lastListIds = null;
+
+  function inBounds(t){
+    const b = map.getBounds();
+    return t.lng >= b.getWest() && t.lng <= b.getEast() && t.lat >= b.getSouth() && t.lat <= b.getNorth();
+  }
+
+  function visibleResults(){
+    return techs.filter(matchesFilters).filter(inBounds)
+      .sort((a,b)=>distMiles(userLoc.lat,userLoc.lng,a.lat,a.lng) - distMiles(userLoc.lat,userLoc.lng,b.lat,b.lng));
+  }
+
+  function renderRow(t){
+    const row = document.createElement('div');
+    row.className = 'result-row';
+    row.onclick = () => openDetail(t.id, true);
+    const d = distMiles(userLoc.lat, userLoc.lng, t.lat, t.lng).toFixed(1);
+    row.innerHTML =
+      '<img class="result-avatar" src="' + t.avatar + '" loading="lazy">' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div style="display:flex;align-items:center;gap:4px;">' +
+          '<span style="font-size:13.5px;font-weight:700;">' + t.name + '</span>' +
+          (t.verified ? '<svg width="11" height="11" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>' : '') +
+        '</div>' +
+        '<div style="font-size:11px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF3D94;">★</span> ' + t.rating.toFixed(1) + ' (' + t.reviews + ') · ' + d + ' mi</div>' +
+        '<div style="display:flex;gap:5px;margin-top:5px;">' + t.tags.map(s=>'<span class="result-tag">'+s+'</span>').join('') + '</div>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">' +
+        '<span class="status-dot" style="background:' + (t.openNow ? '#4ADE80' : '#5A5A60') + ';"></span>' +
+        '<span style="font-size:9.5px;color:' + (t.openNow ? '#4ADE80' : '#8B8B92') + ';font-weight:700;white-space:nowrap;">' + (t.openNow ? 'Open' : 'Closed') + '</span>' +
+      '</div>';
+    return row;
+  }
+
+  function renderList(results){
+    const body = document.getElementById('list-body');
+    body.innerHTML = '';
+    if(results.length === 0){
+      body.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#8B8B92;font-size:12.5px;">No results in this area. Try adjusting filters or panning the map.</div>';
+    } else {
+      results.forEach(t => body.appendChild(renderRow(t)));
+    }
+    document.getElementById('results-count').textContent = results.length + (results.length===1 ? ' result' : ' results');
+    lastListIds = new Set(results.map(t=>t.id));
+    document.getElementById('search-area-btn').style.display = 'none';
+  }
+
+  function refreshList(){
+    if(!map) return;
+    renderList(visibleResults());
+  }
+
+  function checkSearchArea(){
+    if(!map || lastListIds === null) return;
+    const current = visibleResults();
+    const currentIds = new Set(current.map(t=>t.id));
+    let changed = currentIds.size !== lastListIds.size;
+    if(!changed){
+      for(const id of currentIds){ if(!lastListIds.has(id)){ changed = true; break; } }
+    }
+    document.getElementById('search-area-btn').style.display = changed ? 'flex' : 'none';
+  }
+
+  function searchThisArea(){
+    renderList(visibleResults());
+  }
+
+  // ---- detail / list toggle ----
+  function openDetail(id, flyTo){
     activeId = id;
     const t = techs.find(x=>x.id===id);
     if(!t) return;
+
     document.getElementById('card-avatar').src = t.avatar;
     document.getElementById('card-name').textContent = t.name;
     document.getElementById('card-verified').style.display = t.verified ? 'block' : 'none';
     const d = distMiles(userLoc.lat, userLoc.lng, t.lat, t.lng).toFixed(1);
-    document.getElementById('card-meta').innerHTML = '<span style="color:#FF3D94;">★</span> ' + t.rating + ' (' + t.reviews + ') · ' + d + ' mi';
-    document.getElementById('card-avail').textContent = t.available ? 'Available now' : 'Booked until tomorrow';
-    document.getElementById('card-avail').style.color = t.available ? '#4ADE80' : '#8B8B92';
-    document.getElementById('card-dot').style.background = t.available ? '#4ADE80' : '#5A5A60';
+    document.getElementById('card-meta').innerHTML = '<span style="color:#FF3D94;">★</span> ' + t.rating.toFixed(1) + ' (' + t.reviews + ') · ' + d + ' mi';
+    const availText = (t.openNow ? 'Open now' : 'Closed now') + ' · ' + (t.availableToday ? 'Available today' : 'Booked today');
+    document.getElementById('card-avail').textContent = availText;
+    document.getElementById('card-avail').style.color = t.openNow ? '#4ADE80' : '#8B8B92';
+    document.getElementById('card-dot').style.background = t.openNow ? '#4ADE80' : '#5A5A60';
 
-    const specWrap = document.getElementById('card-specialties');
-    specWrap.innerHTML = '';
-    t.specialties.forEach(s=>{
+    const tagWrap = document.getElementById('card-tags');
+    tagWrap.innerHTML = '';
+    t.tags.forEach(s=>{
       const pill = document.createElement('span');
-      pill.style.cssText = 'background:#232326;color:#C9C9CF;font-size:11px;font-weight:600;padding:5px 11px;border-radius:100px;';
+      pill.className = 'spec-pill';
       pill.textContent = s;
-      specWrap.appendChild(pill);
+      tagWrap.appendChild(pill);
     });
 
-    const sheet = document.getElementById('sheet');
-    sheet.style.transform = 'translateY(6px)';
-    setTimeout(()=>{ sheet.style.transform = 'translateY(0)'; }, 20);
+    const photoWrap = document.getElementById('card-photos');
+    photoWrap.innerHTML = '';
+    t.photos.forEach(p=>{
+      const img = document.createElement('img');
+      img.src = p; img.loading = 'lazy';
+      img.style.cssText = 'flex:1;height:96px;border-radius:12px;object-fit:cover;';
+      photoWrap.appendChild(img);
+    });
+
+    sheetMode = 'detail';
+    document.getElementById('top-list').style.display = 'none';
+    document.getElementById('top-detail').style.display = 'flex';
+    document.getElementById('list-body').style.display = 'none';
+    document.getElementById('detail-body').style.display = 'block';
+
+    if(flyTo) map.easeTo({center:[t.lng, t.lat], duration:500});
     updatePinSelection();
+  }
+
+  function backToList(){
+    sheetMode = 'list';
+    activeId = null;
+    document.getElementById('top-list').style.display = 'block';
+    document.getElementById('top-detail').style.display = 'none';
+    document.getElementById('list-body').style.display = 'block';
+    document.getElementById('detail-body').style.display = 'none';
+    updatePinSelection();
+  }
+
+  // ---- draggable sheet (peek / expanded) ----
+  const PEEK = 320;
+  let sheetHeight = 0, peekTranslate = 0, sheetState = 'peek';
+  let dragStartY = 0, dragStartTranslate = 0, dragging = false;
+
+  function layoutSheet(){
+    const appEl = document.querySelector('.app');
+    const appH = appEl.clientHeight;
+    const navH = 60, topGap = 96;
+    sheetHeight = Math.max(320, appH - navH - topGap);
+    const sheetEl = document.getElementById('sheet');
+    sheetEl.style.height = sheetHeight + 'px';
+    peekTranslate = Math.max(0, sheetHeight - PEEK);
+    applySheetState();
+  }
+
+  function applySheetState(){
+    const sheetEl = document.getElementById('sheet');
+    sheetEl.style.transform = 'translateY(' + (sheetState === 'peek' ? peekTranslate : 0) + 'px)';
+  }
+
+  function onDragStart(clientY){
+    dragging = true;
+    dragStartY = clientY;
+    dragStartTranslate = sheetState === 'peek' ? peekTranslate : 0;
+    document.getElementById('sheet').classList.add('dragging');
+  }
+  function onDragMove(clientY){
+    if(!dragging) return;
+    const delta = clientY - dragStartY;
+    const next = Math.min(peekTranslate, Math.max(0, dragStartTranslate + delta));
+    document.getElementById('sheet').style.transform = 'translateY(' + next + 'px)';
+  }
+  function onDragEnd(clientY){
+    if(!dragging) return;
+    dragging = false;
+    document.getElementById('sheet').classList.remove('dragging');
+    const delta = clientY - dragStartY;
+    const next = Math.min(peekTranslate, Math.max(0, dragStartTranslate + delta));
+    sheetState = next > peekTranslate / 2 ? 'peek' : 'expanded';
+    applySheetState();
+  }
+
+  const handle = document.getElementById('sheet-handle');
+  handle.addEventListener('pointerdown', e => { handle.setPointerCapture(e.pointerId); onDragStart(e.clientY); });
+  handle.addEventListener('pointermove', e => onDragMove(e.clientY));
+  handle.addEventListener('pointerup', e => onDragEnd(e.clientY));
+  handle.addEventListener('pointercancel', e => onDragEnd(e.clientY));
+
+  window.addEventListener('resize', layoutSheet);
+
+  // ---- filters modal ----
+  let draftFilters = null;
+
+  function openFilters(){
+    draftFilters = {...filters};
+    document.querySelectorAll('#rate-chips .rate-chip').forEach(c=>c.classList.toggle('on', parseFloat(c.dataset.val)===draftFilters.minRating));
+    document.querySelectorAll('#dist-chips .dist-chip').forEach(c=>c.classList.toggle('on', parseFloat(c.dataset.val)===draftFilters.maxDistance || (c.dataset.val==='Infinity' && draftFilters.maxDistance===Infinity)));
+    document.getElementById('toggle-open').classList.toggle('on', draftFilters.openNow);
+    document.getElementById('toggle-avail').classList.toggle('on', draftFilters.availableToday);
+    document.getElementById('filters-backdrop').classList.add('open');
+    document.getElementById('filters-modal').classList.add('open');
+  }
+  function closeFilters(){
+    document.getElementById('filters-backdrop').classList.remove('open');
+    document.getElementById('filters-modal').classList.remove('open');
+  }
+  function pickRating(el){
+    document.querySelectorAll('#rate-chips .rate-chip').forEach(c=>c.classList.remove('on'));
+    el.classList.add('on');
+    draftFilters.minRating = parseFloat(el.dataset.val);
+  }
+  function pickDistance(el){
+    document.querySelectorAll('#dist-chips .dist-chip').forEach(c=>c.classList.remove('on'));
+    el.classList.add('on');
+    draftFilters.maxDistance = el.dataset.val === 'Infinity' ? Infinity : parseFloat(el.dataset.val);
+  }
+  function toggleSwitch(el, key){
+    const on = !el.classList.contains('on');
+    el.classList.toggle('on', on);
+    draftFilters[key] = on;
+  }
+  function applyFilters(){
+    Object.assign(filters, draftFilters);
+    const badge = document.getElementById('filter-badge');
+    badge.style.display = (filters.minRating>0 || filters.maxDistance!==Infinity || filters.openNow || filters.availableToday) ? 'block' : 'none';
+    closeFilters();
+    rebuildIndex();
+    renderMarkers();
+    refreshList();
+  }
+  function resetFilters(){
+    draftFilters = {category:filters.category, minRating:0, maxDistance:Infinity, openNow:false, availableToday:false};
+    document.querySelectorAll('#rate-chips .rate-chip').forEach(c=>c.classList.toggle('on', c.dataset.val==='0'));
+    document.querySelectorAll('#dist-chips .dist-chip').forEach(c=>c.classList.toggle('on', c.dataset.val==='Infinity'));
+    document.getElementById('toggle-open').classList.remove('on');
+    document.getElementById('toggle-avail').classList.remove('on');
   }
 
   // ---- controls ----
@@ -366,7 +676,7 @@
       pos=>{
         userLoc = {lat:pos.coords.latitude, lng:pos.coords.longitude};
         map.easeTo({center:[userLoc.lng, userLoc.lat], zoom:13.5, duration:800});
-        if(activeId) selectTech(activeId);
+        if(activeId) openDetail(activeId, false);
         showToast('Centered on your location');
       },
       ()=>{ showToast('Location permission denied'); },
