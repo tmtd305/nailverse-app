@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-<title>Nailverse — Choose a Service</title>
+<title>Nailverse — Book Appointment</title>
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
@@ -12,11 +12,11 @@
   html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
   *{box-sizing:border-box;}
   a{text-decoration:none;color:inherit;}
-  .svc{background:#18181B;border:1.5px solid #232326;border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;}
-  .svc.on{border-color:#FF3D94;background:#1E1418;}
-  .svc .dot{width:19px;height:19px;border-radius:50%;border:2px solid #4A4A50;flex-shrink:0;position:relative;}
-  .svc.on .dot{border-color:#FF3D94;}
-  .svc.on .dot::after{content:'';position:absolute;inset:3px;border-radius:50%;background:#FF3D94;}
+  .date-chip{background:#18181B;border:1.5px solid #232326;border-radius:14px;padding:10px 6px;text-align:center;cursor:pointer;flex:1;}
+  .date-chip.on{background:#FF3D94;border-color:#FF3D94;}
+  .slot{background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:12px 0;text-align:center;font-size:13px;font-weight:700;cursor:pointer;}
+  .slot.on{background:#FF3D94;border-color:#FF3D94;}
+  .slot.off{opacity:0.35;pointer-events:none;}
 *{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
 a:active,button:active{transform:scale(0.96);opacity:0.82;}
@@ -27,56 +27,62 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
   <div style="flex-shrink:0;padding:18px 20px 6px 20px;">
     <a href="profile.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></a>
-    <div style="display:flex;align-items:center;gap:8px;margin-top:14px;">
-      <span style="font-size:11px;font-weight:700;color:#FF3D94;">STEP 1 OF 3</span>
-    </div>
-    <h1 style="font-size:22px;font-weight:800;margin:6px 0 4px 0;">Choose a Service</h1>
+    <span style="display:block;font-size:11px;font-weight:700;color:#FF3D94;margin-top:14px;">STEP 1 OF 2</span>
+    <h1 style="font-size:22px;font-weight:800;margin:6px 0 4px 0;">Book Appointment</h1>
     <p id="tech-sub" style="font-size:12.5px;color:#A9A9B0;margin:0;">With 2Cute Nails · Miami, FL</p>
   </div>
 
-  <div style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px;">
-    <div class="svc on" data-name="Full Set — Acrylic" data-duration="90 min" data-price="85" onclick="pick(this)">
-      <div class="dot"></div>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:700;">Full Set — Acrylic</div>
-        <div style="font-size:11.5px;color:#8B8B92;">90 min</div>
+  <div style="flex:1;overflow-y:auto;padding:16px 20px;">
+    <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">DATE</span>
+    <div style="display:flex;gap:8px;margin:10px 0 20px 0;">
+      <div class="date-chip on" data-date="Today, Sep 22" onclick="pickDate(this)">
+        <div style="font-size:11px;color:#A9A9B0;">TODAY</div>
+        <div style="font-size:15px;font-weight:800;">22</div>
       </div>
-      <div style="font-size:15px;font-weight:800;">$85</div>
+      <div class="date-chip" data-date="Wed, Sep 23" onclick="pickDate(this)">
+        <div style="font-size:11px;color:#A9A9B0;">WED</div>
+        <div style="font-size:15px;font-weight:800;">23</div>
+      </div>
+      <div class="date-chip" data-date="Thu, Sep 24" onclick="pickDate(this)">
+        <div style="font-size:11px;color:#A9A9B0;">THU</div>
+        <div style="font-size:15px;font-weight:800;">24</div>
+      </div>
+      <div class="date-chip" data-date="Fri, Sep 25" onclick="pickDate(this)">
+        <div style="font-size:11px;color:#A9A9B0;">FRI</div>
+        <div style="font-size:15px;font-weight:800;">25</div>
+      </div>
+      <div class="date-chip" data-date="Sat, Sep 26" onclick="pickDate(this)">
+        <div style="font-size:11px;color:#A9A9B0;">SAT</div>
+        <div style="font-size:15px;font-weight:800;">26</div>
+      </div>
     </div>
-    <div class="svc" data-name="Full Set — Gel-X" data-duration="75 min" data-price="95" onclick="pick(this)">
-      <div class="dot"></div>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:700;">Full Set — Gel-X</div>
-        <div style="font-size:11.5px;color:#8B8B92;">75 min</div>
-      </div>
-      <div style="font-size:15px;font-weight:800;">$95</div>
-    </div>
-    <div class="svc" data-name="Fill / Refill" data-duration="45 min" data-price="55" onclick="pick(this)">
-      <div class="dot"></div>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:700;">Fill / Refill</div>
-        <div style="font-size:11.5px;color:#8B8B92;">45 min</div>
-      </div>
-      <div style="font-size:15px;font-weight:800;">$55</div>
-    </div>
-    <div class="svc" data-name="Custom Nail Art Set" data-duration="110 min" data-price="130" onclick="pick(this)">
-      <div class="dot"></div>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:700;">Custom Nail Art Set</div>
-        <div style="font-size:11.5px;color:#8B8B92;">110 min</div>
-      </div>
-      <div style="font-size:15px;font-weight:800;">$130</div>
+
+    <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">AVAILABLE TIMES</span>
+    <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:10px;margin-top:10px;">
+      <div class="slot off" data-time="10:00 AM">10:00 AM</div>
+      <div class="slot" data-time="11:30 AM" onclick="pickSlot(this)">11:30 AM</div>
+      <div class="slot" data-time="1:00 PM" onclick="pickSlot(this)">1:00 PM</div>
+      <div class="slot off" data-time="2:00 PM">2:00 PM</div>
+      <div class="slot on" data-time="2:30 PM" onclick="pickSlot(this)">2:30 PM</div>
+      <div class="slot" data-time="4:00 PM" onclick="pickSlot(this)">4:00 PM</div>
+      <div class="slot" data-time="5:30 PM" onclick="pickSlot(this)">5:30 PM</div>
+      <div class="slot off" data-time="6:30 PM">6:30 PM</div>
+      <div class="slot" data-time="7:00 PM" onclick="pickSlot(this)">7:00 PM</div>
     </div>
   </div>
 
   <div style="flex-shrink:0;padding:12px 20px 28px 20px;">
-    <a href="time.html" onclick="saveService()" style="display:block;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(255,61,148,0.4);">Continue</a>
+    <a href="confirm.html" onclick="saveBooking()" style="display:block;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(255,61,148,0.4);">Continue</a>
   </div>
 
 </div>
 <script>
-  function pick(el) {
-    document.querySelectorAll('.svc').forEach(s => s.classList.remove('on'));
+  function pickDate(el) {
+    document.querySelectorAll('.date-chip').forEach(d => d.classList.remove('on'));
+    el.classList.add('on');
+  }
+  function pickSlot(el) {
+    document.querySelectorAll('.slot').forEach(s => s.classList.remove('on'));
     el.classList.add('on');
   }
   (function initTech(){
@@ -87,11 +93,11 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     }
     document.getElementById('tech-sub').textContent = 'With ' + tech.name + ' · Miami, FL';
   })();
-  function saveService() {
-    const el = document.querySelector('.svc.on');
-    sessionStorage.setItem('nv_service', JSON.stringify({
-      name: el.dataset.name, duration: el.dataset.duration, price: el.dataset.price
-    }));
+  function saveBooking() {
+    const date = document.querySelector('.date-chip.on').dataset.date;
+    const time = document.querySelector('.slot.on').dataset.time;
+    sessionStorage.setItem('nv_time', JSON.stringify({ date, time }));
+    sessionStorage.setItem('nv_service', JSON.stringify({ name: 'Nail Appointment' }));
   }
 </script>
 </body>

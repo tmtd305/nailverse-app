@@ -19,8 +19,8 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 <div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
 
   <div style="flex-shrink:0;padding:18px 20px 6px 20px;">
-    <a href="time.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></a>
-    <span style="display:block;font-size:11px;font-weight:700;color:#FF3D94;margin-top:14px;">STEP 3 OF 3</span>
+    <a href="service.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></a>
+    <span style="display:block;font-size:11px;font-weight:700;color:#FF3D94;margin-top:14px;">STEP 2 OF 2</span>
     <h1 style="font-size:22px;font-weight:800;margin:6px 0 4px 0;">Confirm Booking</h1>
   </div>
 
@@ -36,10 +36,6 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
     <div style="background:#18181B;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:14px;">
       <div style="display:flex;align-items:center;gap:12px;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3D94" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
-        <div style="flex:1;"><div id="c-service" style="font-size:13.5px;font-weight:700;">—</div><div id="c-duration" style="font-size:11.5px;color:#8B8B92;">—</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3D94" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
         <div id="c-datetime" style="font-size:13.5px;font-weight:700;">—</div>
       </div>
@@ -50,20 +46,9 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     </div>
 
     <div style="background:#18181B;border-radius:16px;padding:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <span style="font-size:12.5px;color:#A9A9B0;">Service (estimate)</span>
-        <span id="c-price1" style="font-size:12.5px;font-weight:600;">$0</span>
-      </div>
-      <p style="margin:0 0 12px 0;font-size:11px;color:#5A5A60;line-height:1.4;">Paid to your tech directly at the appointment.</p>
-      <div style="height:1px;background:#232326;margin:10px 0;"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:12.5px;color:#A9A9B0;">Deposit to book</span>
-        <span id="c-deposit" style="font-size:12.5px;font-weight:600;">$0</span>
-      </div>
-      <div style="height:1px;background:#232326;margin:10px 0;"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:14px;font-weight:800;">Due now</span>
-        <span id="c-total" style="font-size:16px;font-weight:800;color:#FF3D94;">$0</span>
+        <span style="font-size:14px;font-weight:800;">Deposit to Book</span>
+        <span id="c-deposit" style="font-size:18px;font-weight:800;color:#FF3D94;">$0</span>
       </div>
     </div>
 
@@ -77,12 +62,9 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
 </div>
 <script>
-  const svc = JSON.parse(sessionStorage.getItem('nv_service') || '{"name":"Full Set — Acrylic","duration":"90 min","price":"85"}');
+  const svc = JSON.parse(sessionStorage.getItem('nv_service') || '{"name":"Nail Appointment"}');
   const time = JSON.parse(sessionStorage.getItem('nv_time') || '{"date":"Today, Sep 22","time":"2:30 PM"}');
-  document.getElementById('c-service').textContent = svc.name;
-  document.getElementById('c-duration').textContent = svc.duration;
   document.getElementById('c-datetime').textContent = time.date + ' · ' + time.time;
-  document.getElementById('c-price1').textContent = '$' + svc.price;
 
   const selectedTech = JSON.parse(sessionStorage.getItem('nv_tech') || '{"username":"2cutenails","name":"2Cute Nails"}');
 
@@ -105,7 +87,6 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
       document.getElementById('c-tech-name').textContent = selectedTech.name;
     }
     document.getElementById('c-deposit').textContent = '$' + depositAmount;
-    document.getElementById('c-total').textContent = '$' + depositAmount;
     document.getElementById('confirm-btn').textContent = 'Reserve — $' + depositAmount + ' Deposit';
     sessionStorage.setItem('nv_deposit', String(depositAmount));
   }
@@ -122,9 +103,7 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
       customer_id: session.user.id,
       tech_id: techId,
       service_name: svc.name,
-      service_price: parseInt(svc.price),
       deposit_amount: depositAmount,
-      duration_min: parseInt(svc.duration),
       scheduled_date: time.date,
       scheduled_time: time.time,
       status: 'confirmed'

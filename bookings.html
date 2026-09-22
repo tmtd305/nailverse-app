@@ -67,7 +67,6 @@
       '</div>' +
       '<div style="font-size:14px;font-weight:800;margin-bottom:4px;">' + b.service_name + '</div>' +
       '<div style="font-size:12.5px;color:#A9A9B0;margin-bottom:4px;">' + b.scheduled_date + ' · ' + b.scheduled_time + '</div>' +
-      '<div style="font-size:12.5px;color:#A9A9B0;margin-bottom:4px;">Est. $' + b.service_price + ' · ' + (b.duration_min || '—') + ' min</div>' +
       '<div style="font-size:11.5px;color:#FF3D94;font-weight:700;">$' + (b.deposit_amount != null ? b.deposit_amount : '—') + ' deposit reserved</div>';
 
     if(isCustomer && !reviewedIds.has(b.id)){
