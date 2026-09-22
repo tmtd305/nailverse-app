@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Confirm Booking</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<script src="notifications.js"></script>
+<style>html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Inter',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:18px 20px 6px 20px;">
+    <a href="time.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></a>
+    <span style="display:block;font-size:11px;font-weight:700;color:#FF2E9E;margin-top:14px;">STEP 3 OF 3</span>
+    <h1 style="font-size:22px;font-weight:800;margin:6px 0 4px 0;">Confirm Booking</h1>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
+
+    <div style="background:#18181B;border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;">
+      <img src="images/ig-profile.jpg" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+      <div>
+        <div style="display:flex;align-items:center;gap:5px;"><span style="font-size:14px;font-weight:700;">2Cute Nails</span><svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+        <div style="font-size:11.5px;color:#8B8B92;">★ 5.0 (328) · Miami, FL</div>
+      </div>
+    </div>
+
+    <div style="background:#18181B;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF2E9E" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+        <div style="flex:1;"><div id="c-service" style="font-size:13.5px;font-weight:700;">—</div><div id="c-duration" style="font-size:11.5px;color:#8B8B92;">—</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF2E9E" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+        <div id="c-datetime" style="font-size:13.5px;font-weight:700;">—</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF2E9E" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div style="font-size:13.5px;font-weight:700;">Mobile · Your address</div>
+      </div>
+    </div>
+
+    <div style="background:#18181B;border-radius:16px;padding:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:12.5px;color:#A9A9B0;">Service</span>
+        <span id="c-price1" style="font-size:12.5px;font-weight:600;">$0</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:12.5px;color:#A9A9B0;">Mobile fee</span>
+        <span style="font-size:12.5px;font-weight:600;">$10</span>
+      </div>
+      <div style="height:1px;background:#232326;margin:10px 0;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:14px;font-weight:800;">Total</span>
+        <span id="c-total" style="font-size:16px;font-weight:800;color:#FF2E9E;">$0</span>
+      </div>
+    </div>
+
+    <div style="background:#18181B;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+      <span style="flex:1;font-size:13px;font-weight:600;">•••• •••• •••• 4242</span>
+      <a href="#" onclick="event.preventDefault();showToast('Payment methods coming soon')" style="font-size:12px;font-weight:700;color:#FF2E9E;">Change</a>
+    </div>
+
+  </div>
+
+  <div style="flex-shrink:0;padding:12px 20px 28px 20px;">
+    <a href="booking-confirmed.html" style="display:block;text-align:center;background:#FF2E9E;color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(255,46,158,0.4);">Confirm &amp; Pay</a>
+  </div>
+
+</div>
+<script>
+  const svc = JSON.parse(sessionStorage.getItem('nv_service') || '{"name":"Full Set — Acrylic","duration":"90 min","price":"85"}');
+  const time = JSON.parse(sessionStorage.getItem('nv_time') || '{"date":"Today, Sep 22","time":"2:30 PM"}');
+  document.getElementById('c-service').textContent = svc.name;
+  document.getElementById('c-duration').textContent = svc.duration;
+  document.getElementById('c-datetime').textContent = time.date + ' · ' + time.time;
+  document.getElementById('c-price1').textContent = '$' + svc.price;
+  document.getElementById('c-total').textContent = '$' + (parseInt(svc.price) + 10);
+  sessionStorage.setItem('nv_total', String(parseInt(svc.price) + 10));
+</script>
+</body>
+</html>

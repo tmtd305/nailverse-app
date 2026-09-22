@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Choose a Service</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;}
+  a{text-decoration:none;color:inherit;}
+  .svc{background:#18181B;border:1.5px solid #232326;border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;}
+  .svc.on{border-color:#FF2E9E;background:#1E1418;}
+  .svc .dot{width:19px;height:19px;border-radius:50%;border:2px solid #4A4A50;flex-shrink:0;position:relative;}
+  .svc.on .dot{border-color:#FF2E9E;}
+  .svc.on .dot::after{content:'';position:absolute;inset:3px;border-radius:50%;background:#FF2E9E;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Inter',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:18px 20px 6px 20px;">
+    <a href="profile.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></a>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:14px;">
+      <span style="font-size:11px;font-weight:700;color:#FF2E9E;">STEP 1 OF 3</span>
+    </div>
+    <h1 style="font-size:22px;font-weight:800;margin:6px 0 4px 0;">Choose a Service</h1>
+    <p style="font-size:12.5px;color:#A9A9B0;margin:0;">With 2Cute Nails · Miami, FL</p>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px;">
+    <div class="svc on" data-name="Full Set — Acrylic" data-duration="90 min" data-price="85" onclick="pick(this)">
+      <div class="dot"></div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:700;">Full Set — Acrylic</div>
+        <div style="font-size:11.5px;color:#8B8B92;">90 min</div>
+      </div>
+      <div style="font-size:15px;font-weight:800;">$85</div>
+    </div>
+    <div class="svc" data-name="Full Set — Gel-X" data-duration="75 min" data-price="95" onclick="pick(this)">
+      <div class="dot"></div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:700;">Full Set — Gel-X</div>
+        <div style="font-size:11.5px;color:#8B8B92;">75 min</div>
+      </div>
+      <div style="font-size:15px;font-weight:800;">$95</div>
+    </div>
+    <div class="svc" data-name="Fill / Refill" data-duration="45 min" data-price="55" onclick="pick(this)">
+      <div class="dot"></div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:700;">Fill / Refill</div>
+        <div style="font-size:11.5px;color:#8B8B92;">45 min</div>
+      </div>
+      <div style="font-size:15px;font-weight:800;">$55</div>
+    </div>
+    <div class="svc" data-name="Custom Nail Art Set" data-duration="110 min" data-price="130" onclick="pick(this)">
+      <div class="dot"></div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:700;">Custom Nail Art Set</div>
+        <div style="font-size:11.5px;color:#8B8B92;">110 min</div>
+      </div>
+      <div style="font-size:15px;font-weight:800;">$130</div>
+    </div>
+  </div>
+
+  <div style="flex-shrink:0;padding:12px 20px 28px 20px;">
+    <a href="time.html" onclick="saveService()" style="display:block;text-align:center;background:#FF2E9E;color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(255,46,158,0.4);">Continue</a>
+  </div>
+
+</div>
+<script>
+  function pick(el) {
+    document.querySelectorAll('.svc').forEach(s => s.classList.remove('on'));
+    el.classList.add('on');
+  }
+  function saveService() {
+    const el = document.querySelector('.svc.on');
+    sessionStorage.setItem('nv_service', JSON.stringify({
+      name: el.dataset.name, duration: el.dataset.duration, price: el.dataset.price
+    }));
+  }
+</script>
+</body>
+</html>
