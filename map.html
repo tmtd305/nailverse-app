@@ -70,10 +70,13 @@
 
   <div style="position:absolute;top:0;left:0;right:0;z-index:5;padding:16px 16px 10px 16px;">
     <div style="display:flex;align-items:center;gap:8px;">
-      <button onclick="showToast('Search coming soon')" style="all:unset;flex:1;display:flex;align-items:center;gap:8px;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;cursor:pointer;box-sizing:border-box;">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;box-sizing:border-box;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9A9B0" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <span style="font-size:13px;font-weight:600;flex:1;color:#fff;">Miami, FL</span>
-      </button>
+        <input id="search-input" placeholder="Search a nail tech or style..." style="all:unset;flex:1;font-size:13px;font-weight:600;color:#fff;box-sizing:border-box;">
+        <button id="search-clear" onclick="clearSearch()" style="all:unset;display:none;cursor:pointer;box-sizing:border-box;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
       <button onclick="openFilters()" style="all:unset;position:relative;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;box-sizing:border-box;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
         <span style="font-size:12px;font-weight:700;color:#fff;">Filters</span>
@@ -92,6 +95,13 @@
   <div style="flex:1;position:relative;overflow:hidden;">
     <div id="map"></div>
 
+    <div id="map-error" style="display:none;position:absolute;inset:0;z-index:8;background:#0A0A0B;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:30px;text-align:center;">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <div style="font-size:13.5px;font-weight:700;">Map couldn't load</div>
+      <p style="margin:0;font-size:12px;color:#8B8B92;line-height:1.5;">Check your connection and try again.</p>
+      <button onclick="retryMap()" style="all:unset;background:#FF3D94;color:#fff;font-size:12.5px;font-weight:700;padding:10px 22px;border-radius:100px;cursor:pointer;">Retry</button>
+    </div>
+
     <button id="btn-3d" onclick="toggle3D()" style="all:unset;position:absolute;right:16px;top:16px;z-index:4;background:rgba(24,24,27,0.9);backdrop-filter:blur(4px);border-radius:10px;padding:8px 12px;font-size:11px;font-weight:800;color:#fff;cursor:pointer;box-sizing:border-box;">3D</button>
     <button onclick="locateMe()" style="all:unset;position:absolute;right:16px;top:60px;z-index:4;width:34px;height:34px;border-radius:50%;background:rgba(24,24,27,0.9);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;cursor:pointer;box-sizing:border-box;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11l19-9-9 19-2-8z"/></svg>
@@ -104,9 +114,9 @@
     <div class="sheet-top">
       <div id="top-list">
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span id="results-count" style="font-size:13.5px;font-weight:800;">6 results</span>
+          <span id="results-count" style="font-size:13.5px;font-weight:800;">Tap search to see results</span>
         </div>
-        <div id="search-area-btn" class="search-area-btn" onclick="searchThisArea()">
+        <div id="search-area-btn" class="search-area-btn" onclick="searchThisArea()" style="display:flex;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
           Search this area
         </div>
@@ -120,7 +130,9 @@
     </div>
 
     <div class="sheet-scroll">
-      <div id="list-body"></div>
+      <div id="list-body">
+        <div style="text-align:center;padding:30px 10px;color:#8B8B92;font-size:12.5px;">Search or browse the map, then tap "Search this area" to see nail techs here.</div>
+      </div>
 
       <div id="detail-body" style="display:none;">
         <div style="display:flex;gap:10px;align-items:center;">
@@ -176,6 +188,30 @@
     </button>
   </div>
   <div style="flex:1;overflow-y:auto;padding:18px;">
+    <span style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#5A5A60;">SERVICE TYPE</span>
+    <div id="spec-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
+      <div class="rate-chip on" data-val="" onclick="pickSpecialty(this)">Any</div>
+      <div class="rate-chip" data-val="Acrylic" onclick="pickSpecialty(this)">Acrylic</div>
+      <div class="rate-chip" data-val="Gel-X" onclick="pickSpecialty(this)">Gel-X</div>
+      <div class="rate-chip" data-val="Dip Powder" onclick="pickSpecialty(this)">Dip Powder</div>
+      <div class="rate-chip" data-val="Gel Manicure" onclick="pickSpecialty(this)">Gel Manicure</div>
+      <div class="rate-chip" data-val="Regular Pedicure" onclick="pickSpecialty(this)">Pedicure</div>
+      <div class="rate-chip" data-val="Nail Art" onclick="pickSpecialty(this)">Nail Art</div>
+      <div class="rate-chip" data-val="Chrome" onclick="pickSpecialty(this)">Chrome</div>
+      <div class="rate-chip" data-val="French Tip" onclick="pickSpecialty(this)">French Tip</div>
+    </div>
+
+    <span style="display:block;margin-top:22px;font-size:11px;font-weight:700;letter-spacing:0.05em;color:#5A5A60;">MAX DEPOSIT</span>
+    <div id="deposit-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
+      <div class="dist-chip on" data-val="Infinity" onclick="pickDeposit(this)">Any</div>
+      <div class="dist-chip" data-val="20" onclick="pickDeposit(this)">$20</div>
+      <div class="dist-chip" data-val="30" onclick="pickDeposit(this)">$30</div>
+      <div class="dist-chip" data-val="50" onclick="pickDeposit(this)">$50</div>
+      <div class="dist-chip" data-val="75" onclick="pickDeposit(this)">$75</div>
+    </div>
+
+    <div style="height:1px;background:#1E1E21;margin:22px 0;"></div>
+
     <span style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#5A5A60;">MINIMUM RATING</span>
     <div id="rate-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
       <div class="rate-chip on" data-val="0" onclick="pickRating(this)">Any</div>
@@ -223,7 +259,7 @@
 
   async function loadTechs(){
     const { data: profiles } = await sb.from('profiles')
-      .select('id,username,display_name,avatar_url,rating,reviews_count,verified,tags,open_now,available_today,business_type,location_lat,location_lng')
+      .select('id,username,display_name,avatar_url,rating,reviews_count,verified,tags,open_now,available_today,business_type,location_lat,location_lng,deposit_amount')
       .eq('account_type', 'tech')
       .eq('is_tech_active', true)
       .not('location_lat', 'is', null)
@@ -245,6 +281,7 @@
         openNow: !!p.open_now,
         availableToday: !!p.available_today,
         tags: p.tags || [],
+        deposit: p.deposit_amount != null ? Number(p.deposit_amount) : null,
         lng: p.location_lng,
         lat: p.location_lat,
         photos: (posts || []).map(x => x.image_url)
@@ -259,7 +296,8 @@
   let pitched = false;
   let sheetMode = 'list'; // 'list' | 'detail'
 
-  const filters = { category:'all', minRating:0, maxDistance:Infinity, openNow:false, availableToday:false };
+  const filters = { category:'all', minRating:0, maxDistance:Infinity, openNow:false, availableToday:false, specialty:null, maxDeposit:Infinity };
+  let searchQuery = '';
 
   function distMiles(lat1,lng1,lat2,lng2){
     const R=3958.8;
@@ -278,6 +316,14 @@
     if(filters.maxDistance !== Infinity && distMiles(userLoc.lat,userLoc.lng,t.lat,t.lng) > filters.maxDistance) return false;
     if(filters.openNow && !t.openNow) return false;
     if(filters.availableToday && !t.availableToday) return false;
+    if(filters.specialty && !t.tags.some(tag => tag.toLowerCase() === filters.specialty.toLowerCase())) return false;
+    if(filters.maxDeposit !== Infinity && (t.deposit == null || t.deposit > filters.maxDeposit)) return false;
+    if(searchQuery){
+      const q = searchQuery.toLowerCase();
+      const nameMatch = t.name.toLowerCase().includes(q);
+      const tagMatch = t.tags.some(tag => tag.toLowerCase().includes(q));
+      if(!nameMatch && !tagMatch) return false;
+    }
     return true;
   }
 
@@ -299,7 +345,9 @@
   }
 
   // ---- dark restyle of the free OpenFreeMap "liberty" vector style ----
-  function darkenStyle(style){
+  // Applied live via setPaintProperty (not by pre-mutating the style JSON) so
+  // MapLibre's own fetch/validate pipeline handles loading the style reliably.
+  function darkenStyle(mapInstance){
     const rx = re => id => re.test(id);
     const isWater = rx(/water/i);
     const isBuilding = rx(/building/i);
@@ -307,46 +355,58 @@
     const isBoundary = rx(/boundary|admin/i);
     const isPark = rx(/park|wood|forest|landuse|landcover|grass|natural|golf|cemetery/i);
 
-    (style.layers||[]).forEach(layer=>{
-      if(!layer.paint) layer.paint = {};
-      if(layer.type==='background'){
-        layer.paint['background-color'] = '#0A0A0B';
-      } else if(layer.type==='fill'){
-        if(isWater(layer.id)) layer.paint['fill-color'] = '#0D1013';
-        else if(isBuilding(layer.id)) layer.paint['fill-color'] = '#19191C';
-        else if(isPark(layer.id)) layer.paint['fill-color'] = '#111316';
-        else layer.paint['fill-color'] = '#121214';
-        if('fill-outline-color' in layer.paint) layer.paint['fill-outline-color'] = '#1E1E21';
-      } else if(layer.type==='fill-extrusion'){
-        layer.paint['fill-extrusion-color'] = '#1C1C1F';
-        layer.paint['fill-extrusion-opacity'] = 0.7;
-      } else if(layer.type==='line'){
-        if(isWater(layer.id)) layer.paint['line-color'] = '#15181C';
-        else if(isRoad(layer.id)) layer.paint['line-color'] = '#2A2A2E';
-        else if(isBoundary(layer.id)) layer.paint['line-color'] = '#242428';
-        else layer.paint['line-color'] = '#1E1E21';
-      } else if(layer.type==='symbol'){
-        if(layer.paint && ('text-color' in layer.paint || (layer.layout && layer.layout['text-field']))){
-          layer.paint['text-color'] = '#8B8B92';
-          layer.paint['text-halo-color'] = '#0A0A0B';
-          layer.paint['text-halo-width'] = 1.2;
+    const style = mapInstance.getStyle();
+    if(!style || !style.layers) return;
+
+    style.layers.forEach(layer=>{
+      try{
+        if(layer.type==='background'){
+          mapInstance.setPaintProperty(layer.id, 'background-color', '#0A0A0B');
+        } else if(layer.type==='fill'){
+          let color = '#121214';
+          if(isWater(layer.id)) color = '#0D1013';
+          else if(isBuilding(layer.id)) color = '#19191C';
+          else if(isPark(layer.id)) color = '#111316';
+          mapInstance.setPaintProperty(layer.id, 'fill-color', color);
+          if(layer.paint && 'fill-outline-color' in layer.paint) mapInstance.setPaintProperty(layer.id, 'fill-outline-color', '#1E1E21');
+        } else if(layer.type==='fill-extrusion'){
+          mapInstance.setPaintProperty(layer.id, 'fill-extrusion-color', '#1C1C1F');
+          mapInstance.setPaintProperty(layer.id, 'fill-extrusion-opacity', 0.7);
+        } else if(layer.type==='line'){
+          let color = '#1E1E21';
+          if(isWater(layer.id)) color = '#15181C';
+          else if(isRoad(layer.id)) color = '#2A2A2E';
+          else if(isBoundary(layer.id)) color = '#242428';
+          mapInstance.setPaintProperty(layer.id, 'line-color', color);
+        } else if(layer.type==='symbol'){
+          if(layer.paint && ('text-color' in layer.paint || (layer.layout && layer.layout['text-field']))){
+            mapInstance.setPaintProperty(layer.id, 'text-color', '#8B8B92');
+            mapInstance.setPaintProperty(layer.id, 'text-halo-color', '#0A0A0B');
+            mapInstance.setPaintProperty(layer.id, 'text-halo-width', 1.2);
+          }
+          if(layer.paint && 'icon-opacity' in layer.paint) mapInstance.setPaintProperty(layer.id, 'icon-opacity', 0.5);
         }
-        if(layer.paint && 'icon-opacity' in layer.paint) layer.paint['icon-opacity'] = 0.5;
-      }
+      } catch(e){ /* some layers don't support every paint property — skip */ }
     });
-    return style;
   }
 
   let map;
 
-  async function initMap(){
-    const res = await fetch('https://tiles.openfreemap.org/styles/liberty');
-    const rawStyle = await res.json();
-    const darkStyle = darkenStyle(rawStyle);
+  function showMapError(){
+    const el = document.getElementById('map-error');
+    if(el) el.style.display = 'flex';
+  }
+  function hideMapError(){
+    const el = document.getElementById('map-error');
+    if(el) el.style.display = 'none';
+  }
 
+  const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
+
+  async function buildMap(){
     map = new maplibregl.Map({
       container: 'map',
-      style: darkStyle,
+      style: STYLE_URL,
       center: [MIAMI_CENTER.lng, MIAMI_CENTER.lat],
       zoom: 12.4,
       pitch: 0,
@@ -355,17 +415,62 @@
     map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
 
-    map.on('load', ()=>{
+    let didSetup = false;
+    function runInitialSetup(){
+      if(didSetup) return;
+      didSetup = true;
+      hideMapError();
+      darkenStyle(map);
       if(techs.length > 0){
         const bounds = techs.reduce((b,t)=>b.extend([t.lng,t.lat]), new maplibregl.LngLatBounds([techs[0].lng,techs[0].lat],[techs[0].lng,techs[0].lat]));
         map.fitBounds(bounds, {padding:{top:120,bottom:340,left:50,right:50}, duration:0});
       }
       rebuildIndex();
       renderMarkers();
-      refreshList();
       layoutSheet();
+    }
+
+    let fatalError = null;
+    map.on('error', (e)=>{
+      console.error('[map error]', e && e.error);
+      fatalError = (e && e.error) || new Error('map error');
     });
+    map.on('load', runInitialSetup);
     map.on('moveend', ()=>{ renderMarkers(); checkSearchArea(); });
+
+    await new Promise((resolve, reject)=>{
+      const deadline = Date.now() + 20000;
+      (function poll(){
+        if(map.getStyle() && map.areTilesLoaded()){
+          runInitialSetup();
+          resolve();
+          return;
+        }
+        if(fatalError && !map.getStyle()){ reject(fatalError); return; }
+        if(Date.now() > deadline){ reject(new Error('style load timed out')); return; }
+        setTimeout(poll, 300);
+      })();
+    });
+  }
+
+  async function initMap(){
+    try{
+      await buildMap();
+    } catch(err){
+      console.error('[map] failed to load, retrying once', err);
+      try{
+        if(map){ try{ map.remove(); }catch(e){} }
+        await buildMap();
+      } catch(err2){
+        console.error('[map] retry also failed', err2);
+        showMapError();
+      }
+    }
+  }
+
+  function retryMap(){
+    hideMapError();
+    initMap();
   }
 
   (async function start(){
@@ -486,9 +591,9 @@
         '<div style="font-size:11px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF3D94;">★</span> ' + t.rating.toFixed(1) + ' (' + t.reviews + ') · ' + d + ' mi</div>' +
         '<div style="display:flex;gap:5px;margin-top:5px;">' + t.tags.map(s=>'<span class="result-tag">'+s+'</span>').join('') + '</div>' +
       '</div>' +
-      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">' +
-        '<span class="status-dot" style="background:' + (t.openNow ? '#4ADE80' : '#5A5A60') + ';"></span>' +
-        '<span style="font-size:9.5px;color:' + (t.openNow ? '#4ADE80' : '#8B8B92') + ';font-weight:700;white-space:nowrap;">' + (t.openNow ? 'Open' : 'Closed') + '</span>' +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">' +
+        '<span style="font-size:9.5px;color:' + (t.openNow ? '#4ADE80' : '#8B8B92') + ';font-weight:700;white-space:nowrap;">' + (t.openNow ? '● Open now' : 'Closed') + '</span>' +
+        (t.availableToday ? '<span style="font-size:9.5px;color:#4ADE80;font-weight:700;white-space:nowrap;">● Available today</span>' : '') +
       '</div>';
     return row;
   }
@@ -526,6 +631,31 @@
     renderList(visibleResults());
   }
 
+  function runSearch(){
+    searchQuery = document.getElementById('search-input').value.trim();
+    document.getElementById('search-clear').style.display = searchQuery ? 'block' : 'none';
+    rebuildIndex();
+    renderMarkers();
+    renderList(visibleResults());
+  }
+
+  function clearSearch(){
+    document.getElementById('search-input').value = '';
+    searchQuery = '';
+    document.getElementById('search-clear').style.display = 'none';
+    rebuildIndex();
+    renderMarkers();
+    renderList(visibleResults());
+  }
+
+  document.getElementById('search-input').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      this.blur();
+      runSearch();
+    }
+  });
+
   // ---- detail / list toggle ----
   function openDetail(id, flyTo){
     activeId = id;
@@ -538,9 +668,9 @@
     document.getElementById('card-verified').style.display = t.verified ? 'block' : 'none';
     const d = distMiles(userLoc.lat, userLoc.lng, t.lat, t.lng).toFixed(1);
     document.getElementById('card-meta').innerHTML = '<span style="color:#FF3D94;">★</span> ' + t.rating.toFixed(1) + ' (' + t.reviews + ') · ' + d + ' mi';
-    const availText = (t.openNow ? 'Open now' : 'Closed now') + ' · ' + (t.availableToday ? 'Available today' : 'Booked today');
-    document.getElementById('card-avail').textContent = availText;
-    document.getElementById('card-avail').style.color = t.openNow ? '#4ADE80' : '#8B8B92';
+    document.getElementById('card-avail').innerHTML =
+      '<span style="color:' + (t.openNow ? '#4ADE80' : '#8B8B92') + ';">' + (t.openNow ? 'Open now' : 'Closed now') + '</span>' +
+      ' · <span style="color:' + (t.availableToday ? '#4ADE80' : '#8B8B92') + ';">' + (t.availableToday ? 'Available today' : 'Booked today') + '</span>';
     document.getElementById('card-dot').style.background = t.openNow ? '#4ADE80' : '#5A5A60';
 
     const tagWrap = document.getElementById('card-tags');
@@ -637,6 +767,8 @@
 
   function openFilters(){
     draftFilters = {...filters};
+    document.querySelectorAll('#spec-chips .rate-chip').forEach(c=>c.classList.toggle('on', (c.dataset.val||null)===(draftFilters.specialty||null)));
+    document.querySelectorAll('#deposit-chips .dist-chip').forEach(c=>c.classList.toggle('on', parseFloat(c.dataset.val)===draftFilters.maxDeposit || (c.dataset.val==='Infinity' && draftFilters.maxDeposit===Infinity)));
     document.querySelectorAll('#rate-chips .rate-chip').forEach(c=>c.classList.toggle('on', parseFloat(c.dataset.val)===draftFilters.minRating));
     document.querySelectorAll('#dist-chips .dist-chip').forEach(c=>c.classList.toggle('on', parseFloat(c.dataset.val)===draftFilters.maxDistance || (c.dataset.val==='Infinity' && draftFilters.maxDistance===Infinity)));
     document.getElementById('toggle-open').classList.toggle('on', draftFilters.openNow);
@@ -647,6 +779,16 @@
   function closeFilters(){
     document.getElementById('filters-backdrop').classList.remove('open');
     document.getElementById('filters-modal').classList.remove('open');
+  }
+  function pickSpecialty(el){
+    document.querySelectorAll('#spec-chips .rate-chip').forEach(c=>c.classList.remove('on'));
+    el.classList.add('on');
+    draftFilters.specialty = el.dataset.val || null;
+  }
+  function pickDeposit(el){
+    document.querySelectorAll('#deposit-chips .dist-chip').forEach(c=>c.classList.remove('on'));
+    el.classList.add('on');
+    draftFilters.maxDeposit = el.dataset.val === 'Infinity' ? Infinity : parseFloat(el.dataset.val);
   }
   function pickRating(el){
     document.querySelectorAll('#rate-chips .rate-chip').forEach(c=>c.classList.remove('on'));
@@ -666,14 +808,16 @@
   function applyFilters(){
     Object.assign(filters, draftFilters);
     const badge = document.getElementById('filter-badge');
-    badge.style.display = (filters.minRating>0 || filters.maxDistance!==Infinity || filters.openNow || filters.availableToday) ? 'block' : 'none';
+    badge.style.display = (filters.minRating>0 || filters.maxDistance!==Infinity || filters.openNow || filters.availableToday || filters.specialty || filters.maxDeposit!==Infinity) ? 'block' : 'none';
     closeFilters();
     rebuildIndex();
     renderMarkers();
-    refreshList();
+    renderList(visibleResults());
   }
   function resetFilters(){
-    draftFilters = {category:filters.category, minRating:0, maxDistance:Infinity, openNow:false, availableToday:false};
+    draftFilters = {category:filters.category, minRating:0, maxDistance:Infinity, openNow:false, availableToday:false, specialty:null, maxDeposit:Infinity};
+    document.querySelectorAll('#spec-chips .rate-chip').forEach(c=>c.classList.toggle('on', c.dataset.val===''));
+    document.querySelectorAll('#deposit-chips .dist-chip').forEach(c=>c.classList.toggle('on', c.dataset.val==='Infinity'));
     document.querySelectorAll('#rate-chips .rate-chip').forEach(c=>c.classList.toggle('on', c.dataset.val==='0'));
     document.querySelectorAll('#dist-chips .dist-chip').forEach(c=>c.classList.toggle('on', c.dataset.val==='Infinity'));
     document.getElementById('toggle-open').classList.remove('on');
