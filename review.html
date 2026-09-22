@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Leave a Review</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+  a:active,button:active{transform:scale(0.98);opacity:0.85;}
+  textarea{font-family:'Plus Jakarta Sans',sans-serif;}
+  .star{cursor:pointer;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:18px 20px 6px 20px;">
+    <a href="bookings.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></a>
+    <h1 style="font-size:22px;font-weight:800;margin:14px 0 4px 0;">Leave a Review</h1>
+    <p id="sub" style="margin:0;font-size:12.5px;color:#8B8B92;">—</p>
+  </div>
+
+  <div id="loading-state" style="flex:1;display:flex;align-items:center;justify-content:center;">
+    <span style="font-size:12.5px;color:#8B8B92;">Loading…</span>
+  </div>
+
+  <div id="form-content" style="display:none;flex:1;overflow-y:auto;padding:20px;">
+
+    <div style="display:flex;align-items:center;gap:12px;background:#18181B;border-radius:16px;padding:16px;margin-bottom:20px;">
+      <img id="tech-avatar" src="images/ig-profile.jpg" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">
+      <div>
+        <div id="tech-name" style="font-size:14px;font-weight:700;">—</div>
+        <div id="booking-service" style="font-size:11.5px;color:#8B8B92;">—</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-bottom:20px;">
+      <div id="stars" style="display:flex;justify-content:center;gap:10px;">
+        <svg class="star" data-n="1" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="1.6" onclick="pickStar(1)"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+        <svg class="star" data-n="2" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="1.6" onclick="pickStar(2)"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+        <svg class="star" data-n="3" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="1.6" onclick="pickStar(3)"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+        <svg class="star" data-n="4" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="1.6" onclick="pickStar(4)"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+        <svg class="star" data-n="5" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="1.6" onclick="pickStar(5)"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+      </div>
+      <div id="star-label" style="margin-top:8px;font-size:11.5px;color:#8B8B92;">Tap to rate</div>
+    </div>
+
+    <textarea id="comment" placeholder="How was your experience? (optional)" maxlength="300" style="width:100%;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:14px 16px;color:#fff;font-size:13.5px;resize:none;height:100px;outline:none;"></textarea>
+
+    <button id="submit-btn" onclick="submitReview()" style="all:unset;display:block;width:100%;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:15px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.4);cursor:pointer;box-sizing:border-box;margin-top:20px;">Submit Review</button>
+
+  </div>
+
+</div>
+<script>
+  const bookingId = new URLSearchParams(location.search).get('booking');
+  let rating = 0;
+  let booking = null;
+
+  function pickStar(n){
+    rating = n;
+    document.querySelectorAll('.star').forEach(s => {
+      const on = parseInt(s.dataset.n) <= n;
+      s.setAttribute('fill', on ? '#FF3D94' : 'none');
+      s.setAttribute('stroke', on ? '#FF3D94' : '#5A5A60');
+    });
+    const labels = ['Tap to rate','Poor','Fair','Good','Great','Excellent'];
+    document.getElementById('star-label').textContent = labels[n];
+  }
+
+  async function submitReview(){
+    if(!booking) return;
+    if(rating === 0){
+      showToast('Pick a star rating');
+      return;
+    }
+    const session = await requireAuth('login.html');
+    if(!session) return;
+
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Submitting…';
+
+    const { error } = await sb.from('reviews').insert({
+      booking_id: booking.id,
+      customer_id: session.user.id,
+      tech_id: booking.tech_id,
+      rating,
+      comment: document.getElementById('comment').value.trim()
+    });
+
+    if(error){
+      showToast('Could not submit review: ' + error.message);
+      btn.textContent = 'Submit Review';
+      return;
+    }
+
+    showToast('Review posted — thank you!');
+    setTimeout(function(){ location.href = 'bookings.html'; }, 600);
+  }
+
+  async function init(){
+    if(!bookingId){
+      document.getElementById('sub').textContent = 'No booking specified.';
+      document.getElementById('loading-state').style.display = 'none';
+      return;
+    }
+
+    const session = await requireAuth('login.html');
+    if(!session) return;
+
+    const { data } = await sb.from('bookings')
+      .select('id,tech_id,customer_id,service_name,scheduled_date,scheduled_time,tech:profiles!bookings_tech_id_fkey(display_name,avatar_url)')
+      .eq('id', bookingId).eq('customer_id', session.user.id).single();
+
+    if(!data){
+      document.getElementById('sub').textContent = "Booking not found.";
+      document.getElementById('loading-state').style.display = 'none';
+      return;
+    }
+
+    booking = data;
+    document.getElementById('sub').textContent = 'For your appointment on ' + data.scheduled_date;
+    document.getElementById('tech-name').textContent = data.tech ? data.tech.display_name : 'Your tech';
+    document.getElementById('booking-service').textContent = data.service_name;
+    if(data.tech && data.tech.avatar_url) document.getElementById('tech-avatar').src = data.tech.avatar_url;
+
+    document.getElementById('loading-state').style.display = 'none';
+    document.getElementById('form-content').style.display = 'block';
+  }
+
+  init();
+</script>
+</body>
+</html>

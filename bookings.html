@@ -46,29 +46,54 @@
 
 </div>
 <script>
-  function renderBooking(b){
+  function renderBooking(b, myId, reviewedIds){
+    const isCustomer = b.customer_id === myId;
+    const other = isCustomer ? b.tech : b.customer;
+    const otherName = other ? (other.display_name || other.username) : (isCustomer ? 'Tech' : 'Customer');
+    const otherAvatar = (other && other.avatar_url) || 'images/ig-profile.jpg';
+
     const card = document.createElement('div');
     card.style.cssText = 'background:#18181B;border-radius:16px;padding:16px;margin-bottom:12px;';
     const statusColor = b.status === 'confirmed' ? '#4ADE80' : '#8B8B92';
-    card.innerHTML =
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">' +
-        '<span style="font-size:14px;font-weight:800;">' + b.service_name + '</span>' +
+
+    let html =
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">' +
+        '<img src="' + otherAvatar + '" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">' +
+        '<div style="flex:1;">' +
+          '<div style="font-size:12.5px;font-weight:700;">' + (isCustomer ? otherName : otherName + ' (customer)') + '</div>' +
+          '<div style="font-size:10.5px;color:#8B8B92;">' + (isCustomer ? 'Your tech' : 'Booked with you') + '</div>' +
+        '</div>' +
         '<span style="font-size:10.5px;font-weight:700;color:' + statusColor + ';text-transform:capitalize;">' + b.status + '</span>' +
       '</div>' +
+      '<div style="font-size:14px;font-weight:800;margin-bottom:4px;">' + b.service_name + '</div>' +
       '<div style="font-size:12.5px;color:#A9A9B0;margin-bottom:4px;">' + b.scheduled_date + ' · ' + b.scheduled_time + '</div>' +
       '<div style="font-size:12.5px;color:#A9A9B0;margin-bottom:4px;">Est. $' + b.service_price + ' · ' + (b.duration_min || '—') + ' min</div>' +
       '<div style="font-size:11.5px;color:#FF3D94;font-weight:700;">$' + (b.deposit_amount != null ? b.deposit_amount : '—') + ' deposit reserved</div>';
+
+    if(isCustomer && !reviewedIds.has(b.id)){
+      html += '<a href="review.html?booking=' + b.id + '" style="display:block;text-align:center;margin-top:12px;background:#232326;color:#fff;font-size:12.5px;font-weight:700;padding:10px 0;border-radius:12px;">Leave a Review</a>';
+    } else if(isCustomer && reviewedIds.has(b.id)){
+      html += '<div style="text-align:center;margin-top:12px;font-size:11.5px;color:#5A5A60;">✓ Review submitted</div>';
+    }
+
+    card.innerHTML = html;
     return card;
   }
 
   async function init(){
     const session = await requireAuth('login.html');
     if(!session) return;
+    const myId = session.user.id;
 
-    const { data: bookings } = await sb.from('bookings')
-      .select('*')
-      .eq('customer_id', session.user.id)
-      .order('created_at', { ascending: false });
+    const [{ data: bookings }, { data: myReviews }] = await Promise.all([
+      sb.from('bookings')
+        .select('*, tech:profiles!bookings_tech_id_fkey(username,display_name,avatar_url), customer:profiles!bookings_customer_id_fkey(username,display_name,avatar_url)')
+        .or('customer_id.eq.' + myId + ',tech_id.eq.' + myId)
+        .order('created_at', { ascending: false }),
+      sb.from('reviews').select('booking_id').eq('customer_id', myId)
+    ]);
+
+    const reviewedIds = new Set((myReviews || []).map(r => r.booking_id));
 
     document.getElementById('loading-state').style.display = 'none';
 
@@ -78,7 +103,7 @@
     }
 
     const list = document.getElementById('bookings-list');
-    bookings.forEach(b => list.appendChild(renderBooking(b)));
+    bookings.forEach(b => list.appendChild(renderBooking(b, myId, reviewedIds)));
     list.style.display = 'block';
   }
 

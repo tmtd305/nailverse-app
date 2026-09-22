@@ -61,7 +61,7 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     </div>
 
     <div style="padding:14px 20px 18px 20px;display:flex;gap:8px;">
-      <a href="#" onclick="event.preventDefault();showToast('Edit profile coming soon')" style="flex:1;background:#18181B;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:11px 0;border-radius:12px;">Edit Profile</a>
+      <a id="edit-profile-link" href="#" onclick="event.preventDefault();showToast('Edit profile coming soon')" style="flex:1;background:#18181B;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:11px 0;border-radius:12px;">Edit Profile</a>
       <a href="create-post.html" style="flex:1;background:#FF3D94;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:11px 0;border-radius:12px;box-shadow:0 8px 20px rgba(255,61,148,0.35);">New Post</a>
     </div>
 
@@ -163,6 +163,11 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     document.getElementById('display-name').textContent = profile.display_name || profile.username;
     document.getElementById('bio-text').textContent = profile.bio || 'Building my nail history 💅';
     if (profile.avatar_url) document.getElementById('avatar-img').src = profile.avatar_url;
+    if (profile.account_type === 'tech') {
+      const editLink = document.getElementById('edit-profile-link');
+      editLink.href = 'tech-setup.html';
+      editLink.onclick = null;
+    }
 
     const [{ data: posts }, { count: followers }, { count: following }] = await Promise.all([
       sb.from('posts').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false }),

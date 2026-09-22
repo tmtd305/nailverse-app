@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Set Up Your Tech Profile</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+  a:active,button:active{transform:scale(0.98);opacity:0.85;}
+  input,textarea{font-family:'Plus Jakarta Sans',sans-serif;}
+  .field{width:100%;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:14px 16px;color:#fff;font-size:14px;outline:none;margin-bottom:12px;}
+  .field:focus{border-color:#FF3D94;}
+  .type-btn{flex:1;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:13px 0;text-align:center;font-size:13.5px;font-weight:700;color:#A9A9B0;cursor:pointer;}
+  .type-btn.on{background:#1E1418;border-color:#FF3D94;color:#fff;}
+  .chip{background:#18181B;border:1.5px solid #232326;color:#C9C9CF;font-size:12px;font-weight:700;padding:7px 13px;border-radius:100px;cursor:pointer;}
+  .chip.on{background:#FF3D94;border-color:#FF3D94;color:#fff;}
+  .label{font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;display:block;margin-bottom:8px;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:18px 20px 6px 20px;">
+    <span style="font-size:11px;font-weight:700;color:#FF3D94;">TECH SETUP</span>
+    <h1 style="font-size:22px;font-weight:800;margin:6px 0 4px 0;">Set up your profile</h1>
+    <p style="margin:0;font-size:12.5px;color:#8B8B92;">This is what customers see when they find you on the map.</p>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:16px 20px 24px 20px;">
+
+    <label for="avatar-input" style="display:flex;align-items:center;justify-content:center;width:88px;height:88px;border-radius:50%;background:#18181B;border:1.5px dashed #2A2A2E;cursor:pointer;overflow:hidden;position:relative;margin:0 auto 18px auto;">
+      <img id="avatar-preview" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <svg id="avatar-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    </label>
+    <input id="avatar-input" type="file" accept="image/*" style="display:none;" onchange="onAvatarPick(event)">
+    <p style="text-align:center;margin:-12px 0 20px 0;font-size:11px;color:#5A5A60;">Tap to add a photo (optional)</p>
+
+    <span class="label">I AM A</span>
+    <div style="display:flex;gap:8px;margin-bottom:18px;">
+      <div class="type-btn on" id="type-tech" onclick="pickType('tech')">Nail Tech</div>
+      <div class="type-btn" id="type-salon" onclick="pickType('salon')">Salon</div>
+    </div>
+
+    <span class="label">BUSINESS / DISPLAY NAME</span>
+    <input id="display_name" class="field" placeholder="e.g. Maria's Nails">
+
+    <span class="label">BIO</span>
+    <textarea id="bio" class="field" placeholder="Tell customers what you specialize in..." maxlength="200" style="resize:none;height:70px;"></textarea>
+
+    <span class="label">SPECIALTIES</span>
+    <div id="tag-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+      <span class="chip" data-tag="Acrylic" onclick="toggleTag(this)">Acrylic</span>
+      <span class="chip" data-tag="Gel-X" onclick="toggleTag(this)">Gel-X</span>
+      <span class="chip" data-tag="Dip Powder" onclick="toggleTag(this)">Dip Powder</span>
+      <span class="chip" data-tag="Chrome" onclick="toggleTag(this)">Chrome</span>
+      <span class="chip" data-tag="Nail Art" onclick="toggleTag(this)">Nail Art</span>
+      <span class="chip" data-tag="French Tip" onclick="toggleTag(this)">French Tip</span>
+      <span class="chip" data-tag="Custom" onclick="toggleTag(this)">Custom</span>
+    </div>
+    <input id="tag-custom" class="field" placeholder="Add another specialty and press enter" style="margin-bottom:18px;">
+
+    <span class="label">DEPOSIT TO BOOK</span>
+    <p style="margin:0 0 10px 0;font-size:11.5px;color:#8B8B92;line-height:1.5;">What a customer puts down to reserve a spot with you. You settle the rest with them directly.</p>
+    <div style="position:relative;margin-bottom:18px;">
+      <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:14px;color:#8B8B92;">$</span>
+      <input id="deposit" type="number" min="0" step="1" class="field" placeholder="25" style="padding-left:28px;margin-bottom:0;">
+    </div>
+
+    <span class="label">LOCATION</span>
+    <p style="margin:0 0 10px 0;font-size:11.5px;color:#8B8B92;line-height:1.5;">We use your real location to place you on the map so nearby customers can find you.</p>
+    <button id="location-btn" onclick="captureLocation()" style="all:unset;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:14px 0;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer;box-sizing:border-box;margin-bottom:18px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3D94" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span id="location-label">Share My Location</span>
+    </button>
+
+    <button id="submit-btn" onclick="saveProfile()" style="all:unset;display:block;width:100%;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:15px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.4);cursor:pointer;box-sizing:border-box;">Go Live on the Map</button>
+
+  </div>
+
+</div>
+<script>
+  let accountBusinessType = 'tech';
+  let activeTags = new Set();
+  let pickedAvatarFile = null;
+  let capturedLat = null;
+  let capturedLng = null;
+  let myProfile = null;
+
+  function pickType(t){
+    accountBusinessType = t;
+    document.getElementById('type-tech').classList.toggle('on', t==='tech');
+    document.getElementById('type-salon').classList.toggle('on', t==='salon');
+  }
+
+  function onAvatarPick(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    pickedAvatarFile = file;
+    const img = document.getElementById('avatar-preview');
+    img.src = URL.createObjectURL(file);
+    img.style.display = 'block';
+    document.getElementById('avatar-icon').style.display = 'none';
+  }
+
+  function toggleTag(el){
+    const tag = el.dataset.tag;
+    if(activeTags.has(tag)){ activeTags.delete(tag); el.classList.remove('on'); }
+    else { activeTags.add(tag); el.classList.add('on'); }
+  }
+
+  document.getElementById('tag-custom').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      const raw = this.value.trim();
+      if(raw && !activeTags.has(raw)){
+        activeTags.add(raw);
+        const chip = document.createElement('span');
+        chip.className = 'chip on';
+        chip.textContent = raw;
+        chip.onclick = function(){ activeTags.delete(raw); chip.remove(); };
+        document.getElementById('tag-chips').appendChild(chip);
+      }
+      this.value = '';
+    }
+  });
+
+  function captureLocation(){
+    const label = document.getElementById('location-label');
+    if(!navigator.geolocation){
+      showToast('Location isn\'t available on this device');
+      return;
+    }
+    label.textContent = 'Locating…';
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        capturedLat = pos.coords.latitude;
+        capturedLng = pos.coords.longitude;
+        label.textContent = 'Location captured ✓';
+      },
+      function(err){
+        label.textContent = 'Share My Location';
+        showToast('Could not get your location: ' + err.message);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  async function loadExisting(session){
+    const { data: profile } = await sb.from('profiles')
+      .select('display_name,bio,tags,business_type,deposit_amount,avatar_url,location_lat,location_lng')
+      .eq('id', session.user.id).single();
+    if(!profile) return;
+    myProfile = profile;
+
+    if(profile.display_name) document.getElementById('display_name').value = profile.display_name;
+    if(profile.bio) document.getElementById('bio').value = profile.bio;
+    if(profile.deposit_amount != null) document.getElementById('deposit').value = profile.deposit_amount;
+    if(profile.avatar_url){
+      const img = document.getElementById('avatar-preview');
+      img.src = profile.avatar_url;
+      img.style.display = 'block';
+      document.getElementById('avatar-icon').style.display = 'none';
+    }
+    if(profile.business_type === 'salon') pickType('salon');
+    if(profile.location_lat != null && profile.location_lng != null){
+      capturedLat = profile.location_lat;
+      capturedLng = profile.location_lng;
+      document.getElementById('location-label').textContent = 'Location captured ✓';
+    }
+    (profile.tags || []).forEach(tag => {
+      const existingChip = document.querySelector('#tag-chips .chip[data-tag="' + tag.replace(/"/g,'') + '"]');
+      if(existingChip){
+        activeTags.add(tag);
+        existingChip.classList.add('on');
+      } else {
+        activeTags.add(tag);
+        const chip = document.createElement('span');
+        chip.className = 'chip on';
+        chip.textContent = tag;
+        chip.onclick = function(){ activeTags.delete(tag); chip.remove(); };
+        document.getElementById('tag-chips').appendChild(chip);
+      }
+    });
+  }
+
+  async function saveProfile(){
+    const session = await requireAuth('login.html');
+    if(!session) return;
+
+    const display_name = document.getElementById('display_name').value.trim();
+    const bio = document.getElementById('bio').value.trim();
+    const depositRaw = document.getElementById('deposit').value;
+
+    if(!display_name){
+      showToast('Add a business or display name');
+      return;
+    }
+    if(depositRaw === '' || isNaN(parseFloat(depositRaw)) || parseFloat(depositRaw) < 0){
+      showToast('Set a deposit amount (0 or more)');
+      return;
+    }
+    if(capturedLat == null || capturedLng == null){
+      showToast('Share your location so customers can find you on the map');
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Saving…';
+
+    let avatar_url = myProfile ? myProfile.avatar_url : null;
+    if(pickedAvatarFile){
+      const ext = pickedAvatarFile.name.split('.').pop() || 'jpg';
+      const path = session.user.id + '/' + Date.now() + '.' + ext;
+      const { error: uploadError } = await sb.storage.from('avatars').upload(path, pickedAvatarFile);
+      if(uploadError){
+        showToast('Photo upload failed: ' + uploadError.message);
+        btn.textContent = 'Go Live on the Map';
+        return;
+      }
+      const { data: urlData } = sb.storage.from('avatars').getPublicUrl(path);
+      avatar_url = urlData.publicUrl;
+    }
+
+    const { error } = await sb.from('profiles').update({
+      account_type: 'tech',
+      display_name,
+      bio,
+      tags: Array.from(activeTags),
+      business_type: accountBusinessType,
+      deposit_amount: parseFloat(depositRaw),
+      avatar_url,
+      location_lat: capturedLat,
+      location_lng: capturedLng,
+      is_tech_active: true
+    }).eq('id', session.user.id);
+
+    if(error){
+      showToast('Could not save: ' + error.message);
+      btn.textContent = 'Go Live on the Map';
+      return;
+    }
+
+    showToast('You\'re live on the map!');
+    setTimeout(function(){ location.href = 'my-profile.html'; }, 600);
+  }
+
+  (async function init(){
+    const session = await requireAuth('login.html');
+    if(!session) return;
+    await loadExisting(session);
+  })();
+</script>
+</body>
+</html>

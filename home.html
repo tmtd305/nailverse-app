@@ -7,6 +7,8 @@
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
 <script src="notifications.js"></script>
 <style>
   html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
@@ -34,6 +36,10 @@
       <button onclick="showToast('Search coming soon')" aria-label="Search" class="icon-btn" style="background:none;border:none;cursor:pointer;">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
+      <a href="notifications-inbox.html" aria-label="Notifications" class="icon-btn" style="position:relative;">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <span id="notif-badge" style="display:none;position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#FF3D94;border:1.5px solid #0A0A0B;"></span>
+      </a>
       <a href="nail-sos.html" aria-label="Nail SOS" style="width:27px;height:27px;border-radius:50%;background:#E11D48;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(225,29,72,0.35);">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M9 21l1.5-6M15 21l-1.5-6"/></svg>
       </a>
@@ -554,6 +560,15 @@
         document.getElementById('hub-appt-empty').style.display = 'none';
       }
     } catch(e) {}
+  })();
+  (async function checkUnreadNotifications() {
+    const session = await getSession();
+    if (!session) return;
+    const { count } = await sb.from('notifications')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', session.user.id)
+      .eq('is_read', false);
+    if (count && count > 0) document.getElementById('notif-badge').style.display = 'block';
   })();
 </script>
 </body>

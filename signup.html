@@ -87,7 +87,7 @@
     }
 
     showToast('Welcome to Nailverse!');
-    setTimeout(()=>{ location.href = 'home.html'; }, 500);
+    setTimeout(()=>{ location.href = accountType === 'tech' ? 'tech-setup.html' : 'home.html'; }, 500);
   }
 </script>
 </body>

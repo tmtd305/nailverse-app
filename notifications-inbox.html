@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Notifications</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+  a:active,button:active{transform:scale(0.96);opacity:0.82;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:16px 18px;display:flex;align-items:center;gap:14px;">
+    <a href="home.html" style="width:32px;height:32px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <span style="font-size:16px;font-weight:800;">Notifications</span>
+  </div>
+
+  <div id="loading-state" style="flex:1;display:flex;align-items:center;justify-content:center;">
+    <span style="font-size:12.5px;color:#8B8B92;">Loading…</span>
+  </div>
+
+  <div id="notif-list" style="flex:1;overflow-y:auto;padding:4px 18px 24px 18px;display:none;"></div>
+
+  <div id="empty-state" style="display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:30px;text-align:center;">
+    <div style="width:52px;height:52px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+    </div>
+    <div style="font-size:13.5px;font-weight:700;">No notifications yet</div>
+    <p style="margin:0;font-size:12px;color:#8B8B92;line-height:1.5;">Booking updates will show up here.</p>
+  </div>
+
+</div>
+<script>
+  function timeAgo(iso){
+    const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+    if(s < 60) return 'just now';
+    const m = Math.floor(s / 60);
+    if(m < 60) return m + 'm ago';
+    const h = Math.floor(m / 60);
+    if(h < 24) return h + 'h ago';
+    const d = Math.floor(h / 24);
+    return d + 'd ago';
+  }
+
+  function renderNotif(n){
+    const card = document.createElement('a');
+    card.href = 'bookings.html';
+    card.style.cssText = 'display:block;background:' + (n.is_read ? '#18181B' : '#1E1418') + ';border:1px solid ' + (n.is_read ? '#232326' : '#3A2530') + ';border-radius:14px;padding:14px;margin-bottom:10px;';
+    card.innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">' +
+        '<span style="font-size:13px;font-weight:800;">' + n.title + '</span>' +
+        (n.is_read ? '' : '<span style="width:7px;height:7px;border-radius:50%;background:#FF3D94;flex-shrink:0;"></span>') +
+      '</div>' +
+      '<div style="font-size:12px;color:#A9A9B0;line-height:1.4;margin-bottom:6px;">' + n.body + '</div>' +
+      '<div style="font-size:10.5px;color:#5A5A60;">' + timeAgo(n.created_at) + '</div>';
+    return card;
+  }
+
+  async function init(){
+    const session = await requireAuth('login.html');
+    if(!session) return;
+
+    const { data: notifs } = await sb.from('notifications')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false });
+
+    document.getElementById('loading-state').style.display = 'none';
+
+    if(!notifs || notifs.length === 0){
+      document.getElementById('empty-state').style.display = 'flex';
+      return;
+    }
+
+    const list = document.getElementById('notif-list');
+    notifs.forEach(n => list.appendChild(renderNotif(n)));
+    list.style.display = 'block';
+
+    const unreadIds = notifs.filter(n => !n.is_read).map(n => n.id);
+    if(unreadIds.length > 0){
+      await sb.from('notifications').update({ is_read: true }).in('id', unreadIds);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
