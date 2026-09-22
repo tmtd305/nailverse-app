@@ -6,30 +6,43 @@
 <title>Nailverse — Map</title>
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#0A0A0B"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
 <script src="notifications.js"></script>
-<style>body{margin:0;background:#0A0A0B;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}</style>
+<style>
+  body{margin:0;background:#0A0A0B;}
+  *{box-sizing:border-box;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  .pin{position:absolute;transform:translate(-50%,-100%);cursor:pointer;transition:transform .18s ease;display:flex;flex-direction:column;align-items:center;}
+  .pin:active{transform:translate(-50%,-100%) scale(0.94);}
+  .pin-pill{background:#18181B;border:1.5px solid #2A2A2E;color:#fff;font-size:12px;font-weight:800;padding:6px 11px;border-radius:100px;box-shadow:0 6px 16px rgba(0,0,0,0.45);white-space:nowrap;}
+  .pin-tail{width:8px;height:8px;background:#18181B;border-right:1.5px solid #2A2A2E;border-bottom:1.5px solid #2A2A2E;transform:rotate(45deg) translateY(-5px);}
+  .pin.on .pin-pill{background:#FF2E9E;border-color:#FF2E9E;box-shadow:0 8px 20px rgba(255,46,158,0.5);}
+  .pin.on .pin-tail{background:#FF2E9E;border-color:#FF2E9E;}
+  .pin-dot{position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:#4ADE80;border:1.5px solid #0A0A0B;}
+  #sheet{transition:transform .32s cubic-bezier(.2,.8,.2,1);}
+</style>
 </head>
 <body>
-<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Inter',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
 
   <div style="position:absolute;top:0;left:0;right:0;z-index:5;padding:16px 16px 10px 16px;">
     <div style="display:flex;align-items:center;gap:8px;">
-      <button onclick="showToast('Search coming soon')" style="all:unset;flex:1;display:flex;align-items:center;gap:8px;background:#18181B;border-radius:12px;padding:12px 14px;cursor:pointer;box-sizing:border-box;">
+      <button onclick="showToast('Search coming soon')" style="all:unset;flex:1;display:flex;align-items:center;gap:8px;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;cursor:pointer;box-sizing:border-box;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9A9B0" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <span style="font-size:13px;font-weight:600;flex:1;color:#fff;">Miami, FL</span>
       </button>
-      <button onclick="showToast('Advanced filters coming soon')" style="all:unset;background:#18181B;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;box-sizing:border-box;">
+      <button onclick="showToast('Advanced filters coming soon')" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;box-sizing:border-box;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
         <span style="font-size:12px;font-weight:700;color:#fff;">Filters</span>
       </button>
     </div>
     <div id="map-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
       <button onclick="setChip(this)" data-active="true" style="all:unset;background:#FF2E9E;color:#fff;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">All</button>
-      <button onclick="setChip(this)" style="all:unset;background:#18181B;color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Acrylic</button>
-      <button onclick="setChip(this)" style="all:unset;background:#18181B;color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Gel</button>
-      <button onclick="setChip(this)" style="all:unset;background:#18181B;color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nail Art</button>
-      <button onclick="setChip(this)" style="all:unset;background:#18181B;color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Pedicure</button>
+      <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Acrylic</button>
+      <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Gel</button>
+      <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nail Art</button>
+      <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Pedicure</button>
     </div>
   </div>
 
@@ -47,54 +60,99 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11l19-9-9 19-2-8z"/></svg>
     </button>
 
-    <a href="profile.html" style="position:absolute;left:98px;top:150px;width:34px;height:34px;border-radius:50% 50% 50% 0;background:#fff;transform:rotate(-45deg);box-shadow:0 6px 14px rgba(0,0,0,0.5);">
-      <img src="images/n2.jpg" style="position:absolute;inset:3px;width:28px;height:28px;border-radius:50%;object-fit:cover;transform:rotate(45deg);">
-    </a>
-    <a href="profile.html" style="position:absolute;left:200px;top:200px;width:34px;height:34px;border-radius:50% 50% 50% 0;background:#fff;transform:rotate(-45deg);box-shadow:0 6px 14px rgba(0,0,0,0.5);">
-      <img src="images/ig-profile.jpg" style="position:absolute;inset:3px;width:28px;height:28px;border-radius:50%;object-fit:cover;transform:rotate(45deg);">
-    </a>
-    <a href="profile.html" style="position:absolute;left:90px;top:290px;width:44px;height:44px;border-radius:50% 50% 50% 0;background:#FF2E9E;transform:rotate(-45deg);box-shadow:0 4px 14px rgba(0,0,0,0.45);border:3px solid #fff;">
-      <img src="images/ig-profile.jpg" style="position:absolute;inset:5px;width:26px;height:26px;border-radius:50%;object-fit:cover;transform:rotate(45deg);">
-    </a>
+    <div style="position:absolute;left:190px;top:255px;width:9px;height:9px;border-radius:50%;background:#3B82F6;box-shadow:0 0 0 5px rgba(59,130,246,0.28);"></div>
+
+    <div id="pins"></div>
   </div>
 
-  <div style="flex-shrink:0;background:#18181B;border-radius:22px 22px 0 0;padding:16px 18px 22px 18px;box-shadow:0 -12px 30px rgba(0,0,0,0.35);">
+  <div id="sheet" style="flex-shrink:0;background:#16161A;border-radius:24px 24px 0 0;padding:10px 18px 22px 18px;box-shadow:0 -14px 34px rgba(0,0,0,0.4);border-top:1px solid #232326;">
+    <div style="width:36px;height:4px;border-radius:3px;background:#333338;margin:0 auto 14px auto;"></div>
     <div style="display:flex;gap:10px;align-items:center;">
       <div style="position:relative;flex-shrink:0;">
-        <img src="images/ig-profile.jpg" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
-        <span style="position:absolute;bottom:0;right:0;width:12px;height:12px;border-radius:50%;background:#4ADE80;border:2px solid #18181B;"></span>
+        <img id="card-avatar" src="images/ig-profile.jpg" style="width:52px;height:52px;border-radius:16px;object-fit:cover;">
+        <span id="card-dot" style="position:absolute;bottom:-2px;right:-2px;width:13px;height:13px;border-radius:50%;background:#4ADE80;border:2.5px solid #16161A;"></span>
       </div>
       <div style="flex:1;min-width:0;">
         <div style="display:flex;align-items:center;gap:4px;">
-          <span style="font-size:14.5px;font-weight:700;">2Cute Nails</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>
+          <span id="card-name" style="font-size:15px;font-weight:800;">2Cute Nails</span>
+          <svg id="card-verified" width="12" height="12" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>
         </div>
-        <div style="font-size:11.5px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF2E9E;">★</span> 5.0 (328) · 0.8 mi</div>
-        <div style="font-size:11px;color:#4ADE80;font-weight:600;">Available now</div>
+        <div id="card-meta" style="font-size:11.5px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF2E9E;">★</span> 5.0 (328) · 0.8 mi</div>
+        <div id="card-avail" style="font-size:11px;color:#4ADE80;font-weight:600;">Available now</div>
       </div>
       <div style="text-align:right;flex-shrink:0;">
-        <div style="font-size:13px;font-weight:800;">$65–95</div>
+        <div id="card-price" style="font-size:14px;font-weight:800;">$65–95</div>
         <div style="font-size:10px;color:#8B8B92;">avg. set</div>
       </div>
     </div>
+    <div id="card-photos" style="display:flex;gap:8px;margin-top:14px;"></div>
     <div style="display:flex;gap:8px;margin-top:14px;">
-      <img src="images/ig-post1.jpg" loading="lazy" style="width:78px;height:56px;border-radius:12px;object-fit:cover;">
-      <img src="images/ig-post2.jpg" loading="lazy" style="width:78px;height:56px;border-radius:12px;object-fit:cover;">
-      <img src="images/ig-post3.jpg" loading="lazy" style="width:78px;height:56px;border-radius:12px;object-fit:cover;">
+      <a href="profile.html" style="flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;">View Profile</a>
+      <a href="service.html" style="flex:1;text-align:center;background:#FF2E9E;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,46,158,0.45);">Book Now</a>
     </div>
-    <a href="profile.html" style="display:block;text-align:center;margin-top:14px;background:#FF2E9E;color:#fff;font-size:14px;font-weight:700;padding:13px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,46,158,0.45);">View Profile</a>
   </div>
 
 </div>
 <script>
   function setChip(el) {
     document.querySelectorAll('#map-chips button').forEach(b => {
-      b.style.background = '#18181B';
+      b.style.background = 'rgba(24,24,27,0.92)';
       b.style.color = '#A9A9B0';
     });
     el.style.background = '#FF2E9E';
     el.style.color = '#fff';
   }
+
+  const techs = [
+    {id:'t1', name:'2Cute Nails', verified:true, avatar:'images/ig-profile.jpg', rating:'5.0', reviews:328, dist:'0.8 mi', price:'$65–95', available:true, x:98, y:150, photos:['images/ig-post1.jpg','images/ig-post2.jpg','images/ig-post3.jpg']},
+    {id:'t2', name:'Miami Nail Bar', verified:true, avatar:'images/n2.jpg', rating:'4.8', reviews:214, dist:'1.2 mi', price:'$55–80', available:true, x:200, y:200, photos:['images/ig-post4.jpg','images/ig-post5.jpg','images/ig-post6.jpg']},
+    {id:'t3', name:'Gloss by Bri', verified:false, avatar:'images/n1.jpg', rating:'4.9', reviews:97, dist:'1.6 mi', price:'$70–110', available:false, x:90, y:290, photos:['images/ig-post7.jpg','images/ig-post8.jpg','images/ig-post9.jpg']},
+    {id:'t4', name:'Art by Zo', verified:true, avatar:'images/n3.jpg', rating:'4.7', reviews:152, dist:'2.1 mi', price:'$60–90', available:true, x:250, y:340, photos:['images/ig-post10.jpg','images/ig-post11.jpg','images/ig-post1.jpg']}
+  ];
+
+  let activeId = techs[0].id;
+
+  function renderPins() {
+    const wrap = document.getElementById('pins');
+    wrap.innerHTML = '';
+    techs.forEach(t => {
+      const pin = document.createElement('div');
+      pin.className = 'pin' + (t.id === activeId ? ' on' : '');
+      pin.style.left = t.x + 'px';
+      pin.style.top = t.y + 'px';
+      pin.onclick = () => selectTech(t.id);
+      pin.innerHTML = '<div style="position:relative;"><span class="pin-pill">' + t.price.split('–')[0] + '</span>' + (t.available ? '<span class="pin-dot"></span>' : '') + '</div><div class="pin-tail"></div>';
+      wrap.appendChild(pin);
+    });
+  }
+
+  function selectTech(id) {
+    activeId = id;
+    const t = techs.find(x => x.id === id);
+    document.getElementById('card-avatar').src = t.avatar;
+    document.getElementById('card-name').textContent = t.name;
+    document.getElementById('card-verified').style.display = t.verified ? 'block' : 'none';
+    document.getElementById('card-meta').innerHTML = '<span style="color:#FF2E9E;">★</span> ' + t.rating + ' (' + t.reviews + ') · ' + t.dist;
+    document.getElementById('card-price').textContent = t.price;
+    document.getElementById('card-avail').textContent = t.available ? 'Available now' : 'Booked until tomorrow';
+    document.getElementById('card-avail').style.color = t.available ? '#4ADE80' : '#8B8B92';
+    document.getElementById('card-dot').style.background = t.available ? '#4ADE80' : '#5A5A60';
+    const photos = document.getElementById('card-photos');
+    photos.innerHTML = '';
+    t.photos.forEach(p => {
+      const img = document.createElement('img');
+      img.src = p; img.loading = 'lazy';
+      img.style.cssText = 'width:78px;height:56px;border-radius:12px;object-fit:cover;';
+      photos.appendChild(img);
+    });
+    const sheet = document.getElementById('sheet');
+    sheet.style.transform = 'translateY(6px)';
+    setTimeout(() => { sheet.style.transform = 'translateY(0)'; }, 20);
+    renderPins();
+  }
+
+  renderPins();
+  selectTech(activeId);
 </script>
 </body>
 </html>

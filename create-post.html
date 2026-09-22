@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — New Post</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  input,textarea{font-family:'Plus Jakarta Sans',sans-serif;}
+  .chip{background:#18181B;border:1.5px solid #232326;color:#C9C9CF;font-size:12px;font-weight:700;padding:7px 13px;border-radius:100px;cursor:pointer;}
+  .chip.on{background:#FF2E9E;border-color:#FF2E9E;color:#fff;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;">
+    <a href="my-profile.html" style="font-size:14px;font-weight:700;color:#A9A9B0;">Cancel</a>
+    <span style="font-size:14.5px;font-weight:800;">New Post</span>
+    <button id="share-btn" onclick="sharePost()" style="all:unset;font-size:14px;font-weight:800;color:#5A5A60;cursor:pointer;" disabled>Share</button>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:4px 18px 24px 18px;">
+
+    <label for="photo-input" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;height:220px;border-radius:16px;background:#18181B;border:1.5px dashed #2A2A2E;cursor:pointer;overflow:hidden;position:relative;">
+      <img id="preview-img" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <svg id="upload-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      <span id="upload-label" style="font-size:12.5px;color:#8B8B92;font-weight:600;">Tap to add a photo or video</span>
+    </label>
+    <input id="photo-input" type="file" accept="image/*,video/*" style="display:none;" onchange="onPick(event)">
+
+    <textarea id="caption" placeholder="Write a caption..." maxlength="220" style="width:100%;margin-top:16px;background:none;border:none;color:#fff;font-size:13.5px;resize:none;height:60px;padding:0;outline:none;"></textarea>
+
+    <div style="height:1px;background:#1E1E21;margin:6px 0 16px 0;"></div>
+
+    <span style="font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">TAG A TECH</span>
+    <div id="tech-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <span class="chip on" data-tech="none" onclick="pickTech(this)">None</span>
+      <span class="chip" data-tech="2cutenails" onclick="pickTech(this)">@2cutenails</span>
+      <span class="chip" data-tech="miaminailbar" onclick="pickTech(this)">@miaminailbar</span>
+      <span class="chip" data-tech="glossbybri" onclick="pickTech(this)">@glossbybri</span>
+    </div>
+
+    <span style="display:block;margin-top:18px;font-size:11px;font-weight:700;color:#8B8B92;letter-spacing:0.04em;">HASHTAGS</span>
+    <div id="tag-chips" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <span class="chip" data-tag="chromenails" onclick="toggleTag(this)">#chromenails</span>
+      <span class="chip" data-tag="frenchtip" onclick="toggleTag(this)">#frenchtip</span>
+      <span class="chip" data-tag="almondnails" onclick="toggleTag(this)">#almondnails</span>
+      <span class="chip" data-tag="acrylic" onclick="toggleTag(this)">#acrylic</span>
+      <span class="chip" data-tag="nailart" onclick="toggleTag(this)">#nailart</span>
+      <span class="chip" data-tag="miami" onclick="toggleTag(this)">#miami</span>
+    </div>
+    <input id="tag-custom" placeholder="Add a custom hashtag and press enter" style="width:100%;margin-top:10px;background:#18181B;border:1.5px solid #232326;border-radius:12px;padding:11px 14px;color:#fff;font-size:12.5px;outline:none;">
+
+  </div>
+
+</div>
+<script>
+  let pickedTag = null;
+  let pickedTech = 'none';
+  let activeTags = new Set();
+
+  function onPick(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      pickedTag = ev.target.result;
+      const img = document.getElementById('preview-img');
+      img.src = pickedTag;
+      img.style.display = 'block';
+      document.getElementById('upload-icon').style.display = 'none';
+      document.getElementById('upload-label').style.display = 'none';
+      updateShareState();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function pickTech(el) {
+    document.querySelectorAll('#tech-chips .chip').forEach(c => c.classList.remove('on'));
+    el.classList.add('on');
+    pickedTech = el.dataset.tech;
+  }
+
+  function toggleTag(el) {
+    const tag = el.dataset.tag;
+    if (activeTags.has(tag)) { activeTags.delete(tag); el.classList.remove('on'); }
+    else { activeTags.add(tag); el.classList.add('on'); }
+  }
+
+  document.getElementById('tag-custom').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const raw = this.value.trim().replace(/^#/, '').replace(/\s+/g, '');
+      if (raw) {
+        activeTags.add(raw);
+        const chip = document.createElement('span');
+        chip.className = 'chip on';
+        chip.textContent = '#' + raw;
+        chip.onclick = function() { activeTags.delete(raw); chip.remove(); };
+        document.getElementById('tag-chips').appendChild(chip);
+      }
+      this.value = '';
+    }
+  });
+
+  function updateShareState() {
+    const btn = document.getElementById('share-btn');
+    if (pickedTag) {
+      btn.disabled = false;
+      btn.style.color = '#FF2E9E';
+    } else {
+      btn.disabled = true;
+      btn.style.color = '#5A5A60';
+    }
+  }
+
+  function sharePost() {
+    if (!pickedTag) return;
+    const posts = JSON.parse(localStorage.getItem('nv_myposts') || '[]');
+    posts.unshift({
+      image: pickedTag,
+      kind: 'photo',
+      caption: document.getElementById('caption').value.trim(),
+      tech: pickedTech,
+      tags: Array.from(activeTags),
+      ts: Date.now()
+    });
+    localStorage.setItem('nv_myposts', JSON.stringify(posts));
+    showToast('Posted to your nail history');
+    setTimeout(function() { location.href = 'my-profile.html'; }, 500);
+  }
+</script>
+</body>
+</html>

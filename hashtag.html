@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — Hashtag</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  .tab{font-size:12.5px;font-weight:700;color:#8B8B92;padding:10px 0;flex:1;text-align:center;cursor:pointer;border-bottom:2px solid transparent;}
+  .tab.on{color:#fff;border-color:#FF2E9E;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:16px 18px 0 18px;display:flex;align-items:center;gap:14px;">
+    <a href="home.html" style="width:32px;height:32px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <div style="min-width:0;">
+      <div id="tag-title" style="font-size:19px;font-weight:800;">#chromenails</div>
+      <div id="tag-meta" style="font-size:11.5px;color:#8B8B92;margin-top:1px;">12.4K posts · 3.2K followers</div>
+    </div>
+  </div>
+
+  <div style="flex-shrink:0;padding:14px 18px 16px 18px;display:flex;gap:10px;align-items:center;">
+    <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <span style="font-size:19px;font-weight:900;">#</span>
+    </div>
+    <p id="tag-desc" style="flex:1;margin:0;font-size:12px;line-height:1.4;color:#A9A9B0;">Chrome finishes, mirror shine, and glass nails from the Nailverse community.</p>
+    <button id="follow-btn" onclick="toggleFollow()" style="all:unset;background:#FF2E9E;color:#fff;font-size:12.5px;font-weight:800;padding:10px 18px;border-radius:100px;cursor:pointer;box-sizing:border-box;flex-shrink:0;">Follow</button>
+  </div>
+
+  <div style="flex-shrink:0;display:flex;padding:0 18px;border-bottom:1px solid #1E1E21;">
+    <div class="tab on" data-tab="top" onclick="setTab(this)">Top</div>
+    <div class="tab" data-tab="recent" onclick="setTab(this)">Recent</div>
+    <div class="tab" data-tab="nearby" onclick="setTab(this)">Nearby</div>
+    <div class="tab" data-tab="trending" onclick="setTab(this)">Trending</div>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:2px 18px 24px 18px;">
+    <div id="tag-grid" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:2px;margin-top:2px;"></div>
+    <div style="text-align:center;padding:26px 0 6px 0;">
+      <span style="font-size:11.5px;color:#5A5A60;">You're all caught up</span>
+    </div>
+  </div>
+
+</div>
+<script>
+  const params = new URLSearchParams(location.search);
+  const tag = (params.get('tag') || 'chromenails').replace('#','');
+  document.getElementById('tag-title').textContent = '#' + tag;
+
+  const stats = {
+    chromenails: {posts:'12.4K', followers:'3.2K', desc:'Chrome finishes, mirror shine, and glass nails from the Nailverse community.'},
+    frenchtip: {posts:'28.9K', followers:'7.1K', desc:'Classic and modern french tips — thin lines, colored tips, and reverse french.'},
+    miami: {posts:'54.2K', followers:'19K', desc:'Nail looks and techs from Miami and South Florida.'},
+    almondnails: {posts:'16.7K', followers:'4.4K', desc:'Almond-shaped sets in every color and finish.'},
+    acrylic: {posts:'41.3K', followers:'11K', desc:'Full sets, fills, and acrylic nail art.'},
+    nailart: {posts:'62.8K', followers:'22K', desc:'Hand-painted details, 3D charms, and custom designs.'},
+    nudenails: {posts:'9.8K', followers:'2.9K', desc:'Everyday nude and milky sets.'},
+    gelx: {posts:'19.5K', followers:'5.6K', desc:'Gel-X extensions — lightweight and long-lasting.'}
+  };
+  const info = stats[tag] || {posts: (Math.floor(Math.random()*40)+2) + 'K', followers: (Math.floor(Math.random()*8)+1) + 'K', desc: 'Looks and creators tagged #' + tag + ' across Nailverse.'};
+  document.getElementById('tag-meta').textContent = info.posts + ' posts · ' + info.followers + ' followers';
+  document.getElementById('tag-desc').textContent = info.desc;
+
+  const allImages = ['ig-post1.jpg','ig-post2.jpg','ig-post3.jpg','ig-post4.jpg','ig-post5.jpg','ig-post6.jpg','ig-post7.jpg','ig-post8.jpg','ig-post9.jpg','ig-post10.jpg','ig-post11.jpg'];
+  function seedShuffle(seed, arr) {
+    let s = seed;
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      s = (s * 9301 + 49297) % 233280;
+      const j = Math.floor((s / 233280) * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function tagSeed(str) { let h = 0; for (let i=0;i<str.length;i++) h = (h*31 + str.charCodeAt(i)) >>> 0; return h % 1000 + 1; }
+
+  function renderGrid(tabName) {
+    const grid = document.getElementById('tag-grid');
+    grid.innerHTML = '';
+    const order = seedShuffle(tagSeed(tag) + tabName.length, allImages);
+    order.forEach((img, i) => {
+      const cell = document.createElement('a');
+      cell.href = 'profile.html';
+      cell.style.cssText = 'position:relative;display:block;aspect-ratio:1/1;overflow:hidden;background:#18181B;';
+      cell.innerHTML = '<img src="images/' + img + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">' +
+        (i % 4 === 0 ? '<span style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.55);border-radius:5px;padding:2px 5px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>' : '');
+      grid.appendChild(cell);
+    });
+  }
+  function setTab(el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    el.classList.add('on');
+    renderGrid(el.dataset.tab);
+  }
+  function toggleFollow() {
+    const btn = document.getElementById('follow-btn');
+    const following = btn.textContent.trim() === 'Following';
+    if (following) {
+      btn.textContent = 'Follow';
+      btn.style.background = '#FF2E9E';
+      btn.style.color = '#fff';
+    } else {
+      btn.textContent = 'Following';
+      btn.style.background = '#18181B';
+      btn.style.color = '#fff';
+      showToast('Following #' + tag);
+    }
+  }
+  renderGrid('top');
+</script>
+</body>
+</html>
