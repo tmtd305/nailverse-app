@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <script src="notifications.js"></script>
 <style>
-  body{margin:0;background:#150E13;}
+  html,body{margin:0;background:#150E13;overflow-x:hidden;}
   *{box-sizing:border-box;}
   a{text-decoration:none;color:inherit;}
   ::-webkit-scrollbar{display:none;}
@@ -20,7 +20,9 @@
 
   <div style="flex-shrink:0;padding:16px 18px 10px 18px;display:flex;align-items:center;justify-content:space-between;">
     <div style="display:flex;align-items:center;gap:8px;">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <button onclick="openMenu()" aria-label="Open menu" style="background:none;border:none;padding:6px;margin:-6px;cursor:pointer;display:flex;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
       <span style="font-size:17px;font-weight:800;letter-spacing:0.08em;">NAILVERSE</span>
     </div>
     <div style="display:flex;align-items:center;gap:14px;">
@@ -40,31 +42,31 @@
 
   <div style="flex-shrink:0;display:flex;gap:14px;padding:0 18px 16px 18px;overflow-x:auto;">
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
-      <div style="width:56px;height:56px;border-radius:50%;background:#2A1F2B;border:2px dashed #FF3D94;display:flex;align-items:center;justify-content:center;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3D94" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+      <div style="width:56px;height:56px;border-radius:50%;background:#2A1F2B;border:2px dashed #FF2E9E;display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF2E9E" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
       </div>
       <span style="font-size:10.5px;color:#B9A8B8;">Your Story</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
-      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF3D94,#FF8A5B);padding:2px;">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);padding:2px;">
         <img src="images/p1.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #150E13;">
       </div>
       <span style="font-size:10.5px;color:#B9A8B8;">Miami</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
-      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF3D94,#FF8A5B);padding:2px;">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);padding:2px;">
         <img src="images/n1.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #150E13;">
       </div>
       <span style="font-size:10.5px;color:#B9A8B8;">Acrylic</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
-      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF3D94,#FF8A5B);padding:2px;">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);padding:2px;">
         <img src="images/n2.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #150E13;">
       </div>
       <span style="font-size:10.5px;color:#B9A8B8;">Gel</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;">
-      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF3D94,#FF8A5B);padding:2px;">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);padding:2px;">
         <img src="images/n3.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #150E13;">
       </div>
       <span style="font-size:10.5px;color:#B9A8B8;">Nail Art</span>
@@ -83,7 +85,7 @@
     </div>
     <div style="position:absolute;right:12px;bottom:110px;display:flex;flex-direction:column;align-items:center;gap:18px;">
       <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="#FF3D94"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
         <span style="font-size:11px;font-weight:700;">2.4K</span>
       </div>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -100,7 +102,7 @@
   <div style="flex-shrink:0;height:64px;display:flex;align-items:center;justify-content:space-around;background:#150E13;border-top:1px solid #241A24;">
     <a href="home.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a>
     <a href="map.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#7C6E7A" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
-    <a href="match-upload.html" style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#FF3D94,#FF8A5B);display:flex;align-items:center;justify-content:center;">
+    <a href="match-upload.html" style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);display:flex;align-items:center;justify-content:center;">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
     </a>
     <a href="#" onclick="event.preventDefault();showToast('Favorites coming soon')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#7C6E7A" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></a>
@@ -108,5 +110,65 @@
   </div>
 
 </div>
+
+<div id="menu-backdrop" onclick="closeMenu()" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;"></div>
+<div id="menu-drawer" style="position:fixed;top:0;left:0;bottom:0;width:78%;max-width:320px;background:#1F1620;transform:translateX(-100%);transition:transform .25s ease;z-index:21;display:flex;flex-direction:column;padding:22px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 18px 20px;border-bottom:1px solid #2A1F2B;">
+    <span style="font-size:17px;font-weight:800;letter-spacing:0.08em;color:#fff;">NAILVERSE</span>
+    <button onclick="closeMenu()" aria-label="Close menu" style="background:none;border:none;padding:4px;cursor:pointer;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid #2A1F2B;">
+    <img src="images/p1.jpg" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">
+    <div>
+      <div style="font-size:13.5px;font-weight:700;color:#fff;">You</div>
+      <div style="font-size:11px;color:#7C6E7A;">Miami, FL</div>
+    </div>
+  </div>
+  <nav style="display:flex;flex-direction:column;padding:8px 0;">
+    <a href="home.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg> Home Feed
+    </a>
+    <a href="map.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Explore Map
+    </a>
+    <a href="match-upload.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="#FF2E9E"><path d="M12 2l1.8 4.2L18 8l-4.2 1.8L12 14l-1.8-4.2L6 8l4.2-1.8z"/></svg> Match My Nails
+    </a>
+    <a href="name-your-price.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Name Your Price
+    </a>
+    <a href="#" onclick="event.preventDefault();showToast('Bookings coming soon')" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg> My Bookings
+    </a>
+    <a href="nail-sos.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FB7185" stroke-width="2"><path d="M12 2a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/><path d="M9 21l1.5-6M15 21l-1.5-6"/></svg> Nail SOS
+    </a>
+    <a href="profile.html" style="display:flex;align-items:center;gap:14px;padding:13px 20px;color:#fff;font-size:14px;font-weight:600;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg> My Profile
+    </a>
+  </nav>
+  <div style="margin-top:auto;padding:14px 20px 0 20px;border-top:1px solid #2A1F2B;">
+    <a href="#" onclick="event.preventDefault();requestNotifications()" style="display:flex;align-items:center;gap:14px;padding:13px 0;color:#fff;font-size:14px;font-weight:600;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Notifications
+    </a>
+  </div>
+</div>
+
+<script>
+  function openMenu() {
+    document.getElementById('menu-drawer').style.transform = 'translateX(0)';
+    const bd = document.getElementById('menu-backdrop');
+    bd.style.opacity = '1';
+    bd.style.pointerEvents = 'auto';
+  }
+  function closeMenu() {
+    document.getElementById('menu-drawer').style.transform = 'translateX(-100%)';
+    const bd = document.getElementById('menu-backdrop');
+    bd.style.opacity = '0';
+    bd.style.pointerEvents = 'none';
+  }
+</script>
 </body>
 </html>
