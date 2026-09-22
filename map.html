@@ -7,23 +7,32 @@
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/supercluster@8.0.1/dist/supercluster.min.js"></script>
 <script src="notifications.js"></script>
 <style>
   body{margin:0;background:#0A0A0B;}
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
   a{text-decoration:none;color:inherit;}
   ::-webkit-scrollbar{display:none;}
-  .pin{position:absolute;transform:translate(-50%,-100%);cursor:pointer;transition:transform .18s ease;display:flex;flex-direction:column;align-items:center;}
-  .pin:active{transform:translate(-50%,-100%) scale(0.94);}
-  .pin-pill{background:#18181B;border:1.5px solid #2A2A2E;color:#fff;font-size:12px;font-weight:800;padding:6px 11px;border-radius:100px;box-shadow:0 6px 16px rgba(0,0,0,0.45);white-space:nowrap;}
-  .pin-tail{width:8px;height:8px;background:#18181B;border-right:1.5px solid #2A2A2E;border-bottom:1.5px solid #2A2A2E;transform:rotate(45deg) translateY(-5px);}
-  .pin.on .pin-pill{background:#FF3D94;border-color:#FF3D94;box-shadow:0 8px 20px rgba(255,61,148,0.5);}
-  .pin.on .pin-tail{background:#FF3D94;border-color:#FF3D94;}
-  .pin-dot{position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:#4ADE80;border:1.5px solid #0A0A0B;}
+  a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+  a:active,button:active{transform:scale(0.96);opacity:0.82;}
+  #map{position:absolute;inset:0;}
+  .maplibregl-ctrl-attrib{font-size:9px;background:rgba(10,10,11,0.6) !important;color:#8B8B92 !important;}
+  .maplibregl-ctrl-attrib a{color:#A9A9B0 !important;}
+  .maplibregl-ctrl-bottom-right{margin-bottom:2px;}
+
+  .pin-photo{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid #2A2A2E;box-shadow:0 4px 12px rgba(0,0,0,0.5);cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;display:block;background:#18181B;}
+  .pin-photo:active{transform:scale(0.92);}
+  .pin-photo.on{border-color:#FF3D94;box-shadow:0 0 0 3px rgba(255,61,148,0.28),0 6px 16px rgba(255,61,148,0.35);transform:scale(1.08);}
+  .pin-avail{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-radius:50%;background:#4ADE80;border:2px solid #0A0A0B;}
+  .pin-wrap{position:relative;}
+
+  .cluster-bubble{width:42px;height:42px;border-radius:50%;background:#18181B;border:1.5px solid #2A2A2E;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,0.45);transition:transform .18s ease;}
+  .cluster-bubble:active{transform:scale(0.92);}
+
   #sheet{transition:transform .32s cubic-bezier(.2,.8,.2,1);}
-*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
-a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
-a:active,button:active{transform:scale(0.96);opacity:0.82;}
 </style>
 </head>
 <body>
@@ -33,7 +42,7 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     <div style="display:flex;align-items:center;gap:8px;">
       <button onclick="showToast('Search coming soon')" style="all:unset;flex:1;display:flex;align-items:center;gap:8px;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;cursor:pointer;box-sizing:border-box;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9A9B0" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <span style="font-size:13px;font-weight:600;flex:1;color:#fff;">Miami, FL</span>
+        <span id="search-label" style="font-size:13px;font-weight:600;flex:1;color:#fff;">Miami, FL</span>
       </button>
       <button onclick="showToast('Advanced filters coming soon')" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;box-sizing:border-box;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
@@ -41,31 +50,21 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
       </button>
     </div>
     <div id="map-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
-      <button onclick="setChip(this)" data-active="true" style="all:unset;background:#FF3D94;color:#fff;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">All</button>
-      <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Acrylic</button>
-      <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Gel</button>
-      <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nail Art</button>
-      <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Pedicure</button>
+      <button onclick="setFilter('all',this)" data-active="true" style="all:unset;background:#FF3D94;color:#fff;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">All</button>
+      <button onclick="setFilter('tech',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nail Techs</button>
+      <button onclick="setFilter('salon',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Salons</button>
+      <button onclick="setFilter('available',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Available Now</button>
+      <button onclick="setFilter('nearby',this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nearby</button>
     </div>
   </div>
 
   <div style="flex:1;position:relative;overflow:hidden;">
-    <img src="images/miami-map.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s ease;filter:saturate(1.3) brightness(0.6);" onload="this.style.opacity=1;">
-    <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(6,6,7,0.72) 0%,rgba(14,14,16,0.5) 45%,rgba(4,4,5,0.7) 100%);"></div>
+    <div id="map"></div>
 
-    <span style="position:absolute;left:20px;top:200px;font-size:12px;font-weight:800;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,0.6);">Wynwood</span>
-    <span style="position:absolute;left:250px;top:150px;font-size:12px;font-weight:800;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,0.6);">Miami</span>
-    <span style="position:absolute;left:230px;top:330px;font-size:12px;font-weight:800;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,0.6);">South Beach</span>
-    <span style="position:absolute;left:40px;top:395px;font-size:12px;font-weight:800;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,0.6);">Miami<br>Brickell</span>
-
-    <button onclick="showToast('3D view coming soon')" style="all:unset;position:absolute;right:16px;top:16px;background:rgba(24,24,27,0.9);backdrop-filter:blur(4px);border-radius:10px;padding:8px 12px;font-size:11px;font-weight:800;color:#fff;cursor:pointer;box-sizing:border-box;">3D</button>
-    <button onclick="showToast('Centering on your location')" style="all:unset;position:absolute;right:16px;top:60px;width:34px;height:34px;border-radius:50%;background:rgba(24,24,27,0.9);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;cursor:pointer;box-sizing:border-box;">
+    <button id="btn-3d" onclick="toggle3D()" style="all:unset;position:absolute;right:16px;top:16px;z-index:4;background:rgba(24,24,27,0.9);backdrop-filter:blur(4px);border-radius:10px;padding:8px 12px;font-size:11px;font-weight:800;color:#fff;cursor:pointer;box-sizing:border-box;">3D</button>
+    <button onclick="locateMe()" style="all:unset;position:absolute;right:16px;top:60px;z-index:4;width:34px;height:34px;border-radius:50%;background:rgba(24,24,27,0.9);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;cursor:pointer;box-sizing:border-box;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 11l19-9-9 19-2-8z"/></svg>
     </button>
-
-    <div style="position:absolute;left:190px;top:255px;width:9px;height:9px;border-radius:50%;background:#3B82F6;box-shadow:0 0 0 5px rgba(59,130,246,0.28);"></div>
-
-    <div id="pins"></div>
   </div>
 
   <div id="sheet" style="flex-shrink:0;background:#16161A;border-radius:24px 24px 0 0;padding:10px 18px 22px 18px;box-shadow:0 -14px 34px rgba(0,0,0,0.4);border-top:1px solid #232326;">
@@ -83,12 +82,8 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
         <div id="card-meta" style="font-size:11.5px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF3D94;">★</span> 5.0 (328) · 0.8 mi</div>
         <div id="card-avail" style="font-size:11px;color:#4ADE80;font-weight:600;">Available now</div>
       </div>
-      <div style="text-align:right;flex-shrink:0;">
-        <div id="card-price" style="font-size:14px;font-weight:800;">$65–95</div>
-        <div style="font-size:10px;color:#8B8B92;">avg. set</div>
-      </div>
     </div>
-    <div id="card-photos" style="display:flex;gap:8px;margin-top:14px;"></div>
+    <div id="card-specialties" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;"></div>
     <div style="display:flex;gap:8px;margin-top:14px;">
       <a href="profile.html" style="flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;">View Profile</a>
       <a href="service.html" style="flex:1;text-align:center;background:#FF3D94;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.45);">Book Now</a>
@@ -97,65 +92,269 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
 </div>
 <script>
-  function setChip(el) {
-    document.querySelectorAll('#map-chips button').forEach(b => {
-      b.style.background = 'rgba(24,24,27,0.92)';
-      b.style.color = '#A9A9B0';
-    });
-    el.style.background = '#FF3D94';
-    el.style.color = '#fff';
-  }
-
+  // ---- data ----
   const techs = [
-    {id:'t1', name:'2Cute Nails', verified:true, avatar:'images/ig-profile.jpg', rating:'5.0', reviews:328, dist:'0.8 mi', price:'$65–95', available:true, x:98, y:150, photos:['images/ig-post1.jpg','images/ig-post2.jpg','images/ig-post3.jpg']},
-    {id:'t2', name:'Miami Nail Bar', verified:true, avatar:'images/n2.jpg', rating:'4.8', reviews:214, dist:'1.2 mi', price:'$55–80', available:true, x:200, y:200, photos:['images/ig-post4.jpg','images/ig-post5.jpg','images/ig-post6.jpg']},
-    {id:'t3', name:'Gloss by Bri', verified:false, avatar:'images/n1.jpg', rating:'4.9', reviews:97, dist:'1.6 mi', price:'$70–110', available:false, x:90, y:290, photos:['images/ig-post7.jpg','images/ig-post8.jpg','images/ig-post9.jpg']},
-    {id:'t4', name:'Art by Zo', verified:true, avatar:'images/n3.jpg', rating:'4.7', reviews:152, dist:'2.1 mi', price:'$60–90', available:true, x:250, y:340, photos:['images/ig-post10.jpg','images/ig-post11.jpg','images/ig-post1.jpg']}
+    {id:'t1', name:'2Cute Nails', type:'tech', verified:true, avatar:'images/ig-profile.jpg', rating:'5.0', reviews:328, available:true, specialties:['Acrylic','Chrome'], lng:-80.1300, lat:25.7907},
+    {id:'t2', name:'Miami Nail Bar', type:'salon', verified:true, avatar:'images/n2.jpg', rating:'4.8', reviews:214, available:true, specialties:['Gel','Dip Powder'], lng:-80.1918, lat:25.8010},
+    {id:'t3', name:'Gloss by Bri', type:'tech', verified:false, avatar:'images/n1.jpg', rating:'4.9', reviews:97, available:false, specialties:['Nail Art','Custom'], lng:-80.1367, lat:25.7742},
+    {id:'t4', name:'Art by Zo', type:'tech', verified:true, avatar:'images/n3.jpg', rating:'4.7', reviews:152, available:true, specialties:['Almond','French'], lng:-80.1550, lat:25.7650},
+    {id:'t5', name:'Wynwood Nail Studio', type:'salon', verified:true, avatar:'images/ig-post1.jpg', rating:'4.6', reviews:189, available:false, specialties:['Pedicure','Gel'], lng:-80.1994, lat:25.8050},
+    {id:'t6', name:'Brickell Polish Co.', type:'salon', verified:true, avatar:'images/ig-post4.jpg', rating:'4.9', reviews:301, available:true, specialties:['Acrylic','Nail Art'], lng:-80.1917, lat:25.7650}
   ];
 
-  let activeId = techs[0].id;
+  const MIAMI_CENTER = {lng:-80.1500, lat:25.7900};
+  let userLoc = {...MIAMI_CENTER};
+  let activeFilter = 'all';
+  let activeId = null;
+  let pitched = false;
 
-  function renderPins() {
-    const wrap = document.getElementById('pins');
-    wrap.innerHTML = '';
-    techs.forEach(t => {
-      const pin = document.createElement('div');
-      pin.className = 'pin' + (t.id === activeId ? ' on' : '');
-      pin.style.left = t.x + 'px';
-      pin.style.top = t.y + 'px';
-      pin.onclick = () => selectTech(t.id);
-      pin.innerHTML = '<div style="position:relative;"><span class="pin-pill">' + t.price.split('–')[0] + '</span>' + (t.available ? '<span class="pin-dot"></span>' : '') + '</div><div class="pin-tail"></div>';
-      wrap.appendChild(pin);
+  function distMiles(lat1,lng1,lat2,lng2){
+    const R=3958.8;
+    const toRad=d=>d*Math.PI/180;
+    const dLat=toRad(lat2-lat1), dLng=toRad(lng2-lng1);
+    const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;
+    return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+  }
+
+  function filteredTechs(){
+    return techs.filter(t=>{
+      if(activeFilter==='tech') return t.type==='tech';
+      if(activeFilter==='salon') return t.type==='salon';
+      if(activeFilter==='available') return t.available;
+      if(activeFilter==='nearby') return distMiles(userLoc.lat,userLoc.lng,t.lat,t.lng) <= 2;
+      return true;
     });
   }
 
-  function selectTech(id) {
+  function setFilter(key, el){
+    activeFilter = key;
+    document.querySelectorAll('#map-chips button').forEach(b=>{
+      b.style.background='rgba(24,24,27,0.92)';
+      b.style.color='#A9A9B0';
+    });
+    el.style.background='#FF3D94';
+    el.style.color='#fff';
+    rebuildIndex();
+    renderMarkers();
+  }
+
+  // ---- dark restyle of the free OpenFreeMap "liberty" vector style ----
+  function darkenStyle(style){
+    const rx = re => id => re.test(id);
+    const isWater = rx(/water/i);
+    const isBuilding = rx(/building/i);
+    const isRoad = rx(/road|street|highway|bridge|tunnel|path/i);
+    const isBoundary = rx(/boundary|admin/i);
+    const isPark = rx(/park|wood|forest|landuse|landcover|grass|natural|golf|cemetery/i);
+
+    (style.layers||[]).forEach(layer=>{
+      if(!layer.paint) layer.paint = {};
+      if(layer.type==='background'){
+        layer.paint['background-color'] = '#0A0A0B';
+      } else if(layer.type==='fill'){
+        if(isWater(layer.id)) layer.paint['fill-color'] = '#0D1013';
+        else if(isBuilding(layer.id)) layer.paint['fill-color'] = '#19191C';
+        else if(isPark(layer.id)) layer.paint['fill-color'] = '#111316';
+        else layer.paint['fill-color'] = '#121214';
+        if('fill-outline-color' in layer.paint) layer.paint['fill-outline-color'] = '#1E1E21';
+      } else if(layer.type==='fill-extrusion'){
+        layer.paint['fill-extrusion-color'] = '#1C1C1F';
+        layer.paint['fill-extrusion-opacity'] = 0.7;
+      } else if(layer.type==='line'){
+        if(isWater(layer.id)) layer.paint['line-color'] = '#15181C';
+        else if(isRoad(layer.id)) layer.paint['line-color'] = '#2A2A2E';
+        else if(isBoundary(layer.id)) layer.paint['line-color'] = '#242428';
+        else layer.paint['line-color'] = '#1E1E21';
+      } else if(layer.type==='symbol'){
+        if(layer.paint && ('text-color' in layer.paint || (layer.layout && layer.layout['text-field']))){
+          layer.paint['text-color'] = '#8B8B92';
+          layer.paint['text-halo-color'] = '#0A0A0B';
+          layer.paint['text-halo-width'] = 1.2;
+        }
+        if(layer.paint && 'icon-opacity' in layer.paint) layer.paint['icon-opacity'] = 0.5;
+      }
+    });
+    return style;
+  }
+
+  let map;
+
+  async function initMap(){
+    const res = await fetch('https://tiles.openfreemap.org/styles/liberty');
+    const rawStyle = await res.json();
+    const darkStyle = darkenStyle(rawStyle);
+
+    map = new maplibregl.Map({
+      container: 'map',
+      style: darkStyle,
+      center: [MIAMI_CENTER.lng, MIAMI_CENTER.lat],
+      zoom: 12.4,
+      pitch: 0,
+      attributionControl: {compact:true}
+    });
+    map.dragRotate.disable();
+    map.touchZoomRotate.disableRotation();
+
+    map.on('load', ()=>{
+      rebuildIndex();
+      renderMarkers();
+      if(techs[0]) selectTech(techs[0].id);
+    });
+    map.on('moveend', renderMarkers);
+  }
+
+  initMap();
+
+  // ---- clustering ----
+  let index = null;
+  let markerPool = new Map(); // key -> maplibregl.Marker
+
+  function toGeoJSON(list){
+    return {
+      type:'FeatureCollection',
+      features:list.map(t=>({
+        type:'Feature',
+        properties:{...t},
+        geometry:{type:'Point', coordinates:[t.lng, t.lat]}
+      }))
+    };
+  }
+
+  function rebuildIndex(){
+    index = new Supercluster({radius:55, maxZoom:17}).load(toGeoJSON(filteredTechs()).features);
+  }
+
+  function renderMarkers(){
+    if(!index) return;
+    const b = map.getBounds();
+    const bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()];
+    const zoom = Math.floor(map.getZoom());
+    const clusters = index.getClusters(bbox, zoom);
+
+    const seen = new Set();
+
+    clusters.forEach(f=>{
+      const [lng, lat] = f.geometry.coordinates;
+      const isCluster = f.properties.cluster;
+      const key = isCluster ? 'c'+f.properties.cluster_id : f.properties.id;
+      seen.add(key);
+
+      let marker = markerPool.get(key);
+      if(!marker){
+        const el = document.createElement('div');
+        if(isCluster){
+          el.className = 'cluster-bubble';
+          el.textContent = f.properties.point_count_abbreviated;
+          el.onclick = () => {
+            const targetZoom = Math.min(index.getClusterExpansionZoom(f.properties.cluster_id), 18);
+            map.easeTo({center:[lng,lat], zoom: targetZoom, duration:500});
+          };
+        } else {
+          const wrap = document.createElement('div');
+          wrap.className = 'pin-wrap';
+          const img = document.createElement('img');
+          img.className = 'pin-photo';
+          img.src = f.properties.avatar;
+          img.loading = 'lazy';
+          wrap.appendChild(img);
+          if(f.properties.available){
+            const dot = document.createElement('span');
+            dot.className = 'pin-avail';
+            wrap.appendChild(dot);
+          }
+          el.appendChild(wrap);
+          el.onclick = () => selectTech(f.properties.id);
+        }
+        marker = new maplibregl.Marker({element:el, anchor:'center'}).setLngLat([lng,lat]).addTo(map);
+        markerPool.set(key, marker);
+      } else {
+        marker.setLngLat([lng,lat]);
+      }
+    });
+
+    markerPool.forEach((marker, key)=>{
+      if(!seen.has(key)){
+        marker.remove();
+        markerPool.delete(key);
+      }
+    });
+
+    updatePinSelection();
+  }
+
+  function updatePinSelection(){
+    markerPool.forEach((marker,key)=>{
+      const img = marker.getElement().querySelector('.pin-photo');
+      if(!img) return;
+      img.classList.toggle('on', key === activeId);
+    });
+  }
+
+  // ---- bottom sheet ----
+  function selectTech(id){
     activeId = id;
-    const t = techs.find(x => x.id === id);
+    const t = techs.find(x=>x.id===id);
+    if(!t) return;
     document.getElementById('card-avatar').src = t.avatar;
     document.getElementById('card-name').textContent = t.name;
     document.getElementById('card-verified').style.display = t.verified ? 'block' : 'none';
-    document.getElementById('card-meta').innerHTML = '<span style="color:#FF3D94;">★</span> ' + t.rating + ' (' + t.reviews + ') · ' + t.dist;
-    document.getElementById('card-price').textContent = t.price;
+    const d = distMiles(userLoc.lat, userLoc.lng, t.lat, t.lng).toFixed(1);
+    document.getElementById('card-meta').innerHTML = '<span style="color:#FF3D94;">★</span> ' + t.rating + ' (' + t.reviews + ') · ' + d + ' mi';
     document.getElementById('card-avail').textContent = t.available ? 'Available now' : 'Booked until tomorrow';
     document.getElementById('card-avail').style.color = t.available ? '#4ADE80' : '#8B8B92';
     document.getElementById('card-dot').style.background = t.available ? '#4ADE80' : '#5A5A60';
-    const photos = document.getElementById('card-photos');
-    photos.innerHTML = '';
-    t.photos.forEach(p => {
-      const img = document.createElement('img');
-      img.src = p; img.loading = 'lazy';
-      img.style.cssText = 'width:78px;height:56px;border-radius:12px;object-fit:cover;';
-      photos.appendChild(img);
+
+    const specWrap = document.getElementById('card-specialties');
+    specWrap.innerHTML = '';
+    t.specialties.forEach(s=>{
+      const pill = document.createElement('span');
+      pill.style.cssText = 'background:#232326;color:#C9C9CF;font-size:11px;font-weight:600;padding:5px 11px;border-radius:100px;';
+      pill.textContent = s;
+      specWrap.appendChild(pill);
     });
+
     const sheet = document.getElementById('sheet');
     sheet.style.transform = 'translateY(6px)';
-    setTimeout(() => { sheet.style.transform = 'translateY(0)'; }, 20);
-    renderPins();
+    setTimeout(()=>{ sheet.style.transform = 'translateY(0)'; }, 20);
+    updatePinSelection();
   }
 
-  renderPins();
-  selectTech(activeId);
+  // ---- controls ----
+  function animatePitch(to, duration){
+    const from = map.getPitch();
+    const start = performance.now();
+    function step(now){
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      map.setPitch(from + (to - from) * eased);
+      if(t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function toggle3D(){
+    pitched = !pitched;
+    animatePitch(pitched ? 55 : 0, 500);
+    document.getElementById('btn-3d').style.background = pitched ? '#FF3D94' : 'rgba(24,24,27,0.9)';
+  }
+
+  function locateMe(){
+    if(!navigator.geolocation){
+      showToast('Location not supported on this device');
+      return;
+    }
+    showToast('Finding your location…');
+    navigator.geolocation.getCurrentPosition(
+      pos=>{
+        userLoc = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+        map.easeTo({center:[userLoc.lng, userLoc.lat], zoom:13.5, duration:800});
+        if(activeId) selectTech(activeId);
+        showToast('Centered on your location');
+      },
+      ()=>{ showToast('Location permission denied'); },
+      {timeout:8000}
+    );
+  }
 </script>
 </body>
 </html>
