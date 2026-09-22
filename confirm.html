@@ -51,30 +51,28 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
     <div style="background:#18181B;border-radius:16px;padding:16px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <span style="font-size:12.5px;color:#A9A9B0;">Service</span>
+        <span style="font-size:12.5px;color:#A9A9B0;">Service (estimate)</span>
         <span id="c-price1" style="font-size:12.5px;font-weight:600;">$0</span>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <span style="font-size:12.5px;color:#A9A9B0;">Mobile fee</span>
-        <span style="font-size:12.5px;font-weight:600;">$10</span>
+      <p style="margin:0 0 12px 0;font-size:11px;color:#5A5A60;line-height:1.4;">Paid to your tech directly at the appointment.</p>
+      <div style="height:1px;background:#232326;margin:10px 0;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:12.5px;color:#A9A9B0;">Deposit to book</span>
+        <span id="c-deposit" style="font-size:12.5px;font-weight:600;">$0</span>
       </div>
       <div style="height:1px;background:#232326;margin:10px 0;"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:14px;font-weight:800;">Total</span>
+        <span style="font-size:14px;font-weight:800;">Due now</span>
         <span id="c-total" style="font-size:16px;font-weight:800;color:#FF3D94;">$0</span>
       </div>
     </div>
 
-    <div style="background:#18181B;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-      <span style="flex:1;font-size:13px;font-weight:600;">•••• •••• •••• 4242</span>
-      <a href="#" onclick="event.preventDefault();showToast('Payment methods coming soon')" style="font-size:12px;font-weight:700;color:#FF3D94;">Change</a>
-    </div>
+    <p style="margin:0;padding:0 4px;font-size:11px;color:#5A5A60;line-height:1.5;">Online payments aren't live yet — this reserves your spot and records the deposit your tech requires. You'll settle up with them directly for now.</p>
 
   </div>
 
   <div style="flex-shrink:0;padding:12px 20px 28px 20px;">
-    <button id="confirm-btn" onclick="confirmBooking()" style="all:unset;display:block;width:100%;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(255,61,148,0.4);cursor:pointer;box-sizing:border-box;">Confirm &amp; Pay</button>
+    <button id="confirm-btn" onclick="confirmBooking()" style="all:unset;display:block;width:100%;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(255,61,148,0.4);cursor:pointer;box-sizing:border-box;">Reserve Booking</button>
   </div>
 
 </div>
@@ -85,8 +83,22 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
   document.getElementById('c-duration').textContent = svc.duration;
   document.getElementById('c-datetime').textContent = time.date + ' · ' + time.time;
   document.getElementById('c-price1').textContent = '$' + svc.price;
-  document.getElementById('c-total').textContent = '$' + (parseInt(svc.price) + 10);
-  sessionStorage.setItem('nv_total', String(parseInt(svc.price) + 10));
+
+  let techId = null;
+  let depositAmount = 25;
+
+  async function loadTech(){
+    const { data: tech } = await sb.from('profiles').select('id,deposit_amount').eq('username', '2cutenails').single();
+    if(tech){
+      techId = tech.id;
+      depositAmount = tech.deposit_amount != null ? tech.deposit_amount : 25;
+    }
+    document.getElementById('c-deposit').textContent = '$' + depositAmount;
+    document.getElementById('c-total').textContent = '$' + depositAmount;
+    document.getElementById('confirm-btn').textContent = 'Reserve — $' + depositAmount + ' Deposit';
+    sessionStorage.setItem('nv_deposit', String(depositAmount));
+  }
+  loadTech();
 
   async function confirmBooking(){
     const session = await requireAuth('login.html');
@@ -95,13 +107,12 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
     const btn = document.getElementById('confirm-btn');
     btn.textContent = 'Booking…';
 
-    const { data: tech } = await sb.from('profiles').select('id').eq('username', '2cutenails').single();
-
     const { error } = await sb.from('bookings').insert({
       customer_id: session.user.id,
-      tech_id: tech ? tech.id : null,
+      tech_id: techId,
       service_name: svc.name,
       service_price: parseInt(svc.price),
+      deposit_amount: depositAmount,
       duration_min: parseInt(svc.duration),
       scheduled_date: time.date,
       scheduled_time: time.time,
@@ -110,7 +121,7 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 
     if(error){
       showToast('Could not save booking: ' + error.message);
-      btn.textContent = 'Confirm & Pay';
+      btn.textContent = 'Reserve — $' + depositAmount + ' Deposit';
       return;
     }
 

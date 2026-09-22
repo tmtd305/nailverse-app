@@ -79,9 +79,9 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
 <script>
   const svc = JSON.parse(sessionStorage.getItem('nv_service') || '{"name":"Full Set — Acrylic"}');
   const time = JSON.parse(sessionStorage.getItem('nv_time') || '{"date":"Today, Sep 22","time":"2:30 PM"}');
-  const total = sessionStorage.getItem('nv_total') || '95';
+  const deposit = sessionStorage.getItem('nv_deposit') || '25';
   document.getElementById('d-datetime').textContent = time.date + ' · ' + time.time;
-  document.getElementById('d-service').textContent = '$' + total + ' · ' + svc.name;
+  document.getElementById('d-service').textContent = svc.name + ' · $' + deposit + ' deposit';
 </script>
 </body>
 </html>
