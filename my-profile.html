@@ -14,7 +14,10 @@
   a{text-decoration:none;color:inherit;}
   ::-webkit-scrollbar{display:none;}
   .ptab{font-size:12px;font-weight:700;color:#8B8B92;padding:11px 0;flex:1;text-align:center;cursor:pointer;border-bottom:2px solid transparent;display:flex;align-items:center;justify-content:center;gap:5px;}
-  .ptab.on{color:#fff;border-color:#FF2E9E;}
+  .ptab.on{color:#fff;border-color:#FF3D94;}
+*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+a:active,button:active{transform:scale(0.96);opacity:0.82;}
 </style>
 </head>
 <body>
@@ -35,7 +38,7 @@
     <div style="padding:4px 20px 0 20px;display:flex;align-items:center;gap:16px;">
       <div style="position:relative;flex-shrink:0;">
         <img src="images/ig-profile.jpg" style="width:78px;height:78px;border-radius:50%;object-fit:cover;border:2px solid #232326;">
-        <div style="position:absolute;bottom:0;right:0;width:24px;height:24px;border-radius:50%;background:#FF2E9E;border:2.5px solid #0A0A0B;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;bottom:0;right:0;width:24px;height:24px;border-radius:50%;background:#FF3D94;border:2.5px solid #0A0A0B;display:flex;align-items:center;justify-content:center;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6"><path d="M12 5v14M5 12h14"/></svg>
         </div>
       </div>
@@ -53,7 +56,7 @@
 
     <div style="padding:14px 20px 18px 20px;display:flex;gap:8px;">
       <a href="#" onclick="event.preventDefault();showToast('Edit profile coming soon')" style="flex:1;background:#18181B;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:11px 0;border-radius:12px;">Edit Profile</a>
-      <a href="create-post.html" style="flex:1;background:#FF2E9E;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:11px 0;border-radius:12px;box-shadow:0 8px 20px rgba(255,46,158,0.35);">New Post</a>
+      <a href="create-post.html" style="flex:1;background:#FF3D94;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:11px 0;border-radius:12px;box-shadow:0 8px 20px rgba(255,61,148,0.35);">New Post</a>
     </div>
 
     <div style="display:flex;padding:0 20px;border-bottom:1px solid #1E1E21;">
@@ -74,7 +77,7 @@
       </div>
       <div style="font-size:13.5px;font-weight:700;">Start your nail history</div>
       <p style="margin:0;font-size:12px;color:#8B8B92;line-height:1.5;">Post your first look — tag the tech who did it and add hashtags so others can find it.</p>
-      <a href="create-post.html" style="margin-top:4px;background:#FF2E9E;color:#fff;font-size:12.5px;font-weight:700;padding:10px 20px;border-radius:100px;">New Post</a>
+      <a href="create-post.html" style="margin-top:4px;background:#FF3D94;color:#fff;font-size:12.5px;font-weight:700;padding:10px 20px;border-radius:100px;">New Post</a>
     </div>
 
     <div id="posts-grid" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:2px;padding-top:2px;"></div>
@@ -84,7 +87,7 @@
   <div style="flex-shrink:0;height:64px;display:flex;align-items:center;justify-content:space-around;background:#0A0A0B;border-top:1px solid #232326;">
     <a href="home.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2.2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a>
     <a href="map.html"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
-    <a href="match-upload.html" style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);display:flex;align-items:center;justify-content:center;">
+    <a href="match-upload.html" style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#FF3D94,#FF6FAE);display:flex;align-items:center;justify-content:center;">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
     </a>
     <a href="#" onclick="event.preventDefault();showToast('Favorites coming soon')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#8B8B92" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></a>

@@ -15,7 +15,10 @@
   ::-webkit-scrollbar{display:none;}
   input,textarea{font-family:'Plus Jakarta Sans',sans-serif;}
   .chip{background:#18181B;border:1.5px solid #232326;color:#C9C9CF;font-size:12px;font-weight:700;padding:7px 13px;border-radius:100px;cursor:pointer;}
-  .chip.on{background:#FF2E9E;border-color:#FF2E9E;color:#fff;}
+  .chip.on{background:#FF3D94;border-color:#FF3D94;color:#fff;}
+*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+a:active,button:active{transform:scale(0.96);opacity:0.82;}
 </style>
 </head>
 <body>
@@ -115,7 +118,7 @@
     const btn = document.getElementById('share-btn');
     if (pickedTag) {
       btn.disabled = false;
-      btn.style.color = '#FF2E9E';
+      btn.style.color = '#FF3D94';
     } else {
       btn.disabled = true;
       btn.style.color = '#5A5A60';

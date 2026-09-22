@@ -8,7 +8,10 @@
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
 <script src="notifications.js"></script>
-<style>body{margin:0;background:#0A0A0B;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}</style>
+<style>body{margin:0;background:#0A0A0B;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+a:active,button:active{transform:scale(0.96);opacity:0.82;}
+</style>
 </head>
 <body>
 <div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:radial-gradient(ellipse at top,#1A1113 0%,#0A0A0B 55%);font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
@@ -49,7 +52,7 @@
   </div>
 
   <div style="flex-shrink:0;padding:10px 24px 30px 24px;">
-    <a href="coming-soon.html?feature=sos" style="display:block;text-align:center;background:linear-gradient(135deg,#FF2E9E,#E11D48);color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(225,29,72,0.4);">Find Help Now</a>
+    <a href="coming-soon.html?feature=sos" style="display:block;text-align:center;background:linear-gradient(135deg,#FF3D94,#E11D48);color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(225,29,72,0.4);">Find Help Now</a>
     <p style="font-size:11.5px;color:#8B8B92;text-align:center;margin:12px 0 0 0;">Because bad nails can't wait.</p>
   </div>
 
@@ -57,7 +60,7 @@
 <script>
   function pick(el) {
     document.querySelectorAll('a[onclick]').forEach(a => a.style.borderColor = '#3A2226');
-    el.style.borderColor = '#FF2E9E';
+    el.style.borderColor = '#FF3D94';
     return false;
   }
 </script>

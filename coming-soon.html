@@ -8,7 +8,10 @@
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
 <script src="notifications.js"></script>
-<style>html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}</style>
+<style>html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+a:active,button:active{transform:scale(0.96);opacity:0.82;}
+</style>
 </head>
 <body>
 <div id="app-root" style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
@@ -18,12 +21,12 @@
   </div>
 
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;gap:16px;">
-    <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FF2E9E,#FF8A5B);display:flex;align-items:center;justify-content:center;">
+    <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FF3D94,#FF6FAE);display:flex;align-items:center;justify-content:center;">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M12 2l1.8 4.2L18 8l-4.2 1.8L12 14l-1.8-4.2L6 8l4.2-1.8z"/></svg>
     </div>
     <h1 id="cs-title" style="font-size:22px;font-weight:800;margin:0;">This is launching soon</h1>
     <p id="cs-subtitle" style="font-size:13.5px;color:#A9A9B0;line-height:1.5;margin:0;">We're still building this out. In the meantime, you can browse real nail techs near you right now.</p>
-    <a href="map.html" style="display:block;width:100%;text-align:center;background:#FF2E9E;color:#fff;font-size:14.5px;font-weight:700;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,46,158,0.45);margin-top:8px;">Browse Techs Nearby</a>
+    <a href="map.html" style="display:block;width:100%;text-align:center;background:#FF3D94;color:#fff;font-size:14.5px;font-weight:700;padding:14px 0;border-radius:14px;box-shadow:0 10px 24px rgba(255,61,148,0.45);margin-top:8px;">Browse Techs Nearby</a>
     <a href="home.html" style="font-size:13px;font-weight:700;color:#A9A9B0;padding:6px;">Back to Feed</a>
   </div>
 

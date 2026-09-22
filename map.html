@@ -17,10 +17,13 @@
   .pin:active{transform:translate(-50%,-100%) scale(0.94);}
   .pin-pill{background:#18181B;border:1.5px solid #2A2A2E;color:#fff;font-size:12px;font-weight:800;padding:6px 11px;border-radius:100px;box-shadow:0 6px 16px rgba(0,0,0,0.45);white-space:nowrap;}
   .pin-tail{width:8px;height:8px;background:#18181B;border-right:1.5px solid #2A2A2E;border-bottom:1.5px solid #2A2A2E;transform:rotate(45deg) translateY(-5px);}
-  .pin.on .pin-pill{background:#FF2E9E;border-color:#FF2E9E;box-shadow:0 8px 20px rgba(255,46,158,0.5);}
-  .pin.on .pin-tail{background:#FF2E9E;border-color:#FF2E9E;}
+  .pin.on .pin-pill{background:#FF3D94;border-color:#FF3D94;box-shadow:0 8px 20px rgba(255,61,148,0.5);}
+  .pin.on .pin-tail{background:#FF3D94;border-color:#FF3D94;}
   .pin-dot{position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:#4ADE80;border:1.5px solid #0A0A0B;}
   #sheet{transition:transform .32s cubic-bezier(.2,.8,.2,1);}
+*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+a:active,button:active{transform:scale(0.96);opacity:0.82;}
 </style>
 </head>
 <body>
@@ -38,7 +41,7 @@
       </button>
     </div>
     <div id="map-chips" style="display:flex;gap:8px;margin-top:10px;overflow-x:auto;">
-      <button onclick="setChip(this)" data-active="true" style="all:unset;background:#FF2E9E;color:#fff;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">All</button>
+      <button onclick="setChip(this)" data-active="true" style="all:unset;background:#FF3D94;color:#fff;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">All</button>
       <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Acrylic</button>
       <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Gel</button>
       <button onclick="setChip(this)" style="all:unset;background:rgba(24,24,27,0.92);backdrop-filter:blur(6px);color:#A9A9B0;font-size:12px;font-weight:700;padding:8px 15px;border-radius:100px;white-space:nowrap;cursor:pointer;box-sizing:border-box;">Nail Art</button>
@@ -77,7 +80,7 @@
           <span id="card-name" style="font-size:15px;font-weight:800;">2Cute Nails</span>
           <svg id="card-verified" width="12" height="12" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>
         </div>
-        <div id="card-meta" style="font-size:11.5px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF2E9E;">★</span> 5.0 (328) · 0.8 mi</div>
+        <div id="card-meta" style="font-size:11.5px;color:#A9A9B0;margin-top:1px;"><span style="color:#FF3D94;">★</span> 5.0 (328) · 0.8 mi</div>
         <div id="card-avail" style="font-size:11px;color:#4ADE80;font-weight:600;">Available now</div>
       </div>
       <div style="text-align:right;flex-shrink:0;">
@@ -88,7 +91,7 @@
     <div id="card-photos" style="display:flex;gap:8px;margin-top:14px;"></div>
     <div style="display:flex;gap:8px;margin-top:14px;">
       <a href="profile.html" style="flex:1;text-align:center;background:#232326;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;">View Profile</a>
-      <a href="service.html" style="flex:1;text-align:center;background:#FF2E9E;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,46,158,0.45);">Book Now</a>
+      <a href="service.html" style="flex:1;text-align:center;background:#FF3D94;color:#fff;font-size:13.5px;font-weight:700;padding:12px 0;border-radius:12px;box-shadow:0 10px 24px rgba(255,61,148,0.45);">Book Now</a>
     </div>
   </div>
 
@@ -99,7 +102,7 @@
       b.style.background = 'rgba(24,24,27,0.92)';
       b.style.color = '#A9A9B0';
     });
-    el.style.background = '#FF2E9E';
+    el.style.background = '#FF3D94';
     el.style.color = '#fff';
   }
 
@@ -132,7 +135,7 @@
     document.getElementById('card-avatar').src = t.avatar;
     document.getElementById('card-name').textContent = t.name;
     document.getElementById('card-verified').style.display = t.verified ? 'block' : 'none';
-    document.getElementById('card-meta').innerHTML = '<span style="color:#FF2E9E;">★</span> ' + t.rating + ' (' + t.reviews + ') · ' + t.dist;
+    document.getElementById('card-meta').innerHTML = '<span style="color:#FF3D94;">★</span> ' + t.rating + ' (' + t.reviews + ') · ' + t.dist;
     document.getElementById('card-price').textContent = t.price;
     document.getElementById('card-avail').textContent = t.available ? 'Available now' : 'Booked until tomorrow';
     document.getElementById('card-avail').style.color = t.available ? '#4ADE80' : '#8B8B92';
