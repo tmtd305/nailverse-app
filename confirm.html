@@ -7,6 +7,8 @@
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#0A0A0B"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
 <script src="notifications.js"></script>
 <style>html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}*{box-sizing:border-box;}a{text-decoration:none;color:inherit;}*{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
@@ -72,7 +74,7 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
   </div>
 
   <div style="flex-shrink:0;padding:12px 20px 28px 20px;">
-    <a href="booking-confirmed.html" style="display:block;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(255,61,148,0.4);">Confirm &amp; Pay</a>
+    <button id="confirm-btn" onclick="confirmBooking()" style="all:unset;display:block;width:100%;text-align:center;background:#FF3D94;color:#fff;font-size:15px;font-weight:800;padding:16px 0;border-radius:16px;box-shadow:0 10px 24px rgba(255,61,148,0.4);cursor:pointer;box-sizing:border-box;">Confirm &amp; Pay</button>
   </div>
 
 </div>
@@ -85,6 +87,35 @@ a:active,button:active{transform:scale(0.96);opacity:0.82;}
   document.getElementById('c-price1').textContent = '$' + svc.price;
   document.getElementById('c-total').textContent = '$' + (parseInt(svc.price) + 10);
   sessionStorage.setItem('nv_total', String(parseInt(svc.price) + 10));
+
+  async function confirmBooking(){
+    const session = await requireAuth('login.html');
+    if(!session) return;
+
+    const btn = document.getElementById('confirm-btn');
+    btn.textContent = 'Booking…';
+
+    const { data: tech } = await sb.from('profiles').select('id').eq('username', '2cutenails').single();
+
+    const { error } = await sb.from('bookings').insert({
+      customer_id: session.user.id,
+      tech_id: tech ? tech.id : null,
+      service_name: svc.name,
+      service_price: parseInt(svc.price),
+      duration_min: parseInt(svc.duration),
+      scheduled_date: time.date,
+      scheduled_time: time.time,
+      status: 'confirmed'
+    });
+
+    if(error){
+      showToast('Could not save booking: ' + error.message);
+      btn.textContent = 'Confirm & Pay';
+      return;
+    }
+
+    location.href = 'booking-confirmed.html';
+  }
 </script>
 </body>
 </html>

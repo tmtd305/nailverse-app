@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Nailverse — My Bookings</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0A0A0B"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="notifications.js"></script>
+<style>
+  html,body{margin:0;background:#0A0A0B;overflow-x:hidden;}
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{text-decoration:none;color:inherit;}
+  ::-webkit-scrollbar{display:none;}
+  a,button{transition:transform .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent;}
+  a:active,button:active{transform:scale(0.96);opacity:0.82;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;background:#0A0A0B;font-family:'Plus Jakarta Sans',sans-serif;color:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
+
+  <div style="flex-shrink:0;padding:16px 18px;display:flex;align-items:center;gap:14px;">
+    <a href="home.html" style="width:32px;height:32px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <span style="font-size:16px;font-weight:800;">My Bookings</span>
+  </div>
+
+  <div id="loading-state" style="flex:1;display:flex;align-items:center;justify-content:center;">
+    <span style="font-size:12.5px;color:#8B8B92;">Loading bookings…</span>
+  </div>
+
+  <div id="bookings-list" style="flex:1;overflow-y:auto;padding:4px 18px 24px 18px;display:none;"></div>
+
+  <div id="empty-state" style="display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:30px;text-align:center;">
+    <div style="width:52px;height:52px;border-radius:50%;background:#18181B;display:flex;align-items:center;justify-content:center;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5A5A60" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+    </div>
+    <div style="font-size:13.5px;font-weight:700;">No bookings yet</div>
+    <p style="margin:0;font-size:12px;color:#8B8B92;line-height:1.5;">When you book a look, it'll show up here.</p>
+    <a href="map.html" style="margin-top:4px;background:#FF3D94;color:#fff;font-size:12.5px;font-weight:700;padding:10px 20px;border-radius:100px;">Explore Map</a>
+  </div>
+
+</div>
+<script>
+  function renderBooking(b){
+    const card = document.createElement('div');
+    card.style.cssText = 'background:#18181B;border-radius:16px;padding:16px;margin-bottom:12px;';
+    const statusColor = b.status === 'confirmed' ? '#4ADE80' : '#8B8B92';
+    card.innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">' +
+        '<span style="font-size:14px;font-weight:800;">' + b.service_name + '</span>' +
+        '<span style="font-size:10.5px;font-weight:700;color:' + statusColor + ';text-transform:capitalize;">' + b.status + '</span>' +
+      '</div>' +
+      '<div style="font-size:12.5px;color:#A9A9B0;margin-bottom:4px;">' + b.scheduled_date + ' · ' + b.scheduled_time + '</div>' +
+      '<div style="font-size:12.5px;color:#A9A9B0;">$' + b.service_price + ' · ' + (b.duration_min || '—') + ' min</div>';
+    return card;
+  }
+
+  async function init(){
+    const session = await requireAuth('login.html');
+    if(!session) return;
+
+    const { data: bookings } = await sb.from('bookings')
+      .select('*')
+      .eq('customer_id', session.user.id)
+      .order('created_at', { ascending: false });
+
+    document.getElementById('loading-state').style.display = 'none';
+
+    if(!bookings || bookings.length === 0){
+      document.getElementById('empty-state').style.display = 'flex';
+      return;
+    }
+
+    const list = document.getElementById('bookings-list');
+    bookings.forEach(b => list.appendChild(renderBooking(b)));
+    list.style.display = 'block';
+  }
+
+  init();
+</script>
+</body>
+</html>
